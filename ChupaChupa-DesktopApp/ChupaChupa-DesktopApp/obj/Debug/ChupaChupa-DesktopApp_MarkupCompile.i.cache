@@ -2,18 +2,18 @@
 
 
 winexe
-VB
-.vb
+C#
+.cs
 C:\Users\sasuke\Documents\Epitech\Tech 5\DotNet\chupachupa\chupachupa-desktopapp\ChupaChupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\
 ChupaChupa_DesktopApp
 none
 false
-
-C:\Users\sasuke\Documents\Epitech\Tech 5\DotNet\chupachupa\chupachupa-desktopapp\ChupaChupa-DesktopApp\ChupaChupa-DesktopApp\Application.xaml
+DEBUG;TRACE
+C:\Users\sasuke\Documents\Epitech\Tech 5\DotNet\chupachupa\chupachupa-desktopapp\ChupaChupa-DesktopApp\ChupaChupa-DesktopApp\App.xaml
 11151548125
 
-7329937817
-10-2017953140
+9901208391
+12-1401562060
 MainWindow.xaml;
 
 False
