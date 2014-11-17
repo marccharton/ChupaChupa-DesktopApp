@@ -1,0 +1,4 @@
+syntax: glob
+Chupachupa-DesktopApp.v12.suo
+bin/**
+obj/**
