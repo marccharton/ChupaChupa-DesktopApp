@@ -4,12 +4,59 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-    	<Button Content="Button" HorizontalAlignment="Left" Margin="28,125.92,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.533,0.477"/>
-    	<Label Content="Ouech ma gueule" HorizontalAlignment="Left" Margin="28,52,0,0" VerticalAlignment="Top"/>
-    	<TextBlock HorizontalAlignment="Left" Margin="37,77.96,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="fr-fr" Text="Bien ?"/></TextBlock>
-        
+        Title="Chupachupa" Height="600" Width="800" ShowWindowCommandsOnTop="True">
 
-    </Grid>
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <Controls:Flyout Header="Settings" Position="Right" Width="200" Theme="Accent"  >
+                
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+
+
+    <TabControl HorizontalAlignment="Left" Width="790" Height="562" VerticalAlignment="Top">
+		<TabItem Header="Compte">
+            <Grid Background="GhostWhite">
+                <Image Source="img/logo.png" Margin="243,43.5,277.5,331.5"></Image>
+                <TextBox x:Name="AccountLoginTextBox" HorizontalAlignment="Right" Height="23" Margin="0,217.027,336.5,0" TextWrapping="Wrap" Text="login" VerticalAlignment="Top" Width="120"  />
+				<TextBox x:Name="AccountPassTextBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="pass" VerticalAlignment="Top" Width="120" Margin="327.5,248.027,0,0"/>
+                <Button x:Name="AccountButton" Content="LOG IN" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Style="{DynamicResource SquareButtonStyle}" Margin="327.5,279.027,0,0"/>
+            </Grid>
+		</TabItem>
+		<TabItem Header="Catégories">
+            <Grid Background="GhostWhite">
+                <Button Content="E" HorizontalAlignment="Left" VerticalAlignment="Top" Width="39.333" Style="{DynamicResource MetroCircleButtonStyle}" Margin="13.333,0,0,0" Height="42.45"/>
+                <Button Content="A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38.667" Style="{DynamicResource MetroCircleButtonStyle}" Margin="57.666,0,0,0" Height="42.45"/>
+                <Controls:Tile Title="Divers" TiltFactor="1" Width="Auto" Height="Auto" Count="3" Margin="10,170.5,567.5,246.028" Background="Firebrick"/>
+                <Controls:Tile Title="Web" TiltFactor="2" Width="Auto" Height="Auto" Count="1" Margin="10,65.5,672,351.027" Background="DarkGoldenrod"/>
+                <Controls:Tile Title="Cuisine" TiltFactor="3" Width="Auto" Height="Auto" Count="2" Margin="117,65.5,567.5,351.027" Background="Chocolate"/>
+                <Controls:Tile Title="Sport" TiltFactor="4" Width="Auto" Height="Auto" Count="10" Margin="221.5,65.501,358.5,246.028" Background="CadetBlue"/>
+                <Controls:Tile Title="ALL" TiltFactor="4" Width="Auto" Height="Auto" Margin="667.5,10.001,10,10" />
+            </Grid>
+		</TabItem>
+		<TabItem Header="Flux" Height="39.473" VerticalAlignment="Top">
+            <Grid Background="GhostWhite">
+                <Label Content="Cuisine" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" FontFamily="Segoe UI Semibold" FontSize="24" Foreground="#FF838383"/>
+                <Controls:Tile Title="Marmiton" TiltFactor="1" Width="Auto" Height="Auto" Count="4" Margin="462.913,82.001,175.5,294.027" />
+                <Controls:Tile Title="750 Grammes" TiltFactor="2" Width="Auto" Height="Auto" Count="7" Margin="23.5,82,624.262,294.027" />
+                <Controls:Tile Title="Ôdélices" TiltFactor="3" Width="Auto" Height="Auto" Count="5" Margin="166.416,82,470.603,294.027" />
+                <Controls:Tile Title="Cuisine Actuelle" TiltFactor="4" Width="Auto" Height="Auto" Count="0" Margin="318.397,82.001,326.087,294.027" />
+            </Grid>
+        </TabItem>
+		<TabItem Header="Articles" HorizontalAlignment="Left" Height="39.4733333333333" VerticalAlignment="Top" Width="108.273333333333">
+            <Grid Background="GhostWhite">
+                <Label Content="Marmiton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" Background="#00000000" FontSize="24" FontFamily="Segoe UI Semibold" Foreground="#FF838383"/>
+                <Controls:Tile Title="Recette de la tartiflette Maison" TiltFactor="1" Width="Auto" Height="Auto" Margin="357,80.501,10,336.027"/>
+                <Controls:Tile Title="Les bons plans du cuisto" TiltFactor="2" Width="Auto" Height="Auto" Margin="11.5,80.5,432,336.027" />
+                <Controls:Tile Title="Recettes pas chers" TiltFactor="3" Width="Auto" Height="Auto" Margin="357,185.498,10,231.029" />
+                <Controls:Tile Title="COmment vider son frigo en 5 min" TiltFactor="4" Width="Auto" Height="Auto" Margin="10,185.5,432,231.029" />
+            </Grid>
+		</TabItem>
+		<TabItem Header="Article" HorizontalAlignment="Left" Height="39.4733333333333" VerticalAlignment="Top" Width="296.696722222223">
+            <Grid Background="GhostWhite"/>
+		</TabItem>
+	</TabControl>
+
+   
 </Controls:MetroWindow>
