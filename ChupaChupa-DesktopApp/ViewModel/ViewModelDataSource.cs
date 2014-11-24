@@ -1,0 +1,151 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
+using System.Threading;
+using System.Collections.ObjectModel;
+using System.Windows.Documents;
+using ChupaChupa_Model.Entities;
+
+
+namespace Chupachupa_DesktopApp.ViewModel
+{
+    /// <summary>
+    /// This class contains properties that a View can data bind to.
+    /// </summary>
+    public partial class ViewModelDataSource : INotifyPropertyChanged
+    {
+
+        private int _selectedTabIndexUser;
+        public int SelectedTabIndex
+        {
+            get { return _selectedTabIndexUser; }
+            set
+            {
+                _selectedTabIndexUser = value;
+                NotifyPropertyChanged("SelectedTabIndex");
+            }
+        }
+
+
+        public ViewModelDataSource()
+        {
+            IsLoggedIn = false;
+            LogMessage = "LOG IN";
+            
+            SelectedChannel = new RssChannel() { Title = "MON FLUX" };
+            SelectedCategory = new Category()
+            {
+                Name = "MA CATEGORIE",
+                RssChannels = new List<RssChannel>()
+                {
+                    new RssChannel() {Title = "channel1"},
+                    new RssChannel() {Title = "channel2"}
+                }
+            };
+
+            InitContent();
+
+            LogUserCmd = new Command(new Action(() =>
+            {
+                if (!IsLoggedIn)
+                {
+                    if (AccountLoginText != "" && AccountPasswordText != "")
+                    {
+                        // TODO : Connection à la base avec les données du user
+                        CurrentUser = new User() { LoginMail = AccountLoginText, Password = AccountPasswordText };
+                        IsLoggedIn = true;
+                        LogMessage = "LOG OUT";
+                        SelectedTabIndex = 1;
+                    }
+                }
+                else
+                {
+                    // TODO : Deconnection du user
+                    CurrentUser = null;
+                    IsLoggedIn = false;
+                    LogMessage = "LOG IN";
+                }
+            }));
+
+            LoadCategoryCmd = new Command(new Action(() =>
+            {
+                if (SelectedCategory != null)
+                {
+                    // TODO : Récupérer la liste des artciles du channel selectionné
+                    ChannelsList = SelectedCategory.RssChannels;
+                    SelectedTabIndex = 2;
+                }
+            }));
+
+            LoadChannelCmd = new Command(new Action(() =>
+            {
+                if (SelectedChannel != null)
+                {
+                    // TODO : Récupérer la liste des artciles du channel selectionné
+                    ItemsList = SelectedChannel.RssItems;
+                    SelectedTabIndex = 3;
+                }
+            }));
+
+
+         
+            
+
+        
+
+            // lien image barbie : "http://www.pubenstock.com/wp-content/uploads/2014/06/CHUPA-KIPIK-2.jpg"
+
+
+            SelectedItem = new RssItem()
+            {
+                Author = "Kram47",
+                Title = "Ouech Ma Gueule",
+                Source = new Source() { Url = @"http://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Citez_vos_sources" },
+                Description = "Ouech ma gueule alors ceci est un article et tout ca et en fait ben j'ai rien a dire simplement car ceci est un putain de texte de de test a la con et que je vais pas me faire chier en plus a rajouter quelquechose de potable ..."
+            };
+            
+
+           
+
+        }
+
+       
+
+        private void InitContent()
+        {
+            //ItemsList = new List<RssItem>()
+            var rssItem1 = new RssItem() { Title = "Les huitres du groenland", Description = "ouech salut sdcsd jhc "};
+            var rssItem2 = new RssItem() { Title = "Les bons plan cuisto" , Description = "ouechdc sk doicu dcsdck sjdh c "};
+            var rssItem3 = new RssItem() { Title = "La cuisine facile", Description = "ben ouai quoi c'est pas dur de cuisiner " };
+            var rssItem4 = new RssItem() { Title = "coucou les moules" , Description = "ceci est ma description et tout ca "};
+            var rssItem5 = new RssItem() { Title = "ouech ma gueule t'as faim ?" , Description = "ben parceque si cest pas le cas faut le dire sinon ca le fait pas"};
+            var rssItem6 = new RssItem() { Title = "ouech ma gueule t'as faim ?" , Description = "ben parceque si cest pas le cas faut le dire sinon ca le fait pas"};
+            var rssItem7 = new RssItem() { Title = "ouech ma gueule t'as faim ?" , Description = "ben parceque si cest pas le cas faut le dire sinon ca le fait pas"};
+
+            var channel1 = new RssChannel() { Title = "Youporn", RssItems = new List<RssItem>(){rssItem2, rssItem4, rssItem6} };
+            var channel2 = new RssChannel() { Title = "Intranet", RssItems = new List<RssItem>() { rssItem1, rssItem3, rssItem5, rssItem7 } };
+            var channel3 = new RssChannel() { Title = "Youtube", RssItems = new List<RssItem>() { rssItem1, rssItem2, rssItem3, rssItem4, rssItem5, rssItem6, rssItem7 } };
+            var channel4 = new RssChannel() { Title = "01.net", RssItems = new List<RssItem>() { rssItem1 } };
+
+            var category1 = new Category() { Name = "Web", RssChannels = new List<RssChannel>() { channel1, channel2, channel3, channel4} };
+            var category2 = new Category() { Name = "Cuisine", RssChannels = new List<RssChannel>() { channel4, channel3, channel2, channel1 } };
+            var category3 = new Category() { Name = "Voitures", RssChannels = new List<RssChannel>() { channel1, channel3 } };
+            var category4 = new Category() { Name = "Voitures", RssChannels = new List<RssChannel>() { channel2, channel4 } };
+            var category5 = new Category() { Name = "Voitures", RssChannels = new List<RssChannel>() { channel4 } };
+
+            
+            var catList = new List<Category>() {category1, category2, category3, category4, category5};
+            var chanList = new List<RssChannel>() { channel1, channel2, channel3, channel4 };
+            var artList = new List<RssItem>() { rssItem1, rssItem2, rssItem3, rssItem4, rssItem5, rssItem6, rssItem7 };
+
+            CategoryList = catList;
+            ChannelsList= chanList;
+            ItemsList = artList;
+
+        }
+
+
+
+    }
+}

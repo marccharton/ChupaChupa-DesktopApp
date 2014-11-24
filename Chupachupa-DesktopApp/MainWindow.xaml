@@ -1,62 +1,176 @@
-﻿<Controls:MetroWindow x:Class="Chupachupa_DesktopApp.MainWindow"
+﻿<controls:MetroWindow
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
-        Title="Chupachupa" Height="600" Width="800" ShowWindowCommandsOnTop="True">
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Chupachupa_DesktopApp.MainWindow"
+        xmlns:ns="clr-namespace:Chupachupa_DesktopApp.ViewModel"
+        Title="ChupaChupa" Height="600" Width="800" ShowIconOnTitleBar="True" EnableDWMDropShadow="True" WindowStartupLocation="CenterScreen" WindowTransitionsEnabled="False">
+    <controls:MetroWindow.DataContext>
+        <ns:ViewModelDataSource />
+    </controls:MetroWindow.DataContext>
 
-    <Controls:MetroWindow.Flyouts>
-        <Controls:FlyoutsControl>
-            <Controls:Flyout Header="Settings" Position="Right" Width="200" Theme="Accent"  >
-                
-            </Controls:Flyout>
-        </Controls:FlyoutsControl>
-    </Controls:MetroWindow.Flyouts>
+    <controls:MetroWindow.Resources>
+        <ns:InvertBoolConverter x:Key="InvertBoolConverter"/>
+    </controls:MetroWindow.Resources>
+    
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <controls:Flyout Header="Settings" Position="Right" Width="200" Theme="Accent"  />
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
 
 
-    <TabControl HorizontalAlignment="Left" Width="790" Height="562" VerticalAlignment="Top">
-		<TabItem Header="Compte">
-            <Grid Background="GhostWhite">
-                <Image Source="img/logo.png" Margin="243,43.5,277.5,331.5"></Image>
-                <TextBox x:Name="AccountLoginTextBox" HorizontalAlignment="Right" Height="23" Margin="0,217.027,336.5,0" TextWrapping="Wrap" Text="login" VerticalAlignment="Top" Width="120"  />
-				<TextBox x:Name="AccountPassTextBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="pass" VerticalAlignment="Top" Width="120" Margin="327.5,248.027,0,0"/>
-                <Button x:Name="AccountButton" Content="LOG IN" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Style="{DynamicResource SquareButtonStyle}" Margin="327.5,279.027,0,0"/>
-            </Grid>
-		</TabItem>
-		<TabItem Header="Catégories">
-            <Grid Background="GhostWhite">
-                <Button Content="E" HorizontalAlignment="Left" VerticalAlignment="Top" Width="39.333" Style="{DynamicResource MetroCircleButtonStyle}" Margin="13.333,0,0,0" Height="42.45"/>
-                <Button Content="A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38.667" Style="{DynamicResource MetroCircleButtonStyle}" Margin="57.666,0,0,0" Height="42.45"/>
-                <Controls:Tile Title="Divers" TiltFactor="1" Width="Auto" Height="Auto" Count="3" Margin="10,170.5,567.5,246.028" Background="Firebrick"/>
-                <Controls:Tile Title="Web" TiltFactor="2" Width="Auto" Height="Auto" Count="1" Margin="10,65.5,672,351.027" Background="DarkGoldenrod"/>
-                <Controls:Tile Title="Cuisine" TiltFactor="3" Width="Auto" Height="Auto" Count="2" Margin="117,65.5,567.5,351.027" Background="Chocolate"/>
-                <Controls:Tile Title="Sport" TiltFactor="4" Width="Auto" Height="Auto" Count="10" Margin="221.5,65.501,358.5,246.028" Background="CadetBlue"/>
-                <Controls:Tile Title="ALL" TiltFactor="4" Width="Auto" Height="Auto" Margin="667.5,10.001,10,10" />
-            </Grid>
-		</TabItem>
-		<TabItem Header="Flux" Height="39.473" VerticalAlignment="Top">
-            <Grid Background="GhostWhite">
-                <Label Content="Cuisine" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" FontFamily="Segoe UI Semibold" FontSize="24" Foreground="#FF838383"/>
-                <Controls:Tile Title="Marmiton" TiltFactor="1" Width="Auto" Height="Auto" Count="4" Margin="462.913,82.001,175.5,294.027" />
-                <Controls:Tile Title="750 Grammes" TiltFactor="2" Width="Auto" Height="Auto" Count="7" Margin="23.5,82,624.262,294.027" />
-                <Controls:Tile Title="Ôdélices" TiltFactor="3" Width="Auto" Height="Auto" Count="5" Margin="166.416,82,470.603,294.027" />
-                <Controls:Tile Title="Cuisine Actuelle" TiltFactor="4" Width="Auto" Height="Auto" Count="0" Margin="318.397,82.001,326.087,294.027" />
-            </Grid>
-        </TabItem>
-		<TabItem Header="Articles" HorizontalAlignment="Left" Height="39.4733333333333" VerticalAlignment="Top" Width="108.273333333333">
-            <Grid Background="GhostWhite">
-                <Label Content="Marmiton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" Background="#00000000" FontSize="24" FontFamily="Segoe UI Semibold" Foreground="#FF838383"/>
-                <Controls:Tile Title="Recette de la tartiflette Maison" TiltFactor="1" Width="Auto" Height="Auto" Margin="357,80.501,10,336.027"/>
-                <Controls:Tile Title="Les bons plans du cuisto" TiltFactor="2" Width="Auto" Height="Auto" Margin="11.5,80.5,432,336.027" />
-                <Controls:Tile Title="Recettes pas chers" TiltFactor="3" Width="Auto" Height="Auto" Margin="357,185.498,10,231.029" />
-                <Controls:Tile Title="COmment vider son frigo en 5 min" TiltFactor="4" Width="Auto" Height="Auto" Margin="10,185.5,432,231.029" />
-            </Grid>
-		</TabItem>
-		<TabItem Header="Article" HorizontalAlignment="Left" Height="39.4733333333333" VerticalAlignment="Top" Width="296.696722222223">
-            <Grid Background="GhostWhite"/>
-		</TabItem>
-	</TabControl>
+    <Grid>
+        <TabControl SelectedIndex="{Binding SelectedTabIndex}">
+			<TabItem x:Name="Account" Header="Compte">
+                <Grid Background="GhostWhite">
+                    <StackPanel HorizontalAlignment="Center" Height="397" VerticalAlignment="Center" Width="371.5">
+                        <Image Source="pack://siteoforigin:,,,/logo.png" HorizontalAlignment="Center" Height="227.5"/>
+                        <TextBox IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Login" x:Name="AccountLoginTextBox" HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="{Binding AccountLoginText}" VerticalAlignment="Top" Width="120" />
+                        <PasswordBox IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Password" x:Name="AccountPassTextBox" HorizontalAlignment="Center" Height="23" PasswordChar="{Binding AccountPasswordText}" VerticalAlignment="Top" Width="120" Margin="0,5,0,5" />
+                        <Button Command="{Binding LogUserCmd}" x:Name="AccountButton" Content="{Binding LogMessage}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Style="{DynamicResource SquareButtonStyle}" Margin="0,5,0,5"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        
+        
+			<TabItem x:Name="Categories" Header="Catégories">
+				<Grid x:Name="CategoryMainContainer" Background="GhostWhite">
+					<Button Content="E" HorizontalAlignment="Left" VerticalAlignment="Top" Width="39.333" Style="{DynamicResource MetroCircleButtonStyle}" Margin="13.333,0,0,0" Height="42.45"/>
+					<Button Content="A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38.667" Style="{DynamicResource MetroCircleButtonStyle}" Margin="57.666,0,0,0" Height="42.45"/>
+					<controls:Tile x:Name="allButton" Title="ALL" TiltFactor="4" Width="Auto" Height="Auto" Margin="667.5,10.001,10,10" />
+                    <ListBox x:Name="CategoriesListBox" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Margin="10,47.45,123.5,10" 
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						     ItemsSource="{Binding CategoryList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             SelectedItem="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding LoadCategoryCmd}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                        <Setter Property="IsSelected" Value="True" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+							<DataTemplate>
+                                <controls:Tile Title="{Binding Name}" Count="{Binding RssChannels.Count}" TiltFactor="1" Width="147px" Height="147px" />
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+					</ListBox>
+
+				</Grid>
+			</TabItem>
+        
+        
+			<TabItem x:Name="Channels" VerticalAlignment="Top" Header="Flux" HorizontalAlignment="Left" Margin="0,0,-12,-0.001" Width="70.817">
+				<Grid Background="GhostWhite">
+                    <Label Content="{Binding SelectedCategory.Name}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" FontFamily="Segoe UI Semibold" FontSize="24" Foreground="#FF838383"/>
+					<ListBox x:Name="ChannelsListBox" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+						ItemsSource="{Binding ChannelsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,100,10,10">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding LoadChannelCmd}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                        <Setter Property="IsSelected" Value="True" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+							<DataTemplate>
+								<controls:Tile Title="{Binding Title}" Count="{Binding RssItems.Count}" TiltFactor="1" Width="147px" Height="147px" Background="Crimson" />
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+					</ListBox>
+				</Grid>
+			</TabItem>
+        
+        
+			<TabItem x:Name="Articles" Header="Articles" HorizontalAlignment="Left" VerticalAlignment="Top">
+				<Grid Background="GhostWhite">
+					<Label Content="{Binding SelectedChannel.Title}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" Background="#00000000" FontSize="24" FontFamily="Segoe UI Semibold" Foreground="#FF838383"/>
+					<ListBox x:Name="ArticlesListBox" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+						ItemsSource="{Binding ItemsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,100,10,10">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<controls:Tile Title="{Binding Description}" Count="{Binding Title}" TiltFactor="1" Width="350px" Height="147px" Background="BurlyWood" />
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+					</ListBox>
+				</Grid>
+			</TabItem>
+        
+        
+			<TabItem x:Name="Article" Header="Article" HorizontalAlignment="Left" Height="39.4733333333333" VerticalAlignment="Top" Width="90">
+				<Grid Background="GhostWhite">                                    
+					<Grid.RowDefinitions>
+						<RowDefinition Height="135*"/>
+						<RowDefinition Height="127*"/>
+					</Grid.RowDefinitions>
+					<Image x:Name="Image" HorizontalAlignment="Center" VerticalAlignment="Top" Source="chupa_chups_chuck.jpg" Width="230.5" Height="224.797" Margin="0,11,0,0"/>
+                    <Label Grid.Row ="0" x:Name="Source" Content="{Binding SelectedItem.Source.Url}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,230,0,0" Foreground="#FF3264BD" FontWeight="Bold" IsManipulationEnabled="True"/>
+					<RichTextBox x:Name="Description" Grid.Row="1" Height="266" Background="{x:Null}" HorizontalAlignment="Center" IsReadOnly="True" FontFamily="Segoe UI Semibold" FontSize="21.333" BorderBrush="{x:Null}" Foreground="#FF5D5D5D" Width="574" Margin="106,0,106,-12.23" BorderThickness="0">
+						<FlowDocument>
+							<Paragraph><Run Text="{Binding SelectedItem.Description}"/></Paragraph>
+						</FlowDocument>
+					</RichTextBox>
+					<StackPanel Grid.Row ="0" HorizontalAlignment="Right" Margin="0,0,10,0">
+						<TextBlock x:Name="Title" TextWrapping="Wrap" Text="{Binding SelectedItem.Title}" FontWeight="Bold" FontFamily="Segoe UI Semibold" FontSize="18.667">
+							<TextBlock.Foreground>
+								<SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HotTrackColorKey}}"/>
+							</TextBlock.Foreground>
+						</TextBlock>
+						<DatePickerTextBox TextWrapping="Wrap" Text="{Binding SelectedItem.PubDate.Value.Date, Mode=OneWay}"/>
+					</StackPanel>
+				</Grid>
+			</TabItem>
+        
+        
+		</TabControl>
+		
+        <TextBlock x:Name="UserName" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="18.667" Text="{Binding CurrentUser.LoginMail}">
+			<TextBlock.Foreground>
+				<SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
+			</TextBlock.Foreground><Run Language="fr-fr" Text="{Binding CurrentUser.LoginMail}"/>
+        </TextBlock>
+        <TextBlock x:Name="DEBUG" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Margin="600.54,50,0,0" FontFamily="Segoe UI Semibold" FontSize="18.667">
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
+            </TextBlock.Foreground><Run Language="fr-fr" Text="{Binding SelectedChannel.RssItems.Count}"/>
+        </TextBlock>
+
+
+    </Grid>
 
    
-</Controls:MetroWindow>
+</controls:MetroWindow>

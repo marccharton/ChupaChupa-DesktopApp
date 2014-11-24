@@ -11,3 +11,16 @@ C:\Users\sasuke\Documents\Epitech\Tech 5\DotNet\chupachupa\chupachupa-desktopapp
 C:\Users\sasuke\Documents\Epitech\Tech 5\DotNet\chupachupa\chupachupa-desktopapp\ChupaChupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\ChupaChupa-DesktopApp.csproj.GenerateResource.Cache
 C:\Users\sasuke\Documents\Epitech\Tech 5\DotNet\chupachupa\chupachupa-desktopapp\ChupaChupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\ChupaChupa-DesktopApp.exe
 C:\Users\sasuke\Documents\Epitech\Tech 5\DotNet\chupachupa\chupachupa-desktopapp\ChupaChupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\ChupaChupa-DesktopApp.pdb
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\bin\Debug\ChupaChupa-DesktopApp.exe.config
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\ChupaChupa-DesktopApp.exe
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\ChupaChupa-DesktopApp.pdb
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\bin\Debug\ChupaChupa-DesktopApp.exe
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\bin\Debug\ChupaChupa-DesktopApp.pdb
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\ChupaChupa-DesktopApp.csprojResolveAssemblyReference.cache
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\MainWindow.baml
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\MainWindow.g.cs
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\App.g.cs
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\ChupaChupa-DesktopApp_MarkupCompile.cache
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\ChupaChupa-DesktopApp.g.resources
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\ChupaChupa_DesktopApp.Properties.Resources.resources
+D:\projets\Entreprise Application\chupachupa\chupachupa-desktopapp\Chupachupa-DesktopApp\ChupaChupa-DesktopApp\obj\Debug\ChupaChupa-DesktopApp.csproj.GenerateResource.Cache
