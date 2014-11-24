@@ -27,31 +27,33 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
+        private string _debugText;
+        public string DebugText
+        {
+            get { return _debugText; }
+            set
+            {
+                _debugText = value;
+                NotifyPropertyChanged("DebugText");
+            }
+        }
+
+
+
 
         public ViewModelDataSource()
         {
             IsLoggedIn = false;
             LogMessage = "LOG IN";
-            
-            SelectedChannel = new RssChannel() { Title = "MON FLUX" };
-            SelectedCategory = new Category()
-            {
-                Name = "MA CATEGORIE",
-                RssChannels = new List<RssChannel>()
-                {
-                    new RssChannel() {Title = "channel1"},
-                    new RssChannel() {Title = "channel2"}
-                }
-            };
+
+            DebugText = "[Affichez votre debug ici]";
+          
 
             InitContent();
 
 
 
-
-
-
-            #region Commands
+            #region Commands à Binder avec la View
 
             // ******** Log (in/out) du user *********
             LogUserCmd = new Command(new Action(() =>
@@ -76,6 +78,8 @@ namespace Chupachupa_DesktopApp.ViewModel
                     SelectedTabIndex = 0;
                 }
             }));
+            
+            #region Chargements des principales entités
 
             // ******** chargement d'une catégorie *********
             LoadCategoryCmd = new Command(new Action(() =>
@@ -112,6 +116,82 @@ namespace Chupachupa_DesktopApp.ViewModel
                     SelectedTabIndex = 4;
                 }
             }));
+
+            #endregion
+
+            #region Ajout/Suppression/Edition d'une catégorie
+
+            // ******** suppression d'une catégorie *********
+            DeleteCategoryCmd = new Command(new Action(() =>
+            {
+                if (SelectedCategory != null)
+                {
+                    // TODO : Récupérer la liste des artciles du channel selectionné
+                    DebugText = SelectedCategory.Name;
+                }
+            }));
+
+
+            // ******** ajout d'une catégorie *********
+            AddCategoryCmd = new Command(new Action(() =>
+            {
+                if (SelectedCategory != null)
+                {
+                    // TODO : Récupérer la liste des artciles du channel selectionné
+                    DebugText = SelectedCategory.Name;
+                }
+            }));
+
+
+            // ******** edition d'une catégorie *********
+            EditCategoryCmd = new Command(new Action(() =>
+            {
+                if (SelectedCategory != null)
+                {
+                    // TODO : Récupérer la liste des artciles du channel selectionné
+                    DebugText = SelectedCategory.Name;
+                }
+            }));
+
+            #endregion
+
+            #region Ajout/Suppression/Edition d'un channel
+
+            // ******** suppression d'une catégorie *********
+            DeleteChannelCmd = new Command(new Action(() =>
+            {
+                if (SelectedChannel != null)
+                {
+                    // TODO : Récupérer la liste des artciles du channel selectionné
+                    DebugText = SelectedChannel.Title;
+                }
+            }));
+
+
+            // ******** ajout d'une catégorie *********
+            AddChannelCmd = new Command(new Action(() =>
+            {
+                if (SelectedChannel != null)
+                {
+                    // TODO : Récupérer la liste des artciles du channel selectionné
+                    DebugText = SelectedChannel.Title;
+                }
+            }));
+
+
+            // ******** edition d'une catégorie *********
+            EditChannelCmd = new Command(new Action(() =>
+            {
+                if (SelectedChannel != null)
+                {
+                    // TODO : Récupérer la liste des artciles du channel selectionné
+                    DebugText = SelectedChannel.Title;
+                }
+            }));
+
+            #endregion
+
+
 
             #endregion
 

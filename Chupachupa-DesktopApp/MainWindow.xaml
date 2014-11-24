@@ -15,23 +15,23 @@
         <ns:InvertBoolConverter x:Key="InvertBoolConverter"/>
     </controls:MetroWindow.Resources>
 
-    <controls:MetroWindow.Flyouts>
+    <!--<controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
             <controls:Flyout Header="Settings" Position="Right" Width="200" Theme="Accent"  />
         </controls:FlyoutsControl>
-    </controls:MetroWindow.Flyouts>
+    </controls:MetroWindow.Flyouts>-->
 
 
     <Grid>
 
-        <controls:Flyout Header="Inverse"
+        <!--<controls:Flyout Header="Inverse"
                              Position="Right"
                              Theme="Inverse" Visibility="Visible" >
             <Grid Margin="10"
                       Width="400">
                 <TextBlock Text="This flyout has the inverse theme of the current window theme" />
             </Grid>
-        </controls:Flyout>
+        </controls:Flyout>-->
 
         <TabControl SelectedIndex="{Binding SelectedTabIndex}">
             <TabItem x:Name="Account" Header="Compte">
@@ -48,9 +48,9 @@
 
             <TabItem x:Name="Categories" Header="Catégories" IsEnabled="{Binding Path=IsLoggedIn}">
                 <Grid x:Name="CategoryMainContainer" Background="GhostWhite">
-                    <Button x:Name="CategoryEditButton" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,10,0,0" Width="60"/>
-                    <Button x:Name="CategoryAddButton" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="75,10,0,0" Height="28" Width="60"/>
-                    <Button x:Name="CategoryDeleteButton" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,10,0,0" Height="28" Width="60"/>
+                    <Button x:Name="CategoryEditButton" Command="{Binding EditCategoryCmd}" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,10,0,0" Width="60"/>
+                    <Button x:Name="CategoryAddButton" Command="{Binding AddCategoryCmd}" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="75,10,0,0" Height="28" Width="60"/>
+                    <Button x:Name="CategoryDeleteButton" Command="{Binding DeleteCategoryCmd}" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,10,0,0" Height="28" Width="60"/>
                     <controls:Tile x:Name="allButton" Title="ALL" TiltFactor="4" Width="Auto" Height="Auto" HorizontalAlignment="Right" Margin="0" />
                     <ListBox x:Name="CategoriesListBox" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Margin="10,47.45,123.5,10" 
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -89,9 +89,9 @@
             <TabItem x:Name="Channels" IsEnabled="{Binding Path=IsLoggedIn}" VerticalAlignment="Top" Header="Flux" HorizontalAlignment="Left" Margin="0,0,-12,-0.001" Width="70.817">
                 <Grid Background="GhostWhite">
                     <Label Content="{Binding CurrentCategory.Name}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" FontFamily="Segoe UI Semibold" FontSize="24" Foreground="#FF838383"/>
-                    <Button x:Name="ChannelsEditButton" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,68.46,0,0" Width="60"/>
-                    <Button x:Name="ChannelsAddButton" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="75,68.46,0,0" Height="28" Width="60"/>
-                    <Button x:Name="ChannelsDeleteButton" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,68.46,0,0" Height="28" Width="60"/>
+                    <Button x:Name="ChannelsEditButton" Command="{Binding EditChannelCmd}" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,68.46,0,0" Width="60"/>
+                    <Button x:Name="ChannelsAddButton" Command="{Binding AddChannelCmd}" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="75,68.46,0,0" Height="28" Width="60"/>
+                    <Button x:Name="ChannelsDeleteButton" Command="{Binding DeleteChannelCmd}" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,68.46,0,0" Height="28" Width="60"/>
                     <ListBox x:Name="ChannelsListBox" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
 						ItemsSource="{Binding ChannelsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -128,9 +128,6 @@
             <TabItem x:Name="Articles" IsEnabled="{Binding Path=IsLoggedIn}" Header="Articles" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Grid Background="GhostWhite">
                     <Label Content="{Binding CurrentChannel.Title}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" Background="#00000000" FontSize="24" FontFamily="Segoe UI Semibold" Foreground="#FF838383"/>
-                    <Button x:Name="ItemsEditButton" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,68.46,0,0" Width="60"/>
-                    <Button x:Name="ItemsAddButton" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="75,68.46,0,0" Height="28" Width="60"/>
-                    <Button x:Name="ItemsDeleteButton" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,68.46,0,0" Height="28" Width="60"/>
                     <ListBox x:Name="ArticlesListBox" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
 						ItemsSource="{Binding ItemsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -215,7 +212,7 @@
         <TextBlock x:Name="DEBUG" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,534,464,0" FontFamily="Segoe UI Semibold" FontSize="18.667" Width="318">
             <TextBlock.Foreground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
-            </TextBlock.Foreground><Run Language="fr-fr" Text="[Affichez votre debug ici]"/>
+            </TextBlock.Foreground><Run Language="fr-fr" Text="{Binding DebugText}"/>
         </TextBlock>
         <Button MinWidth="90"
                     Margin="10,498,631,40"

@@ -49,8 +49,13 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
-
         public ICommand LoadCategoryCmd  { get; set; }
+        public ICommand EditCategoryCmd  { get; set; }
+        public ICommand AddCategoryCmd  { get; set; }
+        public ICommand DeleteCategoryCmd { get; set; }
+        
+        
+            
         
     }
 }
