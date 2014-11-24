@@ -5,6 +5,7 @@ using System.Windows;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Windows.Documents;
+using System.Windows.Input;
 using ChupaChupa_Model.Entities;
 
 
@@ -25,7 +26,18 @@ namespace Chupachupa_DesktopApp.ViewModel
                 NotifyPropertyChanged("SelectedItem");
             }
         }
-        
+
+        private RssItem _currentItem;
+        public RssItem CurrentItem
+        {
+            get { return _currentItem; }
+            set
+            {
+                _currentItem = value;
+                NotifyPropertyChanged("CurrentItem");
+            }
+        }
+
         private IList<RssItem> _itemsList;
         public IList<RssItem> ItemsList
         {
@@ -36,5 +48,7 @@ namespace Chupachupa_DesktopApp.ViewModel
                 NotifyPropertyChanged("ItemsList");
             }
         }
+
+        public ICommand LoadItemCmd { get; set; }
     }
 }

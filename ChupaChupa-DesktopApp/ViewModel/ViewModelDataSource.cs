@@ -46,6 +46,14 @@ namespace Chupachupa_DesktopApp.ViewModel
 
             InitContent();
 
+
+
+
+
+
+            #region Commands
+
+            // ******** Log (in/out) du user *********
             LogUserCmd = new Command(new Action(() =>
             {
                 if (!IsLoggedIn)
@@ -65,45 +73,56 @@ namespace Chupachupa_DesktopApp.ViewModel
                     CurrentUser = null;
                     IsLoggedIn = false;
                     LogMessage = "LOG IN";
+                    SelectedTabIndex = 0;
                 }
             }));
 
+            // ******** chargement d'une catégorie *********
             LoadCategoryCmd = new Command(new Action(() =>
             {
                 if (SelectedCategory != null)
                 {
                     // TODO : Récupérer la liste des artciles du channel selectionné
-                    ChannelsList = SelectedCategory.RssChannels;
+                    CurrentCategory = SelectedCategory;
+                    ChannelsList = CurrentCategory.RssChannels;
                     SelectedTabIndex = 2;
                 }
             }));
 
+            // ******** chargement d'un channel *********
             LoadChannelCmd = new Command(new Action(() =>
             {
                 if (SelectedChannel != null)
                 {
                     // TODO : Récupérer la liste des artciles du channel selectionné
-                    ItemsList = SelectedChannel.RssItems;
+                    CurrentChannel = SelectedChannel;
+                    ItemsList = CurrentChannel.RssItems;
                     SelectedTabIndex = 3;
                 }
             }));
 
 
-         
-            
+            // ******** chargement d'un channel *********
+            LoadItemCmd = new Command(new Action(() =>
+            {
+                if (SelectedItem != null)
+                {
+                    // TODO : Récupérer la liste des artciles du channel selectionné
+                    CurrentItem = SelectedItem;
+                    SelectedTabIndex = 4;
+                }
+            }));
 
-        
+            #endregion
+
+
+
+
 
             // lien image barbie : "http://www.pubenstock.com/wp-content/uploads/2014/06/CHUPA-KIPIK-2.jpg"
 
 
-            SelectedItem = new RssItem()
-            {
-                Author = "Kram47",
-                Title = "Ouech Ma Gueule",
-                Source = new Source() { Url = @"http://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Citez_vos_sources" },
-                Description = "Ouech ma gueule alors ceci est un article et tout ca et en fait ben j'ai rien a dire simplement car ceci est un putain de texte de de test a la con et que je vais pas me faire chier en plus a rajouter quelquechose de potable ..."
-            };
+           
             
 
            
@@ -140,8 +159,15 @@ namespace Chupachupa_DesktopApp.ViewModel
             var artList = new List<RssItem>() { rssItem1, rssItem2, rssItem3, rssItem4, rssItem5, rssItem6, rssItem7 };
 
             CategoryList = catList;
-            ChannelsList= chanList;
-            ItemsList = artList;
+ 
+
+            CurrentItem = new RssItem()
+            {
+                Author = "Kram47",
+                Title = "Ouech Ma Gueule",
+                Source = new Source() { Url = @"http://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Citez_vos_sources" },
+                Description = "Ouech ma gueule alors ceci est un article et tout ca et en fait ben j'ai rien a dire simplement car ceci est un putain de texte de de test a la con et que je vais pas me faire chier en plus a rajouter quelquechose de potable ..."
+            };
 
         }
 

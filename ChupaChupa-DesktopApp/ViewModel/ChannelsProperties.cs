@@ -27,6 +27,18 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
+        private RssChannel _currentChannel;
+        public RssChannel CurrentChannel
+        {
+            get { return _currentChannel; }
+            set
+            {
+                _currentChannel = value;
+                NotifyPropertyChanged("CurrentChannel");
+            }
+        }
+
+
         private IList<RssChannel> _channelsList;
         public IList<RssChannel> ChannelsList
         {

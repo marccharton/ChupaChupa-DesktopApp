@@ -14,7 +14,7 @@
     <controls:MetroWindow.Resources>
         <ns:InvertBoolConverter x:Key="InvertBoolConverter"/>
     </controls:MetroWindow.Resources>
-    
+
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
             <controls:Flyout Header="Settings" Position="Right" Width="200" Theme="Accent"  />
@@ -23,24 +23,35 @@
 
 
     <Grid>
+
+        <controls:Flyout Header="Inverse"
+                             Position="Right"
+                             Theme="Inverse" Visibility="Visible" >
+            <Grid Margin="10"
+                      Width="400">
+                <TextBlock Text="This flyout has the inverse theme of the current window theme" />
+            </Grid>
+        </controls:Flyout>
+
         <TabControl SelectedIndex="{Binding SelectedTabIndex}">
-			<TabItem x:Name="Account" Header="Compte">
+            <TabItem x:Name="Account" Header="Compte">
                 <Grid Background="GhostWhite">
                     <StackPanel HorizontalAlignment="Center" Height="397" VerticalAlignment="Center" Width="371.5">
-                        <Image Source="pack://siteoforigin:,,,/logo.png" HorizontalAlignment="Center" Height="227.5"/>
+                        <Image Source="Assets/logo.png" HorizontalAlignment="Center" Height="227.5"/>
                         <TextBox IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Login" x:Name="AccountLoginTextBox" HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="{Binding AccountLoginText}" VerticalAlignment="Top" Width="120" />
                         <PasswordBox IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Password" x:Name="AccountPassTextBox" HorizontalAlignment="Center" Height="23" PasswordChar="{Binding AccountPasswordText}" VerticalAlignment="Top" Width="120" Margin="0,5,0,5" />
-                        <Button Command="{Binding LogUserCmd}" x:Name="AccountButton" Content="{Binding LogMessage}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Style="{DynamicResource SquareButtonStyle}" Margin="0,5,0,5"/>
+                        <Button Command="{Binding LogUserCmd}" x:Name="AccountButton" Content="{Binding LogMessage}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Style="{DynamicResource AccentedSquareButtonStyle}" Margin="0,5,0,5"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
-        
-        
-			<TabItem x:Name="Categories" Header="Catégories">
-				<Grid x:Name="CategoryMainContainer" Background="GhostWhite">
-					<Button Content="E" HorizontalAlignment="Left" VerticalAlignment="Top" Width="39.333" Style="{DynamicResource MetroCircleButtonStyle}" Margin="13.333,0,0,0" Height="42.45"/>
-					<Button Content="A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38.667" Style="{DynamicResource MetroCircleButtonStyle}" Margin="57.666,0,0,0" Height="42.45"/>
-					<controls:Tile x:Name="allButton" Title="ALL" TiltFactor="4" Width="Auto" Height="Auto" Margin="667.5,10.001,10,10" />
+
+
+            <TabItem x:Name="Categories" Header="Catégories" IsEnabled="{Binding Path=IsLoggedIn}">
+                <Grid x:Name="CategoryMainContainer" Background="GhostWhite">
+                    <Button x:Name="CategoryEditButton" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,10,0,0" Width="60"/>
+                    <Button x:Name="CategoryAddButton" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="75,10,0,0" Height="28" Width="60"/>
+                    <Button x:Name="CategoryDeleteButton" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,10,0,0" Height="28" Width="60"/>
+                    <controls:Tile x:Name="allButton" Title="ALL" TiltFactor="4" Width="Auto" Height="Auto" HorizontalAlignment="Right" Margin="0" />
                     <ListBox x:Name="CategoriesListBox" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Margin="10,47.45,123.5,10" 
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 						     ItemsSource="{Binding CategoryList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -60,27 +71,31 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
-							<DataTemplate>
-                                <controls:Tile Title="{Binding Name}" Count="{Binding RssChannels.Count}" TiltFactor="1" Width="147px" Height="147px" />
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-						<ListBox.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel Orientation="Horizontal" />
-							</ItemsPanelTemplate>
-						</ListBox.ItemsPanel>
-					</ListBox>
+                            <DataTemplate>
+                                <controls:Tile Title="{Binding Name}" Count="{Binding RssChannels.Count}" TiltFactor="1" Width="147px" Height="147px" Margin="0" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
 
-				</Grid>
-			</TabItem>
-        
-        
-			<TabItem x:Name="Channels" VerticalAlignment="Top" Header="Flux" HorizontalAlignment="Left" Margin="0,0,-12,-0.001" Width="70.817">
-				<Grid Background="GhostWhite">
-                    <Label Content="{Binding SelectedCategory.Name}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" FontFamily="Segoe UI Semibold" FontSize="24" Foreground="#FF838383"/>
-					<ListBox x:Name="ChannelsListBox" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+                </Grid>
+            </TabItem>
+
+
+            <TabItem x:Name="Channels" IsEnabled="{Binding Path=IsLoggedIn}" VerticalAlignment="Top" Header="Flux" HorizontalAlignment="Left" Margin="0,0,-12,-0.001" Width="70.817">
+                <Grid Background="GhostWhite">
+                    <Label Content="{Binding CurrentCategory.Name}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" FontFamily="Segoe UI Semibold" FontSize="24" Foreground="#FF838383"/>
+                    <Button x:Name="ChannelsEditButton" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,68.46,0,0" Width="60"/>
+                    <Button x:Name="ChannelsAddButton" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="75,68.46,0,0" Height="28" Width="60"/>
+                    <Button x:Name="ChannelsDeleteButton" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,68.46,0,0" Height="28" Width="60"/>
+                    <ListBox x:Name="ChannelsListBox" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-						ItemsSource="{Binding ChannelsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,100,10,10">
+						ItemsSource="{Binding ChannelsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        SelectedItem="{Binding SelectedChannel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,100,10,10">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseDoubleClick">
                                 <i:InvokeCommandAction Command="{Binding LoadChannelCmd}" />
@@ -96,81 +111,119 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
-							<DataTemplate>
-								<controls:Tile Title="{Binding Title}" Count="{Binding RssItems.Count}" TiltFactor="1" Width="147px" Height="147px" Background="Crimson" />
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-						<ListBox.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel Orientation="Horizontal" />
-							</ItemsPanelTemplate>
-						</ListBox.ItemsPanel>
-					</ListBox>
-				</Grid>
-			</TabItem>
-        
-        
-			<TabItem x:Name="Articles" Header="Articles" HorizontalAlignment="Left" VerticalAlignment="Top">
-				<Grid Background="GhostWhite">
-					<Label Content="{Binding SelectedChannel.Title}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" Background="#00000000" FontSize="24" FontFamily="Segoe UI Semibold" Foreground="#FF838383"/>
-					<ListBox x:Name="ArticlesListBox" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
+                            <DataTemplate>
+                                <controls:Tile Title="{Binding Title}" Count="{Binding RssItems.Count}" TiltFactor="1" Width="147px" Height="147px" Background="Crimson" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+
+
+            <TabItem x:Name="Articles" IsEnabled="{Binding Path=IsLoggedIn}" Header="Articles" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Grid Background="GhostWhite">
+                    <Label Content="{Binding CurrentChannel.Title}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11.5,27,0,0" Height="36.46" Width="206.5" Background="#00000000" FontSize="24" FontFamily="Segoe UI Semibold" Foreground="#FF838383"/>
+                    <Button x:Name="ItemsEditButton" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,68.46,0,0" Width="60"/>
+                    <Button x:Name="ItemsAddButton" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="75,68.46,0,0" Height="28" Width="60"/>
+                    <Button x:Name="ItemsDeleteButton" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,68.46,0,0" Height="28" Width="60"/>
+                    <ListBox x:Name="ArticlesListBox" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-						ItemsSource="{Binding ItemsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,100,10,10">
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<controls:Tile Title="{Binding Description}" Count="{Binding Title}" TiltFactor="1" Width="350px" Height="147px" Background="BurlyWood" />
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-						<ListBox.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel Orientation="Horizontal" />
-							</ItemsPanelTemplate>
-						</ListBox.ItemsPanel>
-					</ListBox>
-				</Grid>
-			</TabItem>
-        
-        
-			<TabItem x:Name="Article" Header="Article" HorizontalAlignment="Left" Height="39.4733333333333" VerticalAlignment="Top" Width="90">
-				<Grid Background="GhostWhite">                                    
-					<Grid.RowDefinitions>
-						<RowDefinition Height="135*"/>
-						<RowDefinition Height="127*"/>
-					</Grid.RowDefinitions>
-					<Image x:Name="Image" HorizontalAlignment="Center" VerticalAlignment="Top" Source="chupa_chups_chuck.jpg" Width="230.5" Height="224.797" Margin="0,11,0,0"/>
-                    <Label Grid.Row ="0" x:Name="Source" Content="{Binding SelectedItem.Source.Url}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,230,0,0" Foreground="#FF3264BD" FontWeight="Bold" IsManipulationEnabled="True"/>
-					<RichTextBox x:Name="Description" Grid.Row="1" Height="266" Background="{x:Null}" HorizontalAlignment="Center" IsReadOnly="True" FontFamily="Segoe UI Semibold" FontSize="21.333" BorderBrush="{x:Null}" Foreground="#FF5D5D5D" Width="574" Margin="106,0,106,-12.23" BorderThickness="0">
-						<FlowDocument>
-							<Paragraph><Run Text="{Binding SelectedItem.Description}"/></Paragraph>
-						</FlowDocument>
-					</RichTextBox>
-					<StackPanel Grid.Row ="0" HorizontalAlignment="Right" Margin="0,0,10,0">
-						<TextBlock x:Name="Title" TextWrapping="Wrap" Text="{Binding SelectedItem.Title}" FontWeight="Bold" FontFamily="Segoe UI Semibold" FontSize="18.667">
-							<TextBlock.Foreground>
-								<SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HotTrackColorKey}}"/>
-							</TextBlock.Foreground>
-						</TextBlock>
-						<DatePickerTextBox TextWrapping="Wrap" Text="{Binding SelectedItem.PubDate.Value.Date, Mode=OneWay}"/>
-					</StackPanel>
-				</Grid>
-			</TabItem>
-        
-        
-		</TabControl>
-		
+						ItemsSource="{Binding ItemsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,100,10,10">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding LoadItemCmd}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                        <Setter Property="IsSelected" Value="True" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <controls:Tile Title="{Binding Description}" Count="{Binding Title}" TiltFactor="1" Width="350px" Height="147px" Background="BurlyWood" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+
+
+            <TabItem x:Name="Article" IsEnabled="{Binding Path=IsLoggedIn}" Header="Article" HorizontalAlignment="Left" Height="39.4733333333333" VerticalAlignment="Top" Width="90">
+                <Grid Background="GhostWhite">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="135*"/>
+                        <RowDefinition Height="127*"/>
+                    </Grid.RowDefinitions>
+                    <Image x:Name="Image" HorizontalAlignment="Center" VerticalAlignment="Top" Source="Assets/chupa_chups_chuck.jpg" Width="230.5" Height="224.797" Margin="0,11,0,0"/>
+                    <Label Grid.Row ="0" x:Name="Source" Content="{Binding CurrentItem.Source.Url}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,230,0,0" Foreground="#FF3264BD" FontWeight="Bold" IsManipulationEnabled="True"/>
+                    <RichTextBox x:Name="Description" Grid.Row="1" Height="266" Background="{x:Null}" HorizontalAlignment="Center" IsReadOnly="True" FontFamily="Segoe UI Semibold" FontSize="21.333" BorderBrush="{x:Null}" Foreground="#FF5D5D5D" Width="574" Margin="106,0,106,-12.23" BorderThickness="0">
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run Text="{Binding CurrentItem.Description}"/>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                    <StackPanel Grid.Row ="0" HorizontalAlignment="Right" Margin="0,0,10,0">
+                        <TextBlock x:Name="Title" TextWrapping="Wrap" Text="{Binding CurrentItem.Title}" FontWeight="Bold" FontFamily="Segoe UI Semibold" FontSize="18.667">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HotTrackColorKey}}"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                        <DatePickerTextBox TextWrapping="Wrap" Text="{Binding CurrentItem.PubDate.Value.Date, Mode=OneWay}"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+
+        </TabControl>
+
         <TextBlock x:Name="UserName" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="18.667" Text="{Binding CurrentUser.LoginMail}">
-			<TextBlock.Foreground>
-				<SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
-			</TextBlock.Foreground><Run Language="fr-fr" Text="{Binding CurrentUser.LoginMail}"/>
-        </TextBlock>
-        <TextBlock x:Name="DEBUG" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Margin="600.54,50,0,0" FontFamily="Segoe UI Semibold" FontSize="18.667">
             <TextBlock.Foreground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
-            </TextBlock.Foreground><Run Language="fr-fr" Text="{Binding SelectedChannel.RssItems.Count}"/>
+            </TextBlock.Foreground><Run Language="fr-fr" Text="{Binding CurrentUser.LoginMail}"/>
+            <TextBlock.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Log OUT" Command="{Binding LogUserCmd}">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="Assets/logOUT.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Settings" Command="">
+                        <MenuItem.Icon>
+                            <Image Width="16" Height="16" Source="Assets/settings.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </TextBlock.ContextMenu>
         </TextBlock>
+        <TextBlock x:Name="DEBUG" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,534,464,0" FontFamily="Segoe UI Semibold" FontSize="18.667" Width="318">
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
+            </TextBlock.Foreground><Run Language="fr-fr" Text="[Affichez votre debug ici]"/>
+        </TextBlock>
+        <Button MinWidth="90"
+                    Margin="10,498,631,40"
+                    Command="{Binding ElementName=flyoutsDemo, Path=OpenFirstFlyoutCommand}"
+                    Content="Show 1" />
 
 
     </Grid>
 
-   
+
 </controls:MetroWindow>

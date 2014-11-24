@@ -38,6 +38,18 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
+        private Category _currentCategory;
+        public Category CurrentCategory
+        {
+            get { return _currentCategory; }
+            set
+            {
+                _currentCategory = value;
+                NotifyPropertyChanged("CurrentCategory");
+            }
+        }
+
+
         public ICommand LoadCategoryCmd  { get; set; }
         
     }
