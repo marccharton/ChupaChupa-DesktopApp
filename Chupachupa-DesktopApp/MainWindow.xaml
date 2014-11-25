@@ -72,7 +72,8 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <controls:Tile Title="{Binding Name}" Count="{Binding RssChannels.Count}" TiltFactor="1" Width="147px" Height="147px" Margin="0" />
+                                <controls:Tile Title="{Binding Name}" Count="{Binding RssChannels.Count}" TiltFactor="1" Width="147px" Height="147px" Margin="0">
+                                </controls:Tile>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                         <ListBox.ItemsPanel>

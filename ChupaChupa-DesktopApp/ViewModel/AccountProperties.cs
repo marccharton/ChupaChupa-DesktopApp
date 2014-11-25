@@ -74,9 +74,6 @@ namespace Chupachupa_DesktopApp.ViewModel
 
 
 
-
-
-
         public ICommand LogUserCmd { get; set; }
 
     }

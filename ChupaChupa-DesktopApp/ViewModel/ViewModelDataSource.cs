@@ -78,6 +78,8 @@ namespace Chupachupa_DesktopApp.ViewModel
                     SelectedTabIndex = 0;
                 }
             }));
+
+
             
             #region Chargements des principales entités
 
@@ -202,8 +204,6 @@ namespace Chupachupa_DesktopApp.ViewModel
             // lien image barbie : "http://www.pubenstock.com/wp-content/uploads/2014/06/CHUPA-KIPIK-2.jpg"
 
 
-           
-            
 
            
 
