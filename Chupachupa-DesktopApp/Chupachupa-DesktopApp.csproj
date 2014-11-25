@@ -132,14 +132,14 @@
     <Folder Include="EntityView\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\chupa_chups_chuck.jpg" />
-    <Resource Include="Assets\logOUT.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\settings.ico" />
+    <Resource Include="Assets\img\chupa_chups_chuck.jpg" />
+    <Resource Include="Assets\img\ico\delete.ico" />
+    <Resource Include="Assets\img\ico\edit.ico" />
+    <Resource Include="Assets\img\ico\logOUT.ico" />
+    <Resource Include="Assets\img\ico\settings.ico" />
+    <Resource Include="Assets\img\ico\user.ico" />
+    <Resource Include="Assets\img\logo.png" />
+    <Resource Include="user.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Interactivity;
 using ChupaChupa_Model.Entities;
-
+using System.Xml.Linq;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Chupachupa_DesktopApp.ViewModel
 {
@@ -38,15 +44,51 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
+        private bool _isTabControlEnabled;
+        public bool IsTabControlEnabled
+        {
+            get { return _isTabControlEnabled; }
+            set
+            {
+                _isTabControlEnabled = value;
+                NotifyPropertyChanged("IsTabControlEnabled");
+            }
+        }
 
+
+        private bool _isSettingsFloutOppenned;
+        public bool IsSettingsFloutOppenned
+        {
+            get { return _isSettingsFloutOppenned;; }
+            set
+            {
+                _isSettingsFloutOppenned = value;
+                NotifyPropertyChanged("IsSettingsFloutOppenned");
+            }
+        }
+
+        private bool _isProgressRingActive;
+        public bool IsProgressRingActive
+        {
+            get { return _isProgressRingActive; ; }
+            set
+            {
+                _isProgressRingActive = value;
+                NotifyPropertyChanged("IsProgressRingActive");
+            }
+        }
+
+        public ICommand ViewSettingsCmd { get; set; }
+        public ICommand ViewSettingsCmdValidate { get; set; }
+        
 
 
         public ViewModelDataSource()
         {
             IsLoggedIn = false;
+            IsTabControlEnabled = true;
             LogMessage = "LOG IN";
-
-            DebugText = "[Affichez votre debug ici]";
+            DebugText = "[Ceci est un message de debug]";
           
 
             InitContent();
@@ -56,16 +98,19 @@ namespace Chupachupa_DesktopApp.ViewModel
             #region Commands à Binder avec la View
 
             // ******** Log (in/out) du user *********
-            LogUserCmd = new Command(new Action(() =>
+            LogUserCmd = new Command(new Action(async () =>
             {
                 if (!IsLoggedIn)
                 {
                     if (AccountLoginText != "" && AccountPasswordText != "")
                     {
                         // TODO : Connection à la base avec les données du user
-                        CurrentUser = new User() { LoginMail = AccountLoginText, Password = AccountPasswordText };
                         IsLoggedIn = true;
                         LogMessage = "LOG OUT";
+                        IsProgressRingActive = true;
+                        await Task.Delay(3000);
+                        IsProgressRingActive = false;
+                        CurrentUser = new User() { LoginMail = AccountLoginText, Password = AccountPasswordText };
                         SelectedTabIndex = 1;
                     }
                 }
@@ -80,7 +125,17 @@ namespace Chupachupa_DesktopApp.ViewModel
             }));
 
 
-            
+            ViewSettingsCmd = new Command(new Action(() =>
+            {
+                IsSettingsFloutOppenned = true;
+            }));
+
+            ViewSettingsCmdValidate = new Command(new Action(() =>
+            {
+                IsSettingsFloutOppenned = false;
+            }));
+
+
             #region Chargements des principales entités
 
             // ******** chargement d'une catégorie *********
@@ -88,9 +143,11 @@ namespace Chupachupa_DesktopApp.ViewModel
             {
                 if (SelectedCategory != null)
                 {
-                    // TODO : Récupérer la liste des artciles du channel selectionné
                     CurrentCategory = SelectedCategory;
+                    
+                    // TODO : Récupérer la liste des channels de la catégorie selectionnée
                     ChannelsList = CurrentCategory.RssChannels;
+
                     SelectedTabIndex = 2;
                 }
             }));
@@ -100,9 +157,11 @@ namespace Chupachupa_DesktopApp.ViewModel
             {
                 if (SelectedChannel != null)
                 {
-                    // TODO : Récupérer la liste des artciles du channel selectionné
                     CurrentChannel = SelectedChannel;
+
+                    // TODO : Récupérer la liste des artciles du channel selectionné
                     ItemsList = CurrentChannel.RssItems;
+
                     SelectedTabIndex = 3;
                 }
             }));
@@ -113,7 +172,7 @@ namespace Chupachupa_DesktopApp.ViewModel
             {
                 if (SelectedItem != null)
                 {
-                    // TODO : Récupérer la liste des artciles du channel selectionné
+                    // TODO : Récupérer l'item selectionné
                     CurrentItem = SelectedItem;
                     SelectedTabIndex = 4;
                 }
@@ -128,30 +187,51 @@ namespace Chupachupa_DesktopApp.ViewModel
             {
                 if (SelectedCategory != null)
                 {
-                    // TODO : Récupérer la liste des artciles du channel selectionné
                     DebugText = SelectedCategory.Name;
+                    
+                    // TODO : Supprimer la catégorie de la base 
+                    CategoryList.Remove(SelectedCategory);
+                    IList<Category> correctList = CategoryList;
+
+                    //TODO : puis mettre à jour CategoryList
+                    CategoryList = null;
+                    CategoryList = correctList;
+
+                    SelectedCategory = null;
                 }
             }));
 
 
             // ******** ajout d'une catégorie *********
-            AddCategoryCmd = new Command(new Action(() =>
+            AddCategoryCmd = new Command(new Action(async () =>
             {
-                if (SelectedCategory != null)
-                {
-                    // TODO : Récupérer la liste des artciles du channel selectionné
-                    DebugText = SelectedCategory.Name;
-                }
+                var metroWindow = GetMetroWindow();
+                var result = await metroWindow.ShowInputAsync("New Category", "New Name");
+                if (result == null) //user pressed cancel
+                    return;
+
+                //TODO : ADD NEW CATEGORY WITH NAME
+                CategoryList.Add(new Category(){Name = result});
+                IList<Category> correctList = CategoryList;
+
+                //TODO : puis mettre à jour CategoryList
+                CategoryList = null;
+                CategoryList = correctList;
             }));
 
 
             // ******** edition d'une catégorie *********
-            EditCategoryCmd = new Command(new Action(() =>
+            EditCategoryCmd = new Command(new Action(async () =>
             {
                 if (SelectedCategory != null)
                 {
-                    // TODO : Récupérer la liste des artciles du channel selectionné
-                    DebugText = SelectedCategory.Name;
+                    var metroWindow = GetMetroWindow();
+                    var result = await metroWindow.ShowInputAsync(SelectedCategory.Name, "New Name");
+                    if (result == null) //user pressed cancel
+                        return;
+                    
+                    //TODO : UPDATE SELECTED CATEGORY
+                    await metroWindow.ShowMessageAsync("Modification d'une catégorie", "Ok je prend note je modifie ta catégorie avec le nom '" + result + "'.\nBon en fait rien ne se passe car je vais pas me faire chier pour rien car c'est le webserice qui fera la mise à jour");                
                 }
             }));
 
@@ -159,36 +239,89 @@ namespace Chupachupa_DesktopApp.ViewModel
 
             #region Ajout/Suppression/Edition d'un channel
 
-            // ******** suppression d'une catégorie *********
+            // ******** suppression d'un channel *********
             DeleteChannelCmd = new Command(new Action(() =>
             {
                 if (SelectedChannel != null)
                 {
-                    // TODO : Récupérer la liste des artciles du channel selectionné
                     DebugText = SelectedChannel.Title;
+
+                    // TODO : Supprimer la catégorie de la base 
+                    ChannelsList.Remove(SelectedChannel);
+                    IList<RssChannel> correctList = ChannelsList;
+
+                    //TODO : puis mettre à jour ChannelList
+                    ChannelsList = null;
+                    ChannelsList = correctList;
+
+                    SelectedChannel = null;
                 }
             }));
 
 
-            // ******** ajout d'une catégorie *********
-            AddChannelCmd = new Command(new Action(() =>
+            // ******** ajout d'un channel *********
+            AddChannelCmd = new Command(new Action(async () =>
             {
-                if (SelectedChannel != null)
-                {
-                    // TODO : Récupérer la liste des artciles du channel selectionné
-                    DebugText = SelectedChannel.Title;
-                }
+                IsFlyoutAddChannelOpenned = true;
+                //IsTabControlEnabled = false;
+                CurrentChannel = new RssChannel();
+                if (ChannelsList == null)
+                    ChannelsList = new List<RssChannel>();
+            }));
+
+            // ******** ajout d'un channel *********
+            AddChannelCmdValidate = new Command(new Action(async () =>
+            {
+                ////TODO : ADD NEW CHANNEL WITH LINK
+                
+                ChannelsList.Add(new RssChannel() { Title = CurrentChannel.Link });
+                IList<RssChannel> correctList = ChannelsList;
+
+                //TODO : puis mettre à jour CHannel
+                ChannelsList = null;
+                ChannelsList = correctList;
+
+                CurrentChannel = null;
+                IsFlyoutAddChannelOpenned = false;
+                //IsTabControlEnabled = true;
+
+                ////TODO : ADD NEW CHANNEL WITH LINK
+                //if (ChannelsList != null)
+                //{
+                //    ChannelsList.Add(new RssChannel() { Link = result });
+                //    IList<RssChannel> correctList = ChannelsList;
+
+                //    //TODO : puis mettre à jour CHannel
+                //    ChannelsList = null;
+                //    ChannelsList = correctList;
+                //}
             }));
 
 
-            // ******** edition d'une catégorie *********
-            EditChannelCmd = new Command(new Action(() =>
+
+
+            // ******** edition d'un channel *********
+            EditChannelCmd = new Command(new Action(async () =>
             {
                 if (SelectedChannel != null)
                 {
-                    // TODO : Récupérer la liste des artciles du channel selectionné
-                    DebugText = SelectedChannel.Title;
+                //    var metroWindow = GetMetroWindow();
+                //    var result = await metroWindow.ShowInputAsync(SelectedCategory.Name, "New Name");
+                //    if (result == null) //user pressed cancel
+                //        return;
+                    CurrentChannel = SelectedChannel;
+                    IsFlyoutEditChannelOpenned = true;
+                    //IsTabControlEnabled = false;
                 }
+            }));
+
+            EditChannelCmdValidate = new Command(new Action(async () =>
+            {
+                IsFlyoutEditChannelOpenned = false;
+                //IsTabControlEnabled = true;
+
+                // serveur.ChannelDao.Update(CurrentChannel);
+                // TODO : UPDATE CURRENT CHANNEL
             }));
 
             #endregion
@@ -205,7 +338,7 @@ namespace Chupachupa_DesktopApp.ViewModel
 
 
 
-           
+
 
         }
 
@@ -251,7 +384,21 @@ namespace Chupachupa_DesktopApp.ViewModel
 
         }
 
+        //public static async Task<MessageDialogResult> ShowMessage(string title, string message, MessageDialogStyle dialogStyle)
+        //{
+        //    var metroWindow = (Application.Current.MainWindow as MetroWindow);
+        //    metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+        //    return await metroWindow.ShowInputAsync(title, message);
+        //    //return await metroWindow.ShowMessageAsync(title, message, dialogStyle, metroWindow.MetroDialogOptions);
+        //}
 
+        public MetroWindow GetMetroWindow()
+        {
+            var metroWindow = (Application.Current.MainWindow as MetroWindow);
+            if (metroWindow != null)
+                metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+            return metroWindow;
+        }
 
     }
 }

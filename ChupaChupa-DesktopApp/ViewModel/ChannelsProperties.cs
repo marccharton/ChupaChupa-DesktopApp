@@ -38,7 +38,6 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
-
         private IList<RssChannel> _channelsList;
         public IList<RssChannel> ChannelsList
         {
@@ -50,13 +49,38 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
+        private bool _isFlyoutAddChannelOpenned;
+        public bool IsFlyoutAddChannelOpenned
+        {
+            get { return _isFlyoutAddChannelOpenned; }
+            set
+            {
+                _isFlyoutAddChannelOpenned = value;
+                NotifyPropertyChanged("IsFlyoutAddChannelOpenned");
+            }
+        }
+
+        private bool _isFlyoutEditChannelOpenned;
+        public bool IsFlyoutEditChannelOpenned
+        {
+            get { return _isFlyoutEditChannelOpenned; }
+            set
+            {
+                _isFlyoutEditChannelOpenned = value;
+                NotifyPropertyChanged("IsFlyoutEditChannelOpenned");
+            }
+        }
+
+        
+
         public ICommand LoadChannelCmd { get; set; }
 
         public ICommand DeleteChannelCmd { get; set; }
         public ICommand AddChannelCmd { get; set; }
+        public ICommand AddChannelCmdValidate { get; set; }
         public ICommand EditChannelCmd { get; set; }
+        public ICommand EditChannelCmdValidate { get; set; }
         
-            
             
     }
 }
