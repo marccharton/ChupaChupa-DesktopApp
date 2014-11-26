@@ -87,6 +87,7 @@ namespace Chupachupa_DesktopApp.ViewModel
         public ICommand ViewSettingsCmd { get; set; }
         public ICommand ViewSettingsCmdValidate { get; set; }
 
+
         private List<AccentColorMenuData> _accentColors;
         public List<AccentColorMenuData> AccentColors
         {
@@ -116,6 +117,8 @@ namespace Chupachupa_DesktopApp.ViewModel
 
         public ViewModelDataSource()
         {
+            ExitCmd = new Command(new Action(() => Application.Current.MainWindow.Close()));
+
             this.AccentColors = ThemeManager.Accents
                                            .Select(a => new AccentColorMenuData() { Name = a.Name, ColorBrush = a.Resources["AccentColorBrush"] as Brush })
                                            .ToList();

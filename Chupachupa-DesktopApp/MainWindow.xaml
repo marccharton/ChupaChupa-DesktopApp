@@ -189,7 +189,7 @@
                         <Image Width="16" Height="16" Source="Assets/img/ico/logOUT.ico" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Exit" Command="{Binding LogUserCmd}">
+                <MenuItem Header="Exit" Command="{Binding ExitCmd}">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source="Assets/img/ico/exit.ico" />
                     </MenuItem.Icon>

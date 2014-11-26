@@ -76,6 +76,7 @@ namespace Chupachupa_DesktopApp.ViewModel
 
 
         public ICommand LogUserCmd { get; set; }
+        public ICommand ExitCmd { get; set; }
 
         // ******** Log (in/out) user *********
         private void LogUser()
@@ -108,6 +109,7 @@ namespace Chupachupa_DesktopApp.ViewModel
                     SelectedTabIndex = 0;
                 }
             }));
+            
         }
 
 
