@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Threading;
 using System.Collections.ObjectModel;
@@ -75,6 +76,41 @@ namespace Chupachupa_DesktopApp.ViewModel
 
 
         public ICommand LogUserCmd { get; set; }
+
+        // ******** Log (in/out) user *********
+        private void LogUser()
+        {
+            LogUserCmd = new Command(new Action(async () =>
+            {
+                if (!IsLoggedIn)
+                {
+                    if (AccountLoginText != "" && AccountPasswordText != "")
+                    {
+                        IsLoggedIn = true;
+                        LogMessage = "LOG OUT";
+                        IsProgressRingActive = true;
+
+                        // TODO : Connection à la base avec les données du user
+                        await Task.Delay(1000);
+                        CurrentUser = new User() { LoginMail = AccountLoginText, Password = AccountPasswordText };
+
+
+                        IsProgressRingActive = false;
+                        SelectedTabIndex = 1;
+                    }
+                }
+                else
+                {
+                    // TODO : Deconnection du user
+                    CurrentUser = null;
+                    IsLoggedIn = false;
+                    LogMessage = "LOG IN";
+                    SelectedTabIndex = 0;
+                }
+            }));
+        }
+
+
 
     }
 

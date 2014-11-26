@@ -74,13 +74,14 @@ namespace Chupachupa_DesktopApp.ViewModel
         
 
         public ICommand LoadChannelCmd { get; set; }
+        public ICommand LoadAllChannelsCmd { get; set; }
 
         public ICommand DeleteChannelCmd { get; set; }
         public ICommand AddChannelCmd { get; set; }
         public ICommand AddChannelCmdValidate { get; set; }
         public ICommand EditChannelCmd { get; set; }
         public ICommand EditChannelCmdValidate { get; set; }
-        
+
             
     }
 }

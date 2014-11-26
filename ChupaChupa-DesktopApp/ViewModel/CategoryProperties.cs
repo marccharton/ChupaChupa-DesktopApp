@@ -49,13 +49,50 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
+        private Category _newCategoryForChannel;
+        public Category NewCategoryForChannel
+        {
+            get { return _newCategoryForChannel; }
+            set
+            {
+                _newCategoryForChannel = value;
+                NotifyPropertyChanged("NewCategoryForChannel");
+            }
+        }
+
+        private bool _isFlyoutAddCategoryOpenned;
+        public bool IsFlyoutAddCategoryOpenned
+        {
+            get { return _isFlyoutAddCategoryOpenned; }
+            set
+            {
+                _isFlyoutAddCategoryOpenned = value;
+                NotifyPropertyChanged("IsFlyoutAddCategoryOpenned");
+            }
+        }
+
+        private bool _isFlyoutEditCategoryOpenned;
+        public bool IsFlyoutEditCategoryOpenned
+        {
+            get { return _isFlyoutEditCategoryOpenned; }
+            set
+            {
+                _isFlyoutEditCategoryOpenned = value;
+                NotifyPropertyChanged("IsFlyoutEditCategoryOpenned");
+            }
+        }
+
+
+
         public ICommand LoadCategoryCmd  { get; set; }
-        public ICommand EditCategoryCmd  { get; set; }
-        public ICommand AddCategoryCmd  { get; set; }
+        public ICommand LoadAllCategoriesCmd { get; set; }
+
         public ICommand DeleteCategoryCmd { get; set; }
-        
-        
-            
+        public ICommand AddCategoryCmd { get; set; }
+        public ICommand AddCategoryCmdValidate { get; set; }
+        public ICommand EditCategoryCmd  { get; set; }
+        public ICommand EditCategoryCmdValidate { get; set; }
+
         
     }
 }

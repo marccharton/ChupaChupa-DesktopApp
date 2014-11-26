@@ -78,6 +78,7 @@
     <Compile Include="ViewModel\InvertBoolConverter.cs" />
     <Compile Include="ViewModel\ItemProperties.cs" />
     <Compile Include="ViewModel\MultiSelectionBehaviour.cs" />
+    <Compile Include="ViewModel\SimpleComman.cs" />
     <Compile Include="ViewModel\ViewModelDataSource.cs" />
     <Compile Include="ViewModel\MvvmConfig.cs" />
     <Page Include="DataStore\ViewModelDataSource\ViewModelDataSource.xaml">
@@ -140,6 +141,10 @@
     <Resource Include="Assets\img\ico\user.ico" />
     <Resource Include="Assets\img\logo.png" />
     <Resource Include="user.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\img\ico\design.ico" />
+    <Resource Include="Assets\img\ico\exit.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

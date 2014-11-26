@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Threading;
@@ -9,8 +11,10 @@ using System.Collections.ObjectModel;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interactivity;
+using System.Windows.Media;
 using ChupaChupa_Model.Entities;
 using System.Xml.Linq;
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -21,6 +25,8 @@ namespace Chupachupa_DesktopApp.ViewModel
     /// </summary>
     public partial class ViewModelDataSource : INotifyPropertyChanged
     {
+
+        #region Properties
 
         private int _selectedTabIndexUser;
         public int SelectedTabIndex
@@ -55,7 +61,6 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
-
         private bool _isSettingsFloutOppenned;
         public bool IsSettingsFloutOppenned
         {
@@ -78,74 +83,83 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
+
         public ICommand ViewSettingsCmd { get; set; }
         public ICommand ViewSettingsCmdValidate { get; set; }
-        
 
+        private List<AccentColorMenuData> _accentColors;
+        public List<AccentColorMenuData> AccentColors
+        {
+            get { return _accentColors; }
+            set
+            {
+                _accentColors = value;
+                NotifyPropertyChanged("AccentColors");
+            }
+        }
+
+        private List<AppThemeMenuData> _appThemes;
+        public List<AppThemeMenuData> AppThemes
+        {
+            get { return _appThemes; }
+            set
+            {
+                _appThemes = value;
+                NotifyPropertyChanged("AppThemes");
+            }
+        }
+
+        #endregion
+
+
+        #region Constructor
 
         public ViewModelDataSource()
         {
+            this.AccentColors = ThemeManager.Accents
+                                           .Select(a => new AccentColorMenuData() { Name = a.Name, ColorBrush = a.Resources["AccentColorBrush"] as Brush })
+                                           .ToList();
+
+            this.AppThemes = ThemeManager.AppThemes
+                                           .Select(a => new AppThemeMenuData() { Name = a.Name, BorderColorBrush = a.Resources["BlackColorBrush"] as Brush, ColorBrush = a.Resources["WhiteColorBrush"] as Brush })
+                                           .ToList();
+
+
             IsLoggedIn = false;
             IsTabControlEnabled = true;
             LogMessage = "LOG IN";
+            
+            // TODO : A supprimer
             DebugText = "[Ceci est un message de debug]";
-          
 
-            InitContent();
+            // TODO : A supprimer
+            InitEntities();
 
+            // Fonction appelant les initialisation des COMMANDs
+            LogUser();
+            LoadEntities();
+            ManageCategories();
+            ManageChannels();
+            ManageSettings();
+        }
 
-
-            #region Commands à Binder avec la View
-
-            // ******** Log (in/out) du user *********
-            LogUserCmd = new Command(new Action(async () =>
-            {
-                if (!IsLoggedIn)
-                {
-                    if (AccountLoginText != "" && AccountPasswordText != "")
-                    {
-                        // TODO : Connection à la base avec les données du user
-                        IsLoggedIn = true;
-                        LogMessage = "LOG OUT";
-                        IsProgressRingActive = true;
-                        await Task.Delay(3000);
-                        IsProgressRingActive = false;
-                        CurrentUser = new User() { LoginMail = AccountLoginText, Password = AccountPasswordText };
-                        SelectedTabIndex = 1;
-                    }
-                }
-                else
-                {
-                    // TODO : Deconnection du user
-                    CurrentUser = null;
-                    IsLoggedIn = false;
-                    LogMessage = "LOG IN";
-                    SelectedTabIndex = 0;
-                }
-            }));
+        #endregion
 
 
-            ViewSettingsCmd = new Command(new Action(() =>
-            {
-                IsSettingsFloutOppenned = true;
-            }));
+        #region Methods
 
-            ViewSettingsCmdValidate = new Command(new Action(() =>
-            {
-                IsSettingsFloutOppenned = false;
-            }));
-
-
-            #region Chargements des principales entités
-
+        private void LoadEntities()
+        {
             // ******** chargement d'une catégorie *********
             LoadCategoryCmd = new Command(new Action(() =>
             {
                 if (SelectedCategory != null)
                 {
                     CurrentCategory = SelectedCategory;
-                    
+
                     // TODO : Récupérer la liste des channels de la catégorie selectionnée
+                    // serveur.CategoryDAO.GetCategoryByName(CurrentCategory.Name).Channels
+
                     ChannelsList = CurrentCategory.RssChannels;
 
                     SelectedTabIndex = 2;
@@ -160,6 +174,8 @@ namespace Chupachupa_DesktopApp.ViewModel
                     CurrentChannel = SelectedChannel;
 
                     // TODO : Récupérer la liste des artciles du channel selectionné
+                    // serveur.RssChannelDAO.GetByTitle(CurrentChannel.Title).RssItems
+
                     ItemsList = CurrentChannel.RssItems;
 
                     SelectedTabIndex = 3;
@@ -167,34 +183,70 @@ namespace Chupachupa_DesktopApp.ViewModel
             }));
 
 
-            // ******** chargement d'un channel *********
+            // ******** chargement d'un item *********
             LoadItemCmd = new Command(new Action(() =>
             {
                 if (SelectedItem != null)
                 {
-                    // TODO : Récupérer l'item selectionné
                     CurrentItem = SelectedItem;
                     SelectedTabIndex = 4;
                 }
             }));
 
-            #endregion
 
-            #region Ajout/Suppression/Edition d'une catégorie
+            // ******** chargement de toutes les catégories *********
+            LoadAllCategoriesCmd = new Command(new Action(() =>
+            {
+                // TODO : Récupération de toutes les catégories de l'utilisateur
+                //IList<Category> categories = serveur.FindAllCategories();
+                //var channels = new List<RssChannel>();
+                //foreach (Category category in categories)
+                //{
+                //    foreach (RssChannel channel in category.RssChannels)
+                //    {
+                //        channels.Add(channel);
+                //    }
+                //}
 
+
+                SelectedTabIndex = 2;
+            }));
+
+
+            // ******** chargement de tous les channels *********
+            LoadAllChannelsCmd = new Command(new Action(() =>
+            {
+                // TODO : Récupération de touts les channels de la catégorie actuelle
+                //IList<RssChannel> channels = serveur.FindCategory(CurrentCategory).FindAllChannels();
+                //var items = new List<RssItem>();
+                //foreach (RssChannel channel in channels)
+                //{
+                //    foreach (RssItem item in channel.RssItems)
+                //    {
+                //        items.Add(item);
+                //    }
+                //}
+
+                SelectedTabIndex = 3;
+            }));
+        }
+
+        private void ManageCategories()
+        {
             // ******** suppression d'une catégorie *********
             DeleteCategoryCmd = new Command(new Action(() =>
             {
                 if (SelectedCategory != null)
                 {
-                    DebugText = SelectedCategory.Name;
-                    
                     // TODO : Supprimer la catégorie de la base 
+                    // serveur.CategoryDAO.DeleteCategory(SelectedCategory.IdEntity)
+
                     CategoryList.Remove(SelectedCategory);
                     IList<Category> correctList = CategoryList;
 
                     //TODO : puis mettre à jour CategoryList
                     CategoryList = null;
+                    // CategoryList = serveur.CategoryDAO.FindAll()
                     CategoryList = correctList;
 
                     SelectedCategory = null;
@@ -205,19 +257,26 @@ namespace Chupachupa_DesktopApp.ViewModel
             // ******** ajout d'une catégorie *********
             AddCategoryCmd = new Command(new Action(async () =>
             {
-                var metroWindow = GetMetroWindow();
-                var result = await metroWindow.ShowInputAsync("New Category", "New Name");
-                if (result == null) //user pressed cancel
-                    return;
+                IsFlyoutAddCategoryOpenned = true;
+                //IsTabControlEnabled = false;
+                CurrentCategory = new Category();
+            }));
 
+            AddCategoryCmdValidate = new Command(new Action(async () =>
+            {
                 //TODO : ADD NEW CATEGORY WITH NAME
-                CategoryList.Add(new Category(){Name = result});
+                // serveur.AddCategory(CurrentCategory);
+                CategoryList.Add(CurrentCategory);
                 IList<Category> correctList = CategoryList;
 
                 //TODO : puis mettre à jour CategoryList
+                // CategoryList = serveur.FindAllCategories();
                 CategoryList = null;
                 CategoryList = correctList;
+                IsFlyoutAddCategoryOpenned = false;
+                SelectedTabIndex = 1;
             }));
+
 
 
             // ******** edition d'une catégorie *********
@@ -225,20 +284,24 @@ namespace Chupachupa_DesktopApp.ViewModel
             {
                 if (SelectedCategory != null)
                 {
-                    var metroWindow = GetMetroWindow();
-                    var result = await metroWindow.ShowInputAsync(SelectedCategory.Name, "New Name");
-                    if (result == null) //user pressed cancel
-                        return;
-                    
-                    //TODO : UPDATE SELECTED CATEGORY
-                    await metroWindow.ShowMessageAsync("Modification d'une catégorie", "Ok je prend note je modifie ta catégorie avec le nom '" + result + "'.\nBon en fait rien ne se passe car je vais pas me faire chier pour rien car c'est le webserice qui fera la mise à jour");                
+                    CurrentCategory = SelectedCategory;
+                    IsFlyoutEditCategoryOpenned = true;
+                    //IsTabControlEnabled = false;
                 }
             }));
 
-            #endregion
+            EditCategoryCmdValidate = new Command(new Action(async () =>
+            {
+                IsFlyoutEditCategoryOpenned = false;
+                //IsTabControlEnabled = true;
 
-            #region Ajout/Suppression/Edition d'un channel
+                // TODO : UPDATE CURRENT CATEGORY
+                // serveur.UpdateCategory(CurrentCategory)
+            }));
+        }
 
+        private void ManageChannels()
+        {
             // ******** suppression d'un channel *********
             DeleteChannelCmd = new Command(new Action(() =>
             {
@@ -269,12 +332,13 @@ namespace Chupachupa_DesktopApp.ViewModel
                     ChannelsList = new List<RssChannel>();
             }));
 
-            // ******** ajout d'un channel *********
             AddChannelCmdValidate = new Command(new Action(async () =>
             {
-                ////TODO : ADD NEW CHANNEL WITH LINK
-                
-                ChannelsList.Add(new RssChannel() { Title = CurrentChannel.Link });
+                // TODO : ADD NEW CHANNEL WITH LINK
+                // serveur.addChannel(CurrentChannel.Link, CurrentCategory);
+                CurrentChannel.RssItems = new List<RssItem>(); // Juste pour avoir un 0 dans le count
+                ChannelsList.Add(CurrentChannel);
+
                 IList<RssChannel> correctList = ChannelsList;
 
                 //TODO : puis mettre à jour CHannel
@@ -285,16 +349,6 @@ namespace Chupachupa_DesktopApp.ViewModel
                 IsFlyoutAddChannelOpenned = false;
                 //IsTabControlEnabled = true;
 
-                ////TODO : ADD NEW CHANNEL WITH LINK
-                //if (ChannelsList != null)
-                //{
-                //    ChannelsList.Add(new RssChannel() { Link = result });
-                //    IList<RssChannel> correctList = ChannelsList;
-
-                //    //TODO : puis mettre à jour CHannel
-                //    ChannelsList = null;
-                //    ChannelsList = correctList;
-                //}
             }));
 
 
@@ -305,10 +359,6 @@ namespace Chupachupa_DesktopApp.ViewModel
             {
                 if (SelectedChannel != null)
                 {
-                //    var metroWindow = GetMetroWindow();
-                //    var result = await metroWindow.ShowInputAsync(SelectedCategory.Name, "New Name");
-                //    if (result == null) //user pressed cancel
-                //        return;
                     CurrentChannel = SelectedChannel;
                     IsFlyoutEditChannelOpenned = true;
                     //IsTabControlEnabled = false;
@@ -320,31 +370,27 @@ namespace Chupachupa_DesktopApp.ViewModel
                 IsFlyoutEditChannelOpenned = false;
                 //IsTabControlEnabled = true;
 
-                // serveur.ChannelDao.Update(CurrentChannel);
+                // serveur.ChannelDao.Update(CurrentChannel, NewCategoryForChannel);
                 // TODO : UPDATE CURRENT CHANNEL
             }));
-
-            #endregion
-
-
-
-            #endregion
-
-
-
-
-
-            // lien image barbie : "http://www.pubenstock.com/wp-content/uploads/2014/06/CHUPA-KIPIK-2.jpg"
-
-
-
-
-
         }
 
-       
+        private void ManageSettings()
+        {
+            ViewSettingsCmd = new Command(new Action(() =>
+            {
+                IsSettingsFloutOppenned = true;
+            }));
 
-        private void InitContent()
+            ViewSettingsCmdValidate = new Command(new Action(() =>
+            {
+                IsSettingsFloutOppenned = false;
+            }));
+        }
+
+
+        // TODO : A supprimer
+        private void InitEntities()
         {
             //ItemsList = new List<RssItem>()
             var rssItem1 = new RssItem() { Title = "Les huitres du groenland", Description = "ouech salut sdcsd jhc "};
@@ -355,10 +401,10 @@ namespace Chupachupa_DesktopApp.ViewModel
             var rssItem6 = new RssItem() { Title = "ouech ma gueule t'as faim ?" , Description = "ben parceque si cest pas le cas faut le dire sinon ca le fait pas"};
             var rssItem7 = new RssItem() { Title = "ouech ma gueule t'as faim ?" , Description = "ben parceque si cest pas le cas faut le dire sinon ca le fait pas"};
 
-            var channel1 = new RssChannel() { Title = "Youporn", RssItems = new List<RssItem>(){rssItem2, rssItem4, rssItem6} };
-            var channel2 = new RssChannel() { Title = "Intranet", RssItems = new List<RssItem>() { rssItem1, rssItem3, rssItem5, rssItem7 } };
-            var channel3 = new RssChannel() { Title = "Youtube", RssItems = new List<RssItem>() { rssItem1, rssItem2, rssItem3, rssItem4, rssItem5, rssItem6, rssItem7 } };
-            var channel4 = new RssChannel() { Title = "01.net", RssItems = new List<RssItem>() { rssItem1 } };
+            var channel1 = new RssChannel() { Title = "Deezer", Link = "http://www.deezer.com/playlist/51228683", RssItems = new List<RssItem>() { rssItem2, rssItem4, rssItem6 } };
+            var channel2 = new RssChannel() { Title = "Intranet", Link = "http://intra.epitech.eu/", RssItems = new List<RssItem>() { rssItem1, rssItem3, rssItem5, rssItem7 } };
+            var channel3 = new RssChannel() { Title = "Youtube", Link = "https://www.youtube.com/", RssItems = new List<RssItem>() { rssItem1, rssItem2, rssItem3, rssItem4, rssItem5, rssItem6, rssItem7 } };
+            var channel4 = new RssChannel() { Title = "01.net", Link = "http://www.01net.com/", RssItems = new List<RssItem>() { rssItem1 } };
 
             var category1 = new Category() { Name = "Web", RssChannels = new List<RssChannel>() { channel1, channel2, channel3, channel4} };
             var category2 = new Category() { Name = "Cuisine", RssChannels = new List<RssChannel>() { channel4, channel3, channel2, channel1 } };
@@ -368,8 +414,8 @@ namespace Chupachupa_DesktopApp.ViewModel
 
             
             var catList = new List<Category>() {category1, category2, category3, category4, category5};
-            var chanList = new List<RssChannel>() { channel1, channel2, channel3, channel4 };
-            var artList = new List<RssItem>() { rssItem1, rssItem2, rssItem3, rssItem4, rssItem5, rssItem6, rssItem7 };
+            //var chanList = new List<RssChannel>() { channel1, channel2, channel3, channel4 };
+            //var artList = new List<RssItem>() { rssItem1, rssItem2, rssItem3, rssItem4, rssItem5, rssItem6, rssItem7 };
 
             CategoryList = catList;
  
@@ -384,13 +430,10 @@ namespace Chupachupa_DesktopApp.ViewModel
 
         }
 
-        //public static async Task<MessageDialogResult> ShowMessage(string title, string message, MessageDialogStyle dialogStyle)
-        //{
-        //    var metroWindow = (Application.Current.MainWindow as MetroWindow);
-        //    metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
-        //    return await metroWindow.ShowInputAsync(title, message);
-        //    //return await metroWindow.ShowMessageAsync(title, message, dialogStyle, metroWindow.MetroDialogOptions);
-        //}
+        #endregion
+
+
+        #region Tools
 
         public MetroWindow GetMetroWindow()
         {
@@ -400,5 +443,48 @@ namespace Chupachupa_DesktopApp.ViewModel
             return metroWindow;
         }
 
+
+        // TODO:A supprimer
+        //public static async Task<MessageDialogResult> ShowMessage(string title, string message, MessageDialogStyle dialogStyle)
+        //{
+        //    var metroWindow = (Application.Current.MainWindow as MetroWindow);
+        //    metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+        //    return await metroWindow.ShowInputAsync(title, message);
+        //    //return await metroWindow.ShowMessageAsync(title, message, dialogStyle, metroWindow.MetroDialogOptions);
+        //}
+
+        #endregion
+
+    }
+
+    public class AccentColorMenuData
+    {
+        public string Name { get; set; }
+        public Brush BorderColorBrush { get; set; }
+        public Brush ColorBrush { get; set; }
+
+        private ICommand changeAccentCommand;
+
+        public ICommand ChangeAccentCommand
+        {
+            get { return this.changeAccentCommand ?? (changeAccentCommand = new SimpleCommand() { CanExecuteDelegate = x => true, ExecuteDelegate = x => this.DoChangeTheme(x) }); }
+        }
+
+        protected virtual void DoChangeTheme(object sender)
+        {
+            var theme = ThemeManager.DetectAppStyle(Application.Current);
+            var accent = ThemeManager.GetAccent(this.Name);
+            ThemeManager.ChangeAppStyle(Application.Current, accent, theme.Item1);
+        }
+    }
+
+    public class AppThemeMenuData : AccentColorMenuData
+    {
+        protected override void DoChangeTheme(object sender)
+        {
+            var theme = ThemeManager.DetectAppStyle(Application.Current);
+            var appTheme = ThemeManager.GetAppTheme(this.Name);
+            ThemeManager.ChangeAppStyle(Application.Current, theme.Item2, appTheme);
+        }
     }
 }

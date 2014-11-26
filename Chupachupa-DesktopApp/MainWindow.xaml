@@ -23,38 +23,120 @@
         		<TextBlock TextWrapping="Wrap" Text="{Binding Name}"/>
         	</Grid>
         </DataTemplate>
+        
+        <Ellipse x:Key="AppThemeMenuIcon"
+                     x:Shared="False"
+                     Width="16"
+                     Height="16"
+                     StrokeThickness="1"
+                     Stroke="{Binding BorderColorBrush, Mode=OneWay}"
+                     Fill="{Binding ColorBrush, Mode=OneWay}" />
+        <Ellipse x:Key="AccentMenuIcon"
+                     x:Shared="False"
+                     Width="16"
+                     Height="16"
+                     Fill="{Binding ColorBrush, Mode=OneWay}" />
+
+        <Style x:Key="AppThemeMenuItemStyle"
+                   TargetType="{x:Type MenuItem}"
+                   BasedOn="{StaticResource MetroMenuItem}">
+            <Setter Property="Command"
+                        Value="{Binding ChangeAccentCommand}" />
+            <Setter Property="Icon"
+                        Value="{StaticResource AppThemeMenuIcon}" />
+            <Setter Property="Header"
+                        Value="{Binding Name, Mode=OneWay}" />
+        </Style>
+        <Style x:Key="AccentColorMenuItemStyle"
+                   TargetType="{x:Type MenuItem}"
+                   BasedOn="{StaticResource MetroMenuItem}">
+            <Setter Property="Command"
+                        Value="{Binding ChangeAccentCommand}" />
+            <Setter Property="Icon"
+                        Value="{StaticResource AccentMenuIcon}" />
+            <Setter Property="Header"
+                        Value="{Binding Name, Mode=OneWay}" />
+        </Style>
+        
     </controls:MetroWindow.Resources>
 
+    <!--********************************************************************************************************************************************
+    ************************************************************** FLYOUTS *********************************************************************-->
+    
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
             <controls:Flyout x:Name="AddChannelFlyout" Header="Add Channel"
                              Position="Right"
-                             Theme="Inverse" IsOpen="{Binding IsFlyoutAddChannelOpenned}" Panel.ZIndex="47" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}">
-                <Grid Margin="10"
-                      Width="400">
-                    <StackPanel>
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Name mais apres ce sera link !!!!!!!"/></TextBlock>
-                        <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentChannel.Link}"/>
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" Text="Category" />
-                        <ComboBox x:Name="AddChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
-                    </StackPanel>
-                    <Button x:Name="AddChannelOkButton" Content="OK" Command="{Binding AddChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
-                    <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
-                </Grid>
-            </controls:Flyout>
-
-            <controls:Flyout x:Name="EditChannelFlyout" Header="Edit Channel"
-                             Position="Right" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}"
-                             Theme="Inverse" IsOpen="{Binding IsFlyoutEditChannelOpenned}" Panel.ZIndex="47" >
+                             Theme="Inverse" 
+                             IsOpen="{Binding IsFlyoutAddChannelOpenned}" 
+                             Panel.ZIndex="47" 
+                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}">
                 <Grid Margin="10"
                       Width="400">
                     <StackPanel>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Link"/></TextBlock>
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentChannel.Link}"/>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" Text="Category" />
-                        <ComboBox x:Name="EditChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
+                        <ComboBox x:Name="AddChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
+                    </StackPanel>
+                    <Button x:Name="AddChannelOkButton" Content="OK" Command="{Binding AddChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
+                    <Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
+                </Grid>
+            </controls:Flyout>
+
+            <controls:Flyout x:Name="EditChannelFlyout" Header="Edit Channel"
+                             Position="Right" 
+                             Theme="Inverse" 
+                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}"
+                             IsOpen="{Binding IsFlyoutEditChannelOpenned}" 
+                             Panel.ZIndex="47" >
+                <Grid Margin="10"
+                      Width="400">
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Title"/></TextBlock>
+                        <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentChannel.Title}"/>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" Text="Category" />
+                        <ComboBox x:Name="EditChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" SelectedItem="{Binding NewCategoryForChannel}" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
                     </StackPanel>
                     <Button x:Name="EditChannelOkButton" Content="OK" Command="{Binding EditChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" />
+                    <!--<Button x:Name="EditChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
+                </Grid>
+            </controls:Flyout>
+
+
+            <controls:Flyout x:Name="AddCategoryFlyout" 
+                             Header="Add Category"
+                             Position="Right"
+                             Theme="Inverse" 
+                             IsOpen="{Binding IsFlyoutAddCategoryOpenned}" 
+                             Panel.ZIndex="47" 
+                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}">
+                <Grid Margin="10"
+                      Width="400">
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Name"/></TextBlock>
+                        <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentCategory.Name}"/>
+                    </StackPanel>
+                    <Button x:Name="AddCategoryOkButton" Content="OK" Command="{Binding AddCategoryCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
+                    <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
+                </Grid>
+            </controls:Flyout>
+            
+            
+            <controls:Flyout x:Name="EditCategorylFlyout" 
+                             Header="Edit Category" 
+                             Position="Right" 
+                             Theme="Inverse" 
+                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}"
+                             IsOpen="{Binding IsFlyoutEditCategoryOpenned}" 
+                             Panel.ZIndex="47" >
+                <Grid Margin="10"
+                      Width="400">
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Name"/></TextBlock>
+                        <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentCategory.Name}"/>
+                    </StackPanel>
+                    <Button x:Name="EditCategoryOkButton" Content="OK" Command="{Binding EditCategoryCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" />
                     <!--<Button x:Name="EditChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
                 </Grid>
             </controls:Flyout>
@@ -79,31 +161,91 @@
 
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
+
+    <!--*********************************************************** Fin de FLYOUTS ********************************************************************
+    ***********************************************************************************************************************************************-->
+
     
 
 
+
+
     <Grid>
-        <TabControl SelectedIndex="{Binding SelectedTabIndex}" IsEnabled="{Binding IsTabControlEnabled}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+
+        <Menu Grid.Row="0"
+                  Margin="5"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Left">
+            <MenuItem Header="User">
+                <MenuItem Header="Log OUT" IsEnabled="{Binding IsLoggedIn}"  Command="{Binding LogUserCmd}">
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source="Assets/img/ico/logOUT.ico" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Exit" Command="{Binding LogUserCmd}">
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source="Assets/img/ico/exit.ico" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Style">
+                <MenuItem Header="Theme"
+                          ItemsSource="{Binding AppThemes, Mode=OneWay}"
+                          ItemContainerStyle="{StaticResource AppThemeMenuItemStyle}">
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source="Assets/img/ico/design.ico" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Accent"
+                          ItemsSource="{Binding AccentColors, Mode=OneWay}"
+                          ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}" >
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source="Assets/img/ico/design.ico" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Add Category" Command="{Binding AddCategoryCmd}" />
+            
+        </Menu>
+
+
+
+
+        <TabControl Grid.Row="1" x:Name="MainTabControl" SelectedIndex="{Binding SelectedTabIndex}" IsEnabled="{Binding IsTabControlEnabled}">
             <TabItem x:Name="Account" Header="Account">
-                <Grid Background="GhostWhite">
+                <Grid>
                     <StackPanel HorizontalAlignment="Center" Height="397" VerticalAlignment="Center" Width="371.5">
                         <Image Source="Assets/img/logo.png" HorizontalAlignment="Center" Height="227.5"/>
                         <TextBox IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Login" x:Name="AccountLoginTextBox" HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="{Binding AccountLoginText}" VerticalAlignment="Top" Width="120" />
-                        <PasswordBox IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Password" x:Name="AccountPassTextBox" HorizontalAlignment="Center" Height="23" PasswordChar="{Binding AccountPasswordText}" VerticalAlignment="Top" Width="120" Margin="0,5,0,5" />
+                        <PasswordBox IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Password" x:Name="AccountPassTextBox" HorizontalAlignment="Center" Height="23" PasswordChar="{Binding AccountPasswordText}" VerticalAlignment="Top" Width="120" Margin="0,5,0,5"/>
                         <Button Command="{Binding LogUserCmd}" x:Name="AccountButton" Content="{Binding LogMessage}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Style="{DynamicResource AccentedSquareButtonStyle}" Margin="0,5,0,5"/>
                         <controls:ProgressRing IsActive="{Binding IsProgressRingActive}" Margin="0,10"/>
+                        <StackPanel.InputBindings>
+                            <KeyBinding Command="{Binding LogUserCmd}"  Key="Enter"/>
+                            <!--<KeyBinding Command="{Binding RealDeleteFileCMD}"  Key="Delete" Modifiers="Shift"/>-->
+                        </StackPanel.InputBindings>
                     </StackPanel>
                 </Grid>
             </TabItem>
 
 
             <TabItem x:Name="Categories" Header="Categories" IsEnabled="{Binding Path=IsLoggedIn}">
-                <Grid x:Name="CategoryMainContainer" Background="GhostWhite">
+                <Grid x:Name="CategoryMainContainer">
                     <!--<Button x:Name="CategoryEditButton" Command="{Binding EditCategoryCmd}" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,10,0,0" Width="60"/>-->
-                    <Button x:Name="CategoryAddButton" Command="{Binding AddCategoryCmd}" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="17,10,0,0" Height="28" Width="60"/>
+                    <Label x:Name="CategoriesTitle" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="53.46" FontFamily="Segoe UI Semibold" FontSize="29.333" Foreground="#FF999999" Content="Categories List"/>
+                    <Button Content="All" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="219.79,23.333,0,0" Width="47" Command="{Binding LoadAllCategoriesCmd}"/>
+
+                    <!--<Button x:Name="CategoryEditButton" Command="{Binding EditCategoryCmd}" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,10,0,0" Width="60"/>-->
+                    <Button x:Name="CategoryAddButton" Command="{Binding AddCategoryCmd}" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="14,67,0,0" Height="28" Width="60"/>
                     <!--<Button x:Name="CategoryDeleteButton" Command="{Binding DeleteCategoryCmd}" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,10,0,0" Height="28" Width="60"/>-->
-                    <controls:Tile x:Name="allButton" Title="ALL" TiltFactor="4" Width="Auto" Height="Auto" HorizontalAlignment="Right" Margin="0" />
-                    <ListView x:Name="CategoriesListView" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Margin="10,47.45,123.5,10" 
+                    <ListView x:Name="CategoriesListView" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Margin="10,100,10,10" 
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 						     ItemsSource="{Binding CategoryList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              SelectedItem="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
@@ -137,8 +279,7 @@
                         </ListView.ContextMenu>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <controls:Tile Title="{Binding Name}" Count="{Binding RssChannels.Count}" TiltFactor="1" Width="147px" Height="147px" Margin="0">
-                                </controls:Tile>
+                                <controls:Tile Title="{Binding Name}" Count="{Binding RssChannels.Count}" TiltFactor="1" Width="147px" Height="147px" Margin="0"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                         <ListView.ItemsPanel>
@@ -153,10 +294,13 @@
 
 
             <TabItem x:Name="Channels" IsEnabled="{Binding Path=IsLoggedIn}" Header="Channels" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,-12,-0.001">
-                <Grid Background="GhostWhite">
-                    <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="53.46" FontFamily="Segoe UI Semibold" FontSize="29.333" Foreground="#FF838383" Content="{Binding CurrentCategory.Name}"/>
+                <Grid>
+                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="62" Orientation="Horizontal">
+                    	<Label x:Name="ChannelsTitle" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="29.333" Foreground="#FFA4A4A4" Content="{Binding CurrentCategory.Name}"/>
+                    	<Button x:Name="ChannelsAllButton" Content="All" Command="{Binding LoadAllChannelsCmd}"  Width="47" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                    </StackPanel>
                     <!--<Button x:Name="ChannelsEditButton" Command="{Binding EditChannelCmd}" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,68.46,0,0" Width="60"/>-->
-                    <Button x:Name="ChannelsAddButton" Command="{Binding AddChannelCmd}" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="17,68.46,0,0" Height="28" Width="60"/>
+                    <Button x:Name="ChannelsAddButton" Command="{Binding AddChannelCmd}" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="9,67,0,0" Height="28" Width="60"/>
                     <!--<Button x:Name="ChannelsDeleteButton" Command="{Binding DeleteChannelCmd}" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,68.46,0,0" Height="28" Width="60"/>-->
                     <ListView x:Name="ChannelsListView" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
@@ -192,7 +336,7 @@
                         </ListView.ContextMenu>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <controls:Tile Title="{Binding Title}" Count="{Binding RssItems.Count}" TiltFactor="1" Width="147px" Height="147px" Background="Crimson" />
+                                <controls:Tile Title="{Binding Title}" Count="{Binding RssItems.Count}" TiltFactor="1" Width="147px" Height="147px" Background="#CCD63B19" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                         <ListView.ItemsPanel>
@@ -206,8 +350,8 @@
 
 
             <TabItem x:Name="Items" IsEnabled="{Binding Path=IsLoggedIn}" Header="Items" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Grid Background="GhostWhite">
-                    <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="51.46" Background="#00000000" FontSize="29.333" FontFamily="Segoe UI Semibold" Foreground="#FF838383" Content="{Binding CurrentChannel.Title}"/>
+                <Grid>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="51.46" Background="#00000000" FontSize="29.333" FontFamily="Segoe UI Semibold" Foreground="#FFA2A2A2" Content="{Binding CurrentChannel.Title}"/>
                     <ListView x:Name="ArticlesListView" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
 						ItemsSource="{Binding ItemsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -228,7 +372,11 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <controls:Tile Title="{Binding Description}" Count="{Binding Title}" TiltFactor="1" Width="350px" Height="147px" Background="BurlyWood" />
+                                <controls:Tile Title="{Binding Description}" Count="{Binding Title}" TiltFactor="1" Width="350px" Height="147px" >
+                                	<controls:Tile.Background>
+                                		<SolidColorBrush Color="#CC26BF2D"/>
+                                	</controls:Tile.Background>
+                                </controls:Tile>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                         <ListView.ItemsPanel>
@@ -242,14 +390,14 @@
 
 
             <TabItem x:Name="Viewer" IsEnabled="{Binding Path=IsLoggedIn}" Header="Viewer" HorizontalAlignment="Left" Height="39.4733333333333" VerticalAlignment="Top" Width="90">
-                <Grid Background="GhostWhite">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="135*"/>
                         <RowDefinition Height="127*"/>
                     </Grid.RowDefinitions>
                     <Image x:Name="Image" HorizontalAlignment="Center" VerticalAlignment="Top" Source="Assets/img/chupa_chups_chuck.jpg" Width="230.5" Height="224.797" Margin="0,11,0,0"/>
                     <Label Grid.Row ="0" x:Name="Source" Content="{Binding CurrentItem.Source.Url}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,230,0,0" Foreground="#FF3264BD" FontWeight="Bold" IsManipulationEnabled="True"/>
-                    <RichTextBox x:Name="Description" Grid.Row="1" Height="266" Background="{x:Null}" HorizontalAlignment="Center" IsReadOnly="True" FontFamily="Segoe UI Semibold" FontSize="21.333" BorderBrush="{x:Null}" Foreground="#FF5D5D5D" Width="574" Margin="106,0,106,-12.23" BorderThickness="0">
+                    <RichTextBox x:Name="Description" Grid.Row="1" Height="266" Background="{x:Null}" HorizontalAlignment="Center" IsReadOnly="True" FontFamily="Segoe UI Semibold" FontSize="21.333" BorderBrush="{x:Null}" Foreground="#FF8F8E8E" Width="574" Margin="106,0,106,-12.23" BorderThickness="0">
                         <FlowDocument>
                             <Paragraph>
                                 <Run Text="{Binding CurrentItem.Description}"/>
@@ -269,7 +417,8 @@
 
 
         </TabControl>
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Margin="0,10,10,0">
+
+        <StackPanel Grid.Row="1" x:Name="UserPanel" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Margin="0,10,10,0">
         	<TextBlock x:Name="UserName" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="18.667" Text="{Binding CurrentUser.LoginMail}" Margin="0">
                 <TextBlock.Foreground>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
@@ -292,14 +441,26 @@
                 </ContextMenu>
             </StackPanel.ContextMenu>
         </StackPanel>
-        <TextBlock x:Name="DEBUG" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" FontFamily="Segoe UI Semibold" FontSize="18.667" Margin="10,0,0,10">
+
+        <TextBlock Grid.Row="1" x:Name="DEBUG" 
+                   HorizontalAlignment="Left" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Bottom" 
+                   FontFamily="Segoe UI Semibold" 
+                   FontSize="18.667" 
+                   Margin="10,0,0,10">
             <TextBlock.Foreground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
-            </TextBlock.Foreground><Run Language="fr-fr" Text="{Binding DebugText}"/>
+            </TextBlock.Foreground>
+            <Run Language="fr-fr" Text="{Binding DebugText}"/>
         </TextBlock>
-        <Button MinWidth="90"
-                    Command="{Binding ElementName=flyoutsDemo, Path=OpenFirstFlyoutCommand}"
-                    Content="Show 1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,39.83" />
+        <Button Grid.Row="1" x:Name="DebugButton" 
+                Content="[Test Button]"
+                Command=""
+                MinWidth="90"
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Left" 
+                Margin="10,0,0,39.83" />
 
 
     </Grid>
