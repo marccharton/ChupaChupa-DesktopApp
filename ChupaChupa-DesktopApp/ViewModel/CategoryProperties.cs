@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Windows.Documents;
 using System.Windows.Input;
-using ChupaChupa_Model.Entities;
+using Chupachupa_DesktopApp.PrivateService;
 
 
 namespace Chupachupa_DesktopApp.ViewModel
@@ -93,6 +94,92 @@ namespace Chupachupa_DesktopApp.ViewModel
         public ICommand EditCategoryCmd  { get; set; }
         public ICommand EditCategoryCmdValidate { get; set; }
 
-        
+
+        private void LoadCategories()
+        {
+            try
+            {
+                IList<Category> ret = _serveur.getCategories();
+                if (_serveur != null && ret != null)
+                    CategoryList = ret.ToList();
+            }
+            catch (Exception e)
+            {
+                DebugText = e.Message;
+            }
+        }
+
+        private void ManageCategories()
+        {
+            
+
+            // ******** suppression d'une catégorie *********
+            DeleteCategoryCmd = new Command(new Action(() =>
+            {
+                if (SelectedCategory != null)
+                {
+                    // TODO : Supprimer la catégorie de la base 
+                    // serveur.CategoryDAO.DeleteCategory(SelectedCategory.IdEntity)
+
+                    CategoryList.Remove(SelectedCategory);
+                    IList<Category> correctList = CategoryList;
+
+                    //TODO : puis mettre à jour CategoryList
+                    CategoryList = null;
+                    // CategoryList = serveur.CategoryDAO.FindAll()
+                    CategoryList = correctList;
+
+                    SelectedCategory = null;
+                }
+            }));
+
+
+            // ******** ajout d'une catégorie *********
+            AddCategoryCmd = new Command(new Action(async () =>
+            {
+                IsFlyoutAddCategoryOpenned = true;
+                //IsTabControlEnabled = false;
+                CurrentCategory = new Category();
+            }));
+
+            AddCategoryCmdValidate = new Command(new Action(async () =>
+            {
+                //TODO : ADD NEW CATEGORY WITH NAME
+                // serveur.AddCategory(CurrentCategory);
+                CategoryList.Add(CurrentCategory);
+                IList<Category> correctList = CategoryList;
+
+                //TODO : puis mettre à jour CategoryList
+                // CategoryList = serveur.FindAllCategories();
+                CategoryList = null;
+                CategoryList = correctList;
+                IsFlyoutAddCategoryOpenned = false;
+                SelectedTabIndex = 1;
+            }));
+
+
+
+            // ******** edition d'une catégorie *********
+            EditCategoryCmd = new Command(new Action(async () =>
+            {
+                if (SelectedCategory != null)
+                {
+                    CurrentCategory = SelectedCategory;
+                    IsFlyoutEditCategoryOpenned = true;
+                    //IsTabControlEnabled = false;
+                }
+            }));
+
+            EditCategoryCmdValidate = new Command(new Action(async () =>
+            {
+                IsFlyoutEditCategoryOpenned = false;
+                //IsTabControlEnabled = true;
+
+                // TODO : UPDATE CURRENT CATEGORY
+                // serveur.UpdateCategory(CurrentCategory)
+            }));
+        }
+
+
     }
 }

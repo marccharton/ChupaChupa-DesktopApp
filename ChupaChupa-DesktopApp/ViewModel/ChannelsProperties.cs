@@ -6,7 +6,7 @@ using System.Threading;
 using System.Collections.ObjectModel;
 using System.Windows.Documents;
 using System.Windows.Input;
-using ChupaChupa_Model.Entities;
+using Chupachupa_DesktopApp.PrivateService;
 
 
 namespace Chupachupa_DesktopApp.ViewModel
@@ -82,6 +82,81 @@ namespace Chupachupa_DesktopApp.ViewModel
         public ICommand EditChannelCmd { get; set; }
         public ICommand EditChannelCmdValidate { get; set; }
 
-            
+
+        private void ManageChannels()
+        {
+            // ******** suppression d'un channel *********
+            DeleteChannelCmd = new Command(new Action(() =>
+            {
+                if (SelectedChannel != null)
+                {
+                    DebugText = SelectedChannel.Title;
+
+                    // TODO : Supprimer la catégorie de la base 
+                    ChannelsList.Remove(SelectedChannel);
+                    IList<RssChannel> correctList = ChannelsList;
+
+                    //TODO : puis mettre à jour ChannelList
+                    ChannelsList = null;
+                    ChannelsList = correctList;
+
+                    SelectedChannel = null;
+                }
+            }));
+
+
+            // ******** ajout d'un channel *********
+            AddChannelCmd = new Command(new Action(async () =>
+            {
+                IsFlyoutAddChannelOpenned = true;
+                //IsTabControlEnabled = false;
+                CurrentChannel = new RssChannel();
+                if (ChannelsList == null)
+                    ChannelsList = new List<RssChannel>();
+            }));
+
+            AddChannelCmdValidate = new Command(new Action(async () =>
+            {
+                // TODO : ADD NEW CHANNEL WITH LINK
+                // serveur.addChannel(CurrentChannel.Link, CurrentCategory);
+                CurrentChannel.RssItems = new List<RssItem>().ToArray(); // Juste pour avoir un 0 dans le count
+                ChannelsList.Add(CurrentChannel);
+
+                IList<RssChannel> correctList = ChannelsList;
+
+                //TODO : puis mettre à jour CHannel
+                ChannelsList = null;
+                ChannelsList = correctList;
+
+                CurrentChannel = null;
+                IsFlyoutAddChannelOpenned = false;
+                //IsTabControlEnabled = true;
+
+            }));
+
+
+
+
+            // ******** edition d'un channel *********
+            EditChannelCmd = new Command(new Action(async () =>
+            {
+                if (SelectedChannel != null)
+                {
+                    CurrentChannel = SelectedChannel;
+                    IsFlyoutEditChannelOpenned = true;
+                    //IsTabControlEnabled = false;
+                }
+            }));
+
+            EditChannelCmdValidate = new Command(new Action(async () =>
+            {
+                IsFlyoutEditChannelOpenned = false;
+                //IsTabControlEnabled = true;
+
+                // serveur.ChannelDao.Update(CurrentChannel, NewCategoryForChannel);
+                // TODO : UPDATE CURRENT CHANNEL
+            }));
+        }
+
     }
 }

@@ -6,7 +6,7 @@ using System.Threading;
 using System.Collections.ObjectModel;
 using System.Windows.Documents;
 using System.Windows.Input;
-using ChupaChupa_Model.Entities;
+using Chupachupa_DesktopApp.PrivateService;
 
 
 namespace Chupachupa_DesktopApp.ViewModel

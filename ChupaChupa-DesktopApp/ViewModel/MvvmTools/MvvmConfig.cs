@@ -5,7 +5,6 @@ using System.Windows;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Windows.Documents;
-using ChupaChupa_Model.Entities;
 
 
 namespace Chupachupa_DesktopApp.ViewModel

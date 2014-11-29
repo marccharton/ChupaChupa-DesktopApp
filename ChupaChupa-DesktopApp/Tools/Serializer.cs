@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace Chupachupa_DesktopApp.Class
+namespace Chupachupa_DesktopApp.Tools
 {
     public class Serializer
     {

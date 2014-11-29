@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ChupaChupa-Model">
-      <HintPath>..\..\DLL\ChupaChupa-Model.dll</HintPath>
-    </Reference>
     <Reference Include="MahApps.Metro, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MahApps.Metro.1.0.0-ALPHA003\lib\net45\MahApps.Metro.dll</HintPath>
@@ -47,6 +44,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.0.0-ALPHA003\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -67,25 +66,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Class\Serializer.cs" />
-    <Compile Include="DataStore\ViewModelDataSource\ViewModelDataSource.xaml.cs">
-      <DependentUpon>ViewModelDataSource.xaml</DependentUpon>
+    <Compile Include="Tools\Serializer.cs" />
+    <Compile Include="Service References\PrivateService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PublicService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AccountProperties.cs" />
     <Compile Include="ViewModel\CategoryProperties.cs" />
     <Compile Include="ViewModel\ChannelsProperties.cs" />
-    <Compile Include="ViewModel\Command.cs" />
-    <Compile Include="ViewModel\CommandWithParameter.cs" />
-    <Compile Include="ViewModel\InvertBoolConverter.cs" />
+    <Compile Include="ViewModel\Command\Command.cs" />
+    <Compile Include="ViewModel\Command\CommandWithParameter.cs" />
+    <Compile Include="ViewModel\MvvmTools\InvertBoolConverter.cs" />
     <Compile Include="ViewModel\ItemProperties.cs" />
-    <Compile Include="ViewModel\MultiSelectionBehaviour.cs" />
-    <Compile Include="ViewModel\SimpleComman.cs" />
+    <Compile Include="ViewModel\MvvmTools\MultiSelectionBehaviour.cs" />
+    <Compile Include="ViewModel\Command\SimpleCommand.cs" />
     <Compile Include="ViewModel\ViewModelDataSource.cs" />
-    <Compile Include="ViewModel\MvvmConfig.cs" />
-    <Page Include="DataStore\ViewModelDataSource\ViewModelDataSource.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="ViewModel\MvvmTools\MvvmConfig.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -123,16 +125,37 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\PrivateService\ChupaChupa.Entities.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PrivateService\Chupachupa_DesktopApp.PrivateService.Category.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PrivateService\Chupachupa_DesktopApp.PrivateService.RssChannel.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PrivateService\Chupachupa_DesktopApp.PrivateService.RssItem.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PrivateService\service.wsdl" />
+    <None Include="Service References\PrivateService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PrivateService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PublicService\service.wsdl" />
+    <None Include="Service References\PublicService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PublicService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <DesignTimeOnly Include="DataStore\ViewModelDataSource\ViewModelDataSource.xsd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EntityView\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Assets\img\chupa_chups_chuck.jpg" />
     <Resource Include="Assets\img\ico\delete.ico" />
@@ -146,6 +169,37 @@
   <ItemGroup>
     <Resource Include="Assets\img\ico\design.ico" />
     <Resource Include="Assets\img\ico\exit.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\PrivateService\" />
+    <WCFMetadataStorage Include="Service References\PublicService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PublicService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PublicService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PublicService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PrivateService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PrivateService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PrivateService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

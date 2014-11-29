@@ -172,6 +172,32 @@
                 </Grid>
             </controls:Flyout>
 
+            <controls:Flyout x:Name="CreateAccountFlyout" Header="Settings"
+                             Position="Right"
+                             Theme="Accent"  
+                             Panel.ZIndex="47" 
+                             IsOpen="{Binding IsFlyoutCreateAccountOppenned}" 
+                             Height="600px"
+                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}">
+                <Grid Margin="10"
+                      Width="400">
+                    <StackPanel>
+                        <StackPanel.InputBindings>
+                            <KeyBinding Command="{Binding CreateAccountCmdValidate}"  Key="Enter"/>
+                        </StackPanel.InputBindings>
+                        <TextBlock x:Name="Login" TextWrapping="Wrap" Text="Login"/>
+                        <TextBox x:Name="CreateAccountLogin" Height="23" TextWrapping="Wrap" Text="{Binding CreateAccountLoginText}"/>
+                        <TextBlock x:Name="Password" TextWrapping="Wrap" Text="Password"/>
+                        <TextBox x:Name="CreateAccountPass" Height="23" TextWrapping="Wrap" Text="{Binding CreateAccountPasswordText}"/>
+                        <TextBlock x:Name="PasswordCheck" TextWrapping="Wrap" Text="Password Again"/>
+                        <TextBox x:Name="CreateAccountPassCheck" Height="23" TextWrapping="Wrap" Text="{Binding CreateAccountPasswordCheckText}"/>
+                        <TextBlock x:Name="CreateAccountMessageError" TextWrapping="Wrap" Text="{Binding CreateAccountMessage}"/>
+                    </StackPanel>
+                    <Button x:Name="CreateAccountOkButton" Content="OK" Command="{Binding CreateAccountCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
+                    <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
+                </Grid>
+            </controls:Flyout>
+
 
             <controls:Flyout x:Name="SettingsFlyout" Header="Settings"
                              Position="Right"
@@ -237,19 +263,21 @@
         </Menu>
 
 
-
-
         <TabControl Grid.Row="1" x:Name="MainTabControl" SelectedIndex="{Binding SelectedTabIndex}" IsEnabled="{Binding IsTabControlEnabled}">
            
             <TabItem x:Name="Account" 
                      Header="Account">
                 <Grid>
-                    <StackPanel HorizontalAlignment="Center" Height="397" VerticalAlignment="Center" Width="371.5">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="371.5">
                         <Image Source="Assets/img/logo.png" HorizontalAlignment="Center" Height="227.5"/>
-                        <TextBox x:Name="AccountLoginTextBox" IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Login" HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="{Binding AccountLoginText}" VerticalAlignment="Top" Width="120" />
-                        <PasswordBox x:Name="AccountPassTextBox" IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Password"  HorizontalAlignment="Center" Height="23" VerticalAlignment="Top" Width="120" Margin="0,5,0,5"/>
-                        <Button x:Name="AccountButton" Command="{Binding LogUserCmd}" CommandParameter="{Binding ElementName=AccountPassTextBox}"  Content="{Binding LogMessage}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Style="{DynamicResource AccentedSquareButtonStyle}" Margin="0,5,0,5"/>
-                        <controls:ProgressRing IsActive="{Binding IsProgressRingActive}" Margin="0,10"/>
+                        <TextBox x:Name="AccountLoginTextBox" Text="{Binding AccountLoginText}" IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Login" HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
+                        <TextBox x:Name="AccountPassTextBox" Text="{Binding AccountPasswordText}" IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Password"  HorizontalAlignment="Center" Height="23" VerticalAlignment="Top" Width="120" Margin="0,5,0,5"/>
+                        <!--<PasswordBox x:Name="AccountPassTextBox" IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Password"  HorizontalAlignment="Center" Height="23" VerticalAlignment="Top" Width="120" Margin="0,5,0,5"/>-->
+                        <Button x:Name="AccountButton" Command="{Binding LogUserCmd}" Content="{Binding LogMessage}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Style="{DynamicResource AccentedSquareButtonStyle}" Margin="0,5,0,5"/>
+                        <Button x:Name="AccountCreateButton" Command="{Binding CreateAccountCmd}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Style="{DynamicResource AccentedSquareButtonStyle}" Margin="125.75,0,125.75,5" Content="Create Account"/>
+                        <controls:ProgressRing IsActive="{Binding IsProgressRingActive}" Margin="0,10" Width="47" Height="47"/>
+                        <!--CommandParameter="{Binding ElementName=AccountPassTextBox}"-->
+                        <TextBlock x:Name="ErrorText" TextWrapping="Wrap" Text="{Binding ConnectionErrorText}" Height="16" HorizontalAlignment="Center"/>
                         <StackPanel.InputBindings>
                             <KeyBinding Command="{Binding LogUserCmd}"  Key="Enter"/>
                             <!--<KeyBinding Command="{Binding RealDeleteFileCMD}"  Key="Delete" Modifiers="Shift"/>-->
@@ -473,7 +501,7 @@
                 <TextBlock.Foreground>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
                 </TextBlock.Foreground>
-                <Run Language="fr-fr" Text="{Binding CurrentUser.LoginMail}"/>
+                <Run Language="fr-fr" Text="{Binding CurrentUserName}"/>
             </TextBlock>
         	<Image x:Name="userLogo" HorizontalAlignment="Right" Height="25" VerticalAlignment="Top" Width="25" Source="user.ico" IsManipulationEnabled="True" Margin="5,0,0,0"/>
             <StackPanel.ContextMenu>
@@ -510,7 +538,7 @@
                 MinWidth="90"
                 VerticalAlignment="Bottom" 
                 HorizontalAlignment="Left" 
-                Margin="10,0,0,39.83" />
+                Margin="10,0,0,39.83" d:IsHidden="True" />
 
 
     </Grid>

@@ -1,6 +1,0 @@
-﻿<!--
-      *********    NE PAS MODIFIER CE FICHIER     *********
-      Ce fichier est régénéré par un outil de création.Modifier
- .     ce fichier peut provoquer des erreurs.
--->
-<DataStore:ViewModelDataSource xmlns:DataStore="clr-namespace:Expression.Blend.DataStore.ViewModelDataSource" Property1="Valeur"/>

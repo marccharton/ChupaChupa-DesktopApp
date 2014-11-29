@@ -10,8 +10,9 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Xml.Serialization;
-using Chupachupa_DesktopApp.Class;
-using ChupaChupa_Model.Entities;
+using Chupachupa_DesktopApp.PublicService;
+using Chupachupa_DesktopApp.Tools;
+using Chupachupa_DesktopApp.PrivateService;
 
 
 namespace Chupachupa_DesktopApp.ViewModel
@@ -23,14 +24,14 @@ namespace Chupachupa_DesktopApp.ViewModel
     {
         private string accountSerializePath = @"account.xml";
 
-        private User _currentUser;
-        public User CurrentUser
+        private string _currentUserName;
+        public string CurrentUserName
         {
-            get { return _currentUser; }
+            get { return _currentUserName; }
             set
             {
-                _currentUser = value;
-                NotifyPropertyChanged("CurrentUser");
+                _currentUserName = value;
+                NotifyPropertyChanged("CurrentUserName");
             }
         }
 
@@ -56,7 +57,6 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
         
-
         private string _accountLoginText;
         public string AccountLoginText
         {
@@ -79,41 +79,126 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
+        private string _connectionErrorText;
+        public string ConnectionErrorText
+        {
+            get { return _connectionErrorText; }
+            set
+            {
+                _connectionErrorText = value;
+                NotifyPropertyChanged("ConnectionErrorText");
+            }
+        }
 
+        private bool _isFlyoutCreateAccountOppenned;
+        public bool IsFlyoutCreateAccountOppenned
+        {
+            get { return _isFlyoutCreateAccountOppenned; }
+            set
+            {
+                _isFlyoutCreateAccountOppenned = value;
+                NotifyPropertyChanged("IsFlyoutCreateAccountOppenned");
+            }
+        }
+
+        private string _createAccountLoginText;
+        public string CreateAccountLoginText
+        {
+            get { return _createAccountLoginText; }
+            set
+            {
+                _createAccountLoginText = value;
+                NotifyPropertyChanged("CreateAccountLoginText");
+            }
+        }
+
+        private string _createAccountPasswordText;
+        public string CreateAccountPasswordText
+        {
+            get { return _createAccountPasswordText; }
+            set
+            {
+                _createAccountPasswordText = value;
+                NotifyPropertyChanged("CreateAccountPasswordText");
+            }
+        }
+
+        private string _createAccountPasswordCheckText;
+        public string CreateAccountPasswordCheckText
+        {
+            get { return _createAccountPasswordCheckText; }
+            set
+            {
+                _createAccountPasswordCheckText = value;
+                NotifyPropertyChanged("CreateAccountPasswordCheckText");
+            }
+        }
+
+        private string _createAccountMessage;
+        public string CreateAccountMessage
+        {
+            get { return _createAccountMessage; }
+            set
+            {
+                _createAccountMessage = value;
+                NotifyPropertyChanged("CreateAccountMessage");
+            }
+        }
+
+        
 
         public ICommand LogUserCmd { get; set; }
         public ICommand ExitCmd { get; set; }
+
+        public ICommand CreateAccountCmd { get; set; }
+        public ICommand CreateAccountCmdValidate { get; set; }
+        
 
         // ******** Log (in/out) user *********
         private void LogUser()
         {
             LogUserCmd = new CommandWithParameter(new Action<object>(async (o) =>
             {
-                if(o != null)
-                {
-                    var passwordBox = o as PasswordBox;
-                    AccountPasswordText = passwordBox.Password;
-                }
+                // TODO : Remettre pour passwordBox
+                //if(o != null)
+                //{
+                //    var passwordBox = o as PasswordBox;
+                //    AccountPasswordText = passwordBox.Password;
+                //}
                 if (!IsLoggedIn)
                 {
-                    if (AccountLoginText != "" && AccountPasswordText != "")
+                    if (AccountLoginText != null && AccountPasswordText != null && 
+                        AccountLoginText != "" && AccountPasswordText != "")
                     {
-                        IsLoggedIn = true;
-                        LogMessage = "LOG OUT";
                         IsProgressRingActive = true;
+                        try
+                        {
+                            _serveur = new ServiceContractClient();
+                            _serveur.ClientCredentials.UserName.UserName = AccountLoginText;
+                            _serveur.ClientCredentials.UserName.Password = AccountPasswordText;
+                            await _serveur.authenticateAsync(AccountLoginText, AccountPasswordText);
 
-                        // TODO : Connection à la base avec les données du user
-                        await Task.Delay(1000);
-                        CurrentUser = new User() { LoginMail = AccountLoginText, Password = AccountPasswordText };
-                        
-                        IsProgressRingActive = false;
-                        SelectedTabIndex = 3;
+                            IsProgressRingActive = false;
+                            SelectedTabIndex = 3;
+                            IsLoggedIn = true;
+                            LogMessage = "LOG OUT";
+                            ConnectionErrorText = "";
+                            LoadCategories();
+                        }
+                        catch(Exception e)
+                        {
+                            if (e.InnerException == null)
+                                ConnectionErrorText = e.Message;
+                            else
+                                ConnectionErrorText = e.InnerException.Message;
+                            IsProgressRingActive = false;
+                        }
                     }
                 }
                 else
                 {
-                    // TODO : Deconnection du user
-                    CurrentUser = null;
+                    _serveur.disconnect();
+                    CurrentUserName = null;
                     IsLoggedIn = false;
                     LogMessage = "LOG IN";
                     SelectedTabIndex = 0;
@@ -129,6 +214,40 @@ namespace Chupachupa_DesktopApp.ViewModel
                     MessageBox.Show("Ca t'amuses de mettre de la merde dans les credentials ?");
                 }
             }
+        }
+
+
+        private void ManageUser()
+        {
+            CreateAccountCmd = new Command(new Action(() =>
+            {
+                IsFlyoutCreateAccountOppenned = true;
+            }));
+
+            CreateAccountCmdValidate = new Command(new Action(() =>
+            {
+                if (CreateAccountPasswordText != CreateAccountPasswordCheckText)
+                {
+                    CreateAccountMessage = "Passwords doesn't match";
+                    return;
+                }
+                else
+                {
+                    CreateAccountMessage = "";
+                    _pubServeur = new PublicServiceContractClient();
+
+                    if (!string.IsNullOrEmpty(CreateAccountPasswordText) &&
+                        !string.IsNullOrEmpty(CreateAccountLoginText))
+                    {
+                        _pubServeur.createAccount(CreateAccountLoginText, CreateAccountPasswordText);
+                        AccountLoginText = CreateAccountLoginText;
+                        AccountPasswordText = CreateAccountPasswordText;
+                    }
+                }
+                
+                
+                IsFlyoutCreateAccountOppenned = false;
+            }));
         }
 
         // ******** Serialize Credentials *********
@@ -180,6 +299,8 @@ namespace Chupachupa_DesktopApp.ViewModel
                 if (File.Exists(this.accountSerializePath))
                     File.Delete(this.accountSerializePath);
             }
+            if (IsLoggedIn)
+                _serveur.disconnect();
         }
         
 
