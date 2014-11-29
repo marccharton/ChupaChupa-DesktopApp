@@ -67,6 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Class\Serializer.cs" />
     <Compile Include="DataStore\ViewModelDataSource\ViewModelDataSource.xaml.cs">
       <DependentUpon>ViewModelDataSource.xaml</DependentUpon>
     </Compile>

@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Chupachupa_DesktopApp.MainWindow"
     xmlns:ns="clr-namespace:Chupachupa_DesktopApp.ViewModel"
     Title="ChupaChupa" 
-    Height="600" Width="800" 
+    Height="600" Width="800" MinWidth="650" MinHeight="470"
     ShowIconOnTitleBar="True" 
     EnableDWMDropShadow="True" 
     WindowStartupLocation="CenterScreen" 
@@ -23,7 +23,9 @@
         		<TextBlock TextWrapping="Wrap" Text="{Binding Name}"/>
         	</Grid>
         </DataTemplate>
-        
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilty" />
+
         <Ellipse x:Key="AppThemeMenuIcon"
                      x:Shared="False"
                      Width="16"
@@ -57,7 +59,24 @@
             <Setter Property="Header"
                         Value="{Binding Name, Mode=OneWay}" />
         </Style>
-        
+        <Style x:Key="ViewerInfosText" TargetType="{x:Type TextBlock}">
+        	<Setter Property="TextWrapping" Value="NoWrap"/>
+        	<Setter Property="TextTrimming" Value="None"/>
+        	<Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+        	<Setter Property="FontWeight" Value="Bold"/>
+        	<Setter Property="FontSize" Value="16"/>
+        	<Setter Property="Width" Value="Auto"/>
+        </Style>
+
+        <!--<Style x:Key="TestVisibleStyle" TargetType="TabItem">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsLoggedIn}" Value="False">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>-->
+
     </controls:MetroWindow.Resources>
 
     <!--********************************************************************************************************************************************
@@ -67,10 +86,11 @@
         <controls:FlyoutsControl>
             <controls:Flyout x:Name="AddChannelFlyout" Header="Add Channel"
                              Position="Right"
-                             Theme="Inverse" 
+                             Theme="Accent" 
                              IsOpen="{Binding IsFlyoutAddChannelOpenned}" 
                              Panel.ZIndex="47" 
-                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}">
+                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}"
+                             Visibility="Hidden">
                 <Grid Margin="10"
                       Width="400">
                     <StackPanel>
@@ -78,15 +98,18 @@
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentChannel.Link}"/>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" Text="Category" />
                         <ComboBox x:Name="AddChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
+                        <StackPanel.InputBindings>
+                            <KeyBinding Command="{Binding AddChannelCmdValidate}"  Key="Enter"/>
+                        </StackPanel.InputBindings>
                     </StackPanel>
                     <Button x:Name="AddChannelOkButton" Content="OK" Command="{Binding AddChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
-                    <Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
+                    <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
                 </Grid>
             </controls:Flyout>
 
             <controls:Flyout x:Name="EditChannelFlyout" Header="Edit Channel"
                              Position="Right" 
-                             Theme="Inverse" 
+                             Theme="Accent" 
                              Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}"
                              IsOpen="{Binding IsFlyoutEditChannelOpenned}" 
                              Panel.ZIndex="47" >
@@ -97,6 +120,9 @@
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentChannel.Title}"/>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" Text="Category" />
                         <ComboBox x:Name="EditChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" SelectedItem="{Binding NewCategoryForChannel}" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
+                        <StackPanel.InputBindings>
+                            <KeyBinding Command="{Binding EditChannelCmdValidate}"  Key="Enter"/>
+                        </StackPanel.InputBindings>
                     </StackPanel>
                     <Button x:Name="EditChannelOkButton" Content="OK" Command="{Binding EditChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" />
                     <!--<Button x:Name="EditChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
@@ -107,7 +133,7 @@
             <controls:Flyout x:Name="AddCategoryFlyout" 
                              Header="Add Category"
                              Position="Right"
-                             Theme="Inverse" 
+                             Theme="Accent" 
                              IsOpen="{Binding IsFlyoutAddCategoryOpenned}" 
                              Panel.ZIndex="47" 
                              Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}">
@@ -116,17 +142,19 @@
                     <StackPanel>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Name"/></TextBlock>
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentCategory.Name}"/>
+                        <StackPanel.InputBindings>
+                            <KeyBinding Command="{Binding AddCategoryCmdValidate}"  Key="Enter"/>
+                        </StackPanel.InputBindings>
                     </StackPanel>
                     <Button x:Name="AddCategoryOkButton" Content="OK" Command="{Binding AddCategoryCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
                     <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
                 </Grid>
             </controls:Flyout>
             
-            
             <controls:Flyout x:Name="EditCategorylFlyout" 
                              Header="Edit Category" 
                              Position="Right" 
-                             Theme="Inverse" 
+                             Theme="Accent" 
                              Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}"
                              IsOpen="{Binding IsFlyoutEditCategoryOpenned}" 
                              Panel.ZIndex="47" >
@@ -135,6 +163,9 @@
                     <StackPanel>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Name"/></TextBlock>
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentCategory.Name}"/>
+                        <StackPanel.InputBindings>
+                            <KeyBinding Command="{Binding EditCategoryCmdValidate}"  Key="Enter"/>
+                        </StackPanel.InputBindings>
                     </StackPanel>
                     <Button x:Name="EditCategoryOkButton" Content="OK" Command="{Binding EditCategoryCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" />
                     <!--<Button x:Name="EditChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
@@ -142,33 +173,25 @@
             </controls:Flyout>
 
 
-
             <controls:Flyout x:Name="SettingsFlyout" Header="Settings"
                              Position="Right"
-                             Theme="Inverse"  Panel.ZIndex="47" IsOpen="{Binding IsSettingsFloutOppenned}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}">
+                             Theme="Accent"  Panel.ZIndex="47" IsOpen="{Binding IsSettingsFloutOppenned}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}">
                 <Grid Margin="10"
                       Width="400">
                     <StackPanel>
-
+                        <StackPanel.InputBindings>
+                            <KeyBinding Command="{Binding ViewSettingsCmdValidate}"  Key="Enter"/>
+                        </StackPanel.InputBindings>
                     </StackPanel>
                     <Button x:Name="SettingsOkButton" Content="OK" Command="{Binding ViewSettingsCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
                     <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
                 </Grid>
             </controls:Flyout>
-
-
-
-
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
 
     <!--*********************************************************** Fin de FLYOUTS ********************************************************************
     ***********************************************************************************************************************************************-->
-
-    
-
-
-
 
     <Grid>
         <Grid.RowDefinitions>
@@ -176,8 +199,6 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-
 
         <Menu Grid.Row="0"
                   Margin="5"
@@ -211,7 +232,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Add Category" Command="{Binding AddCategoryCmd}" />
+            <MenuItem Header="Add Category" Command="{Binding AddCategoryCmd}" Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}"/>
             
         </Menu>
 
@@ -219,13 +240,15 @@
 
 
         <TabControl Grid.Row="1" x:Name="MainTabControl" SelectedIndex="{Binding SelectedTabIndex}" IsEnabled="{Binding IsTabControlEnabled}">
-            <TabItem x:Name="Account" Header="Account">
+           
+            <TabItem x:Name="Account" 
+                     Header="Account">
                 <Grid>
                     <StackPanel HorizontalAlignment="Center" Height="397" VerticalAlignment="Center" Width="371.5">
                         <Image Source="Assets/img/logo.png" HorizontalAlignment="Center" Height="227.5"/>
-                        <TextBox IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Login" x:Name="AccountLoginTextBox" HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="{Binding AccountLoginText}" VerticalAlignment="Top" Width="120" />
-                        <PasswordBox IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Password" x:Name="AccountPassTextBox" HorizontalAlignment="Center" Height="23" PasswordChar="{Binding AccountPasswordText}" VerticalAlignment="Top" Width="120" Margin="0,5,0,5"/>
-                        <Button Command="{Binding LogUserCmd}" x:Name="AccountButton" Content="{Binding LogMessage}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Style="{DynamicResource AccentedSquareButtonStyle}" Margin="0,5,0,5"/>
+                        <TextBox x:Name="AccountLoginTextBox" IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Login" HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="{Binding AccountLoginText}" VerticalAlignment="Top" Width="120" />
+                        <PasswordBox x:Name="AccountPassTextBox" IsEnabled="{Binding Path=IsLoggedIn, Converter={StaticResource InvertBoolConverter}}" controls:TextBoxHelper.Watermark="Password"  HorizontalAlignment="Center" Height="23" VerticalAlignment="Top" Width="120" Margin="0,5,0,5"/>
+                        <Button x:Name="AccountButton" Command="{Binding LogUserCmd}" CommandParameter="{Binding ElementName=AccountPassTextBox}"  Content="{Binding LogMessage}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Style="{DynamicResource AccentedSquareButtonStyle}" Margin="0,5,0,5"/>
                         <controls:ProgressRing IsActive="{Binding IsProgressRingActive}" Margin="0,10"/>
                         <StackPanel.InputBindings>
                             <KeyBinding Command="{Binding LogUserCmd}"  Key="Enter"/>
@@ -236,7 +259,9 @@
             </TabItem>
 
 
-            <TabItem x:Name="Categories" Header="Categories" IsEnabled="{Binding Path=IsLoggedIn}">
+            <TabItem x:Name="Categories" 
+                     Header="Categories" 
+                     Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}">
                 <Grid x:Name="CategoryMainContainer">
                     <!--<Button x:Name="CategoryEditButton" Command="{Binding EditCategoryCmd}" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,10,0,0" Width="60"/>-->
                     <Label x:Name="CategoriesTitle" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="53.46" FontFamily="Segoe UI Semibold" FontSize="29.333" Foreground="#FF999999" Content="Categories List"/>
@@ -288,12 +313,16 @@
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                     </ListView>
-
                 </Grid>
             </TabItem>
 
 
-            <TabItem x:Name="Channels" IsEnabled="{Binding Path=IsLoggedIn}" Header="Channels" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,-12,-0.001">
+            <TabItem x:Name="Channels" 
+                     Header="Channels" 
+                     VerticalAlignment="Top" 
+                     HorizontalAlignment="Left" 
+                     Margin="0,0,-12,-0.001"
+                     Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}">
                 <Grid>
                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="62" Orientation="Horizontal">
                     	<Label x:Name="ChannelsTitle" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="29.333" Foreground="#FFA4A4A4" Content="{Binding CurrentCategory.Name}"/>
@@ -349,7 +378,11 @@
             </TabItem>
 
 
-            <TabItem x:Name="Items" IsEnabled="{Binding Path=IsLoggedIn}" Header="Items" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TabItem x:Name="Items" 
+                     Header="Items" 
+                     HorizontalAlignment="Left" 
+                     VerticalAlignment="Top"
+                     Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}">
                 <Grid>
                     <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="51.46" Background="#00000000" FontSize="29.333" FontFamily="Segoe UI Semibold" Foreground="#FFA2A2A2" Content="{Binding CurrentChannel.Title}"/>
                     <ListView x:Name="ArticlesListView" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
@@ -373,9 +406,15 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <controls:Tile Title="{Binding Description}" Count="{Binding Title}" TiltFactor="1" Width="350px" Height="147px" >
-                                	<controls:Tile.Background>
-                                		<SolidColorBrush Color="#CC26BF2D"/>
-                                	</controls:Tile.Background>
+                                    <controls:Tile.Style>
+                                        <Style TargetType="controls:Tile">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IdEntity}" Value="1">
+                                                    <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </controls:Tile.Style>
                                 </controls:Tile>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -389,28 +428,39 @@
             </TabItem>
 
 
-            <TabItem x:Name="Viewer" IsEnabled="{Binding Path=IsLoggedIn}" Header="Viewer" HorizontalAlignment="Left" Height="39.4733333333333" VerticalAlignment="Top" Width="90">
+            <TabItem x:Name="Viewer" 
+                     Header="Viewer" 
+                     HorizontalAlignment="Left" 
+                     Height="39.4733333333333" 
+                     VerticalAlignment="Top" 
+                     Width="90"
+                     Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="135*"/>
-                        <RowDefinition Height="127*"/>
-                    </Grid.RowDefinitions>
-                    <Image x:Name="Image" HorizontalAlignment="Center" VerticalAlignment="Top" Source="Assets/img/chupa_chups_chuck.jpg" Width="230.5" Height="224.797" Margin="0,11,0,0"/>
-                    <Label Grid.Row ="0" x:Name="Source" Content="{Binding CurrentItem.Source.Url}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,230,0,0" Foreground="#FF3264BD" FontWeight="Bold" IsManipulationEnabled="True"/>
-                    <RichTextBox x:Name="Description" Grid.Row="1" Height="266" Background="{x:Null}" HorizontalAlignment="Center" IsReadOnly="True" FontFamily="Segoe UI Semibold" FontSize="21.333" BorderBrush="{x:Null}" Foreground="#FF8F8E8E" Width="574" Margin="106,0,106,-12.23" BorderThickness="0">
+                    <Grid Width="572" Margin="10,300,204,8.454" Panel.ZIndex="2" d:IsHidden="True">
+                    	<Grid.Background>
+                    		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    			<GradientStop Offset="0"/>
+                    			<GradientStop Color="#99FFFFFF" Offset="0.996"/>
+                    		</LinearGradientBrush>
+                    	</Grid.Background>
+                    </Grid>
+                    <RichTextBox x:Name="Source" IsReadOnly="True" Foreground="{DynamicResource AccentColorBrush3}" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontWeight="Bold" Width="584" Margin="10,10,0,0" FontSize="13.333" FontStyle="Italic" BorderThickness="0">
+                    	<FlowDocument>
+                            <Paragraph><Run Text="{Binding CurrentItem.Source.Url}"/></Paragraph>
+                    	</FlowDocument>
+                    </RichTextBox>
+                    <RichTextBox x:Name="Description" Background="{x:Null}" HorizontalAlignment="Left" IsReadOnly="True" FontFamily="Segoe UI Semibold" FontSize="14.667" BorderBrush="{x:Null}" BorderThickness="0" Margin="10,47,204,20">
                         <FlowDocument>
-                            <Paragraph>
-                                <Run Text="{Binding CurrentItem.Description}"/>
-                            </Paragraph>
+                            <Paragraph><Run Text="{Binding CurrentItem.Description}"/></Paragraph>
                         </FlowDocument>
                     </RichTextBox>
-                    <StackPanel Grid.Row ="0" HorizontalAlignment="Right" Margin="0,0,10,0">
-                        <TextBlock x:Name="Title" TextWrapping="Wrap" Text="{Binding CurrentItem.Title}" FontWeight="Bold" FontFamily="Segoe UI Semibold" FontSize="18.667">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HotTrackColorKey}}"/>
-                            </TextBlock.Foreground>
-                        </TextBlock>
-                        <DatePickerTextBox TextWrapping="Wrap" Text="{Binding CurrentItem.PubDate.Value.Date, Mode=OneWay}"/>
+                    <TextBlock x:Name="Title" TextWrapping="Wrap" Text="{Binding CurrentItem.Title}" FontWeight="Bold" FontFamily="Segoe UI Semibold" FontSize="21.333" Foreground="{DynamicResource AccentColorBrush2}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0"/>
+                    <StackPanel HorizontalAlignment="Right" Margin="0,47,10,10" Width="187">
+                        <TextBlock x:Name="Author" Text="{Binding CurrentItem.Author, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}"/>
+                        <DatePickerTextBox x:Name="PubDate" TextWrapping="Wrap" Text="{Binding CurrentItem.PubDate.Value.Date, Mode=OneWay}" HorizontalAlignment="Right"/>
+                        <TextBlock x:Name="Link" Text="{Binding CurrentItem.Link, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}"/>
+                        <TextBlock x:Name="Guid" Text="{Binding CurrentItem.Guid, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}"/>
+                        <TextBlock x:Name="Comments" Text="{Binding CurrentItem.Comments, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
