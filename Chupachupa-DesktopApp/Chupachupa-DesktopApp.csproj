@@ -126,7 +126,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\PrivateService\ChupaChupa.Entities.xsd">
+    <None Include="Service References\PrivateService\ChupaChupa.Service.Message.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\PrivateService\Chupachupa_DesktopApp.PrivateService.Category.datasource">

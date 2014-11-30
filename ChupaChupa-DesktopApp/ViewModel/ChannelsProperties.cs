@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Threading;
 using System.Collections.ObjectModel;
@@ -12,7 +13,7 @@ using Chupachupa_DesktopApp.PrivateService;
 namespace Chupachupa_DesktopApp.ViewModel
 {
     /// <summary>
-    /// This class contains properties that a View can data bind to.
+    /// This class contains properties that a View can bind to.
     /// </summary>
     public partial class ViewModelDataSource : INotifyPropertyChanged
     {
@@ -72,7 +73,6 @@ namespace Chupachupa_DesktopApp.ViewModel
         }
 
         
-
         public ICommand LoadChannelCmd { get; set; }
         public ICommand LoadAllChannelsCmd { get; set; }
 
@@ -111,27 +111,33 @@ namespace Chupachupa_DesktopApp.ViewModel
                 IsFlyoutAddChannelOpenned = true;
                 //IsTabControlEnabled = false;
                 CurrentChannel = new RssChannel();
+                NewCategoryForChannel = CurrentCategory;
                 if (ChannelsList == null)
                     ChannelsList = new List<RssChannel>();
             }));
 
             AddChannelCmdValidate = new Command(new Action(async () =>
             {
-                // TODO : ADD NEW CHANNEL WITH LINK
-                // serveur.addChannel(CurrentChannel.Link, CurrentCategory);
-                CurrentChannel.RssItems = new List<RssItem>().ToArray(); // Juste pour avoir un 0 dans le count
-                ChannelsList.Add(CurrentChannel);
+                try
+                {
+                    CurrentChannel = _serveur.addChannelInCategoryWithCategoryName(CurrentChannel.RssLink, NewCategoryForChannel.Name);
+                    
+                    ChannelsList.Add(CurrentChannel);
+                    IList<RssChannel> correctList = ChannelsList;
 
-                IList<RssChannel> correctList = ChannelsList;
+                    ChannelsList = null;
+                    ChannelsList = correctList;
 
-                //TODO : puis mettre à jour CHannel
-                ChannelsList = null;
-                ChannelsList = correctList;
-
-                CurrentChannel = null;
-                IsFlyoutAddChannelOpenned = false;
-                //IsTabControlEnabled = true;
-
+                    IsFlyoutAddChannelOpenned = false;
+                    FlyoutMessage = "";
+                }
+                catch (Exception e)
+                {
+                    if (e.InnerException != null)
+                        FlyoutMessage = e.InnerException.Message;
+                    else
+                        FlyoutMessage = e.Message;
+                }
             }));
 
 
@@ -145,12 +151,29 @@ namespace Chupachupa_DesktopApp.ViewModel
                     CurrentChannel = SelectedChannel;
                     IsFlyoutEditChannelOpenned = true;
                     //IsTabControlEnabled = false;
+                    NewCategoryForChannel = CurrentCategory;
                 }
             }));
 
             EditChannelCmdValidate = new Command(new Action(async () =>
             {
                 IsFlyoutEditChannelOpenned = false;
+                try
+                {
+                    //_serveur.updateChannel(NewCategoryForChannel.Name);
+                    if (NewCategoryForChannel != CurrentCategory)
+                    {
+                        NewCategoryForChannel.RssChannels.Add(CurrentChannel);
+                    }
+                    FlyoutMessage = "";
+                }
+                catch (Exception e)
+                {
+                    if (e.InnerException != null)
+                        FlyoutMessage = e.InnerException.Message;
+                    else
+                        FlyoutMessage = e.Message;
+                }
                 //IsTabControlEnabled = true;
 
                 // serveur.ChannelDao.Update(CurrentChannel, NewCategoryForChannel);

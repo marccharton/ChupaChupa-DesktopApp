@@ -105,7 +105,7 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IServiceContract_authenticate_InputMessage">
@@ -134,6 +134,12 @@
   </wsdl:message>
   <wsdl:message name="IServiceContract_getCategories_OutputMessage">
     <wsdl:part name="parameters" element="tns:getCategoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getCategoryById_InputMessage">
+    <wsdl:part name="parameters" element="tns:getCategoryById" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getCategoryById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getCategoryByIdResponse" />
   </wsdl:message>
   <wsdl:message name="IServiceContract_addCategory_InputMessage">
     <wsdl:part name="parameters" element="tns:addCategory" />
@@ -221,6 +227,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getCategories" message="tns:IServiceContract_getCategories_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getCategoriesResponse" message="tns:IServiceContract_getCategories_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getCategoryById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getCategoryById" message="tns:IServiceContract_getCategoryById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getCategoryByIdResponse" message="tns:IServiceContract_getCategoryById_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="addCategory">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/addCategory" message="tns:IServiceContract_addCategory_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/addCategoryResponse" message="tns:IServiceContract_addCategory_OutputMessage" />
@@ -304,6 +314,15 @@
     </wsdl:operation>
     <wsdl:operation name="getCategories">
       <soap12:operation soapAction="http://tempuri.org/IServiceContract/getCategories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCategoryById">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getCategoryById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -413,9 +432,9 @@
   </wsdl:binding>
   <wsdl:service name="ServiceContractImpl">
     <wsdl:port name="WSHttpBinding_IServiceContract" binding="tns:WSHttpBinding_IServiceContract">
-      <soap12:address location="https://rd00155d522fc9/servicecontractimpl/ServiceContractImpl.svc" />
+      <soap12:address location="https://rd00155d522fc9/ServiceContractImpl/ServiceContractImpl.svc" />
       <wsa10:EndpointReference>
-        <wsa10:Address>https://rd00155d522fc9/servicecontractimpl/ServiceContractImpl.svc</wsa10:Address>
+        <wsa10:Address>https://rd00155d522fc9/ServiceContractImpl/ServiceContractImpl.svc</wsa10:Address>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

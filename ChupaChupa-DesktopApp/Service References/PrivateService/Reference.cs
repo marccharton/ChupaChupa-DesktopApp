@@ -15,7 +15,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Category", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Category", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message")]
     [System.SerializableAttribute()]
     public partial class Category : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -29,7 +29,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
         private string NameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Chupachupa_DesktopApp.PrivateService.RssChannel[] RssChannelsField;
+        private System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel> RssChannelsField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -68,7 +68,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Chupachupa_DesktopApp.PrivateService.RssChannel[] RssChannels {
+        public System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel> RssChannels {
             get {
                 return this.RssChannelsField;
             }
@@ -92,7 +92,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="RssChannel", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RssChannel", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message")]
     [System.SerializableAttribute()]
     public partial class RssChannel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -124,25 +124,34 @@ namespace Chupachupa_DesktopApp.PrivateService {
         private string LanguageField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> LastBuildDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string LinkField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ManagingEditorField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> PubDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string RatingField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Chupachupa_DesktopApp.PrivateService.RssCategory[] RssCategoryField;
+        private System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssCategory> RssCategoryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssItem> RssItemsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string RssLinkField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Chupachupa_DesktopApp.PrivateService.SkipDays[] SkipDaysField;
+        private System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.SkipDays> SkipDaysField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Chupachupa_DesktopApp.PrivateService.SkipHours[] SkipHoursField;
+        private System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.SkipHours> SkipHoursField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private Chupachupa_DesktopApp.PrivateService.TextInput TextInputField;
@@ -271,6 +280,19 @@ namespace Chupachupa_DesktopApp.PrivateService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> LastBuildDate {
+            get {
+                return this.LastBuildDateField;
+            }
+            set {
+                if ((this.LastBuildDateField.Equals(value) != true)) {
+                    this.LastBuildDateField = value;
+                    this.RaisePropertyChanged("LastBuildDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string Link {
             get {
                 return this.LinkField;
@@ -297,6 +319,19 @@ namespace Chupachupa_DesktopApp.PrivateService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> PubDate {
+            get {
+                return this.PubDateField;
+            }
+            set {
+                if ((this.PubDateField.Equals(value) != true)) {
+                    this.PubDateField = value;
+                    this.RaisePropertyChanged("PubDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string Rating {
             get {
                 return this.RatingField;
@@ -310,7 +345,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Chupachupa_DesktopApp.PrivateService.RssCategory[] RssCategory {
+        public System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssCategory> RssCategory {
             get {
                 return this.RssCategoryField;
             }
@@ -318,6 +353,19 @@ namespace Chupachupa_DesktopApp.PrivateService {
                 if ((object.ReferenceEquals(this.RssCategoryField, value) != true)) {
                     this.RssCategoryField = value;
                     this.RaisePropertyChanged("RssCategory");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssItem> RssItems {
+            get {
+                return this.RssItemsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RssItemsField, value) != true)) {
+                    this.RssItemsField = value;
+                    this.RaisePropertyChanged("RssItems");
                 }
             }
         }
@@ -336,7 +384,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Chupachupa_DesktopApp.PrivateService.SkipDays[] SkipDays {
+        public System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.SkipDays> SkipDays {
             get {
                 return this.SkipDaysField;
             }
@@ -349,7 +397,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Chupachupa_DesktopApp.PrivateService.SkipHours[] SkipHours {
+        public System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.SkipHours> SkipHours {
             get {
                 return this.SkipHoursField;
             }
@@ -425,7 +473,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Cloud", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Cloud", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message")]
     [System.SerializableAttribute()]
     public partial class Cloud : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -550,7 +598,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Image", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Image", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message")]
     [System.SerializableAttribute()]
     public partial class Image : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -691,7 +739,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="TextInput", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TextInput", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message")]
     [System.SerializableAttribute()]
     public partial class TextInput : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -800,7 +848,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="RssCategory", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RssCategory", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message")]
     [System.SerializableAttribute()]
     public partial class RssCategory : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -877,129 +925,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SkipDays", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities")]
-    [System.SerializableAttribute()]
-    public partial class SkipDays : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string DayField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long IdEntityField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Day {
-            get {
-                return this.DayField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DayField, value) != true)) {
-                    this.DayField = value;
-                    this.RaisePropertyChanged("Day");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public long IdEntity {
-            get {
-                return this.IdEntityField;
-            }
-            set {
-                if ((this.IdEntityField.Equals(value) != true)) {
-                    this.IdEntityField = value;
-                    this.RaisePropertyChanged("IdEntity");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SkipHours", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities")]
-    [System.SerializableAttribute()]
-    public partial class SkipHours : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private short HourField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private long IdEntityField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public short Hour {
-            get {
-                return this.HourField;
-            }
-            set {
-                if ((this.HourField.Equals(value) != true)) {
-                    this.HourField = value;
-                    this.RaisePropertyChanged("Hour");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public long IdEntity {
-            get {
-                return this.IdEntityField;
-            }
-            set {
-                if ((this.IdEntityField.Equals(value) != true)) {
-                    this.IdEntityField = value;
-                    this.RaisePropertyChanged("IdEntity");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="RssItem", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RssItem", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message")]
     [System.SerializableAttribute()]
     public partial class RssItem : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -1031,7 +957,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
         private System.Nullable<System.DateTime> PubDateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Chupachupa_DesktopApp.PrivateService.RssCategory[] RssCategoryField;
+        private System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssCategory> RssCategoryField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private Chupachupa_DesktopApp.PrivateService.Source SourceField;
@@ -1154,7 +1080,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Chupachupa_DesktopApp.PrivateService.RssCategory[] RssCategory {
+        public System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssCategory> RssCategory {
             get {
                 return this.RssCategoryField;
             }
@@ -1204,7 +1130,129 @@ namespace Chupachupa_DesktopApp.PrivateService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Enclosure", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SkipDays", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message")]
+    [System.SerializableAttribute()]
+    public partial class SkipDays : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DayField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long IdEntityField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Day {
+            get {
+                return this.DayField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DayField, value) != true)) {
+                    this.DayField = value;
+                    this.RaisePropertyChanged("Day");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long IdEntity {
+            get {
+                return this.IdEntityField;
+            }
+            set {
+                if ((this.IdEntityField.Equals(value) != true)) {
+                    this.IdEntityField = value;
+                    this.RaisePropertyChanged("IdEntity");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SkipHours", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message")]
+    [System.SerializableAttribute()]
+    public partial class SkipHours : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private short HourField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long IdEntityField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public short Hour {
+            get {
+                return this.HourField;
+            }
+            set {
+                if ((this.HourField.Equals(value) != true)) {
+                    this.HourField = value;
+                    this.RaisePropertyChanged("Hour");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long IdEntity {
+            get {
+                return this.IdEntityField;
+            }
+            set {
+                if ((this.IdEntityField.Equals(value) != true)) {
+                    this.IdEntityField = value;
+                    this.RaisePropertyChanged("IdEntity");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Enclosure", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message")]
     [System.SerializableAttribute()]
     public partial class Enclosure : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -1297,7 +1345,7 @@ namespace Chupachupa_DesktopApp.PrivateService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Source", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Source", Namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message")]
     [System.SerializableAttribute()]
     public partial class Source : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -1385,10 +1433,16 @@ namespace Chupachupa_DesktopApp.PrivateService {
         System.Threading.Tasks.Task changePasswordAsync(string password);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/getCategories", ReplyAction="http://tempuri.org/IServiceContract/getCategoriesResponse")]
-        Chupachupa_DesktopApp.PrivateService.Category[] getCategories();
+        System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.Category> getCategories();
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/getCategories", ReplyAction="http://tempuri.org/IServiceContract/getCategoriesResponse")]
-        System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.Category[]> getCategoriesAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.Category>> getCategoriesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/getCategoryById", ReplyAction="http://tempuri.org/IServiceContract/getCategoryByIdResponse")]
+        Chupachupa_DesktopApp.PrivateService.Category getCategoryById(long idCategory);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/getCategoryById", ReplyAction="http://tempuri.org/IServiceContract/getCategoryByIdResponse")]
+        System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.Category> getCategoryByIdAsync(long idCategory);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/addCategory", ReplyAction="http://tempuri.org/IServiceContract/addCategoryResponse")]
         Chupachupa_DesktopApp.PrivateService.Category addCategory(string categoryName);
@@ -1415,26 +1469,26 @@ namespace Chupachupa_DesktopApp.PrivateService {
         System.Threading.Tasks.Task renameCategoryAsync(long idCategory, string newName);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/getRssChannels", ReplyAction="http://tempuri.org/IServiceContract/getRssChannelsResponse")]
-        Chupachupa_DesktopApp.PrivateService.RssChannel[] getRssChannels();
+        System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel> getRssChannels();
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/getRssChannels", ReplyAction="http://tempuri.org/IServiceContract/getRssChannelsResponse")]
-        System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.RssChannel[]> getRssChannelsAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel>> getRssChannelsAsync();
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithIdCategory", ReplyAction="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithIdCategoryRespons" +
             "e")]
-        Chupachupa_DesktopApp.PrivateService.RssChannel[] getRssChannelsInCategoryWithIdCategory(long idCategory);
+        System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel> getRssChannelsInCategoryWithIdCategory(long idCategory);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithIdCategory", ReplyAction="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithIdCategoryRespons" +
             "e")]
-        System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.RssChannel[]> getRssChannelsInCategoryWithIdCategoryAsync(long idCategory);
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel>> getRssChannelsInCategoryWithIdCategoryAsync(long idCategory);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithCategoryName", ReplyAction="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithCategoryNameRespo" +
             "nse")]
-        Chupachupa_DesktopApp.PrivateService.RssChannel[] getRssChannelsInCategoryWithCategoryName(string categoryName);
+        System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel> getRssChannelsInCategoryWithCategoryName(string categoryName);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithCategoryName", ReplyAction="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithCategoryNameRespo" +
             "nse")]
-        System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.RssChannel[]> getRssChannelsInCategoryWithCategoryNameAsync(string categoryName);
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel>> getRssChannelsInCategoryWithCategoryNameAsync(string categoryName);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/addChannelInCategoryWithIdCategory", ReplyAction="http://tempuri.org/IServiceContract/addChannelInCategoryWithIdCategoryResponse")]
         void addChannelInCategoryWithIdCategory(string channelUrl, long idCategory);
@@ -1443,10 +1497,10 @@ namespace Chupachupa_DesktopApp.PrivateService {
         System.Threading.Tasks.Task addChannelInCategoryWithIdCategoryAsync(string channelUrl, long idCategory);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/addChannelInCategoryWithCategoryName", ReplyAction="http://tempuri.org/IServiceContract/addChannelInCategoryWithCategoryNameResponse")]
-        void addChannelInCategoryWithCategoryName(string channelUrl, string categoryName);
+        Chupachupa_DesktopApp.PrivateService.RssChannel addChannelInCategoryWithCategoryName(string channelUrl, string categoryName);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/addChannelInCategoryWithCategoryName", ReplyAction="http://tempuri.org/IServiceContract/addChannelInCategoryWithCategoryNameResponse")]
-        System.Threading.Tasks.Task addChannelInCategoryWithCategoryNameAsync(string channelUrl, string categoryName);
+        System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.RssChannel> addChannelInCategoryWithCategoryNameAsync(string channelUrl, string categoryName);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/IServiceContract/dropChannel", ReplyAction="http://tempuri.org/IServiceContract/dropChannelResponse")]
         void dropChannel(int idChannel);
@@ -1455,10 +1509,10 @@ namespace Chupachupa_DesktopApp.PrivateService {
         System.Threading.Tasks.Task dropChannelAsync(int idChannel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceContract/getRssItems", ReplyAction="http://tempuri.org/IServiceContract/getRssItemsResponse")]
-        Chupachupa_DesktopApp.PrivateService.RssItem[] getRssItems();
+        System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssItem> getRssItems();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceContract/getRssItems", ReplyAction="http://tempuri.org/IServiceContract/getRssItemsResponse")]
-        System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.RssItem[]> getRssItemsAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssItem>> getRssItemsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1520,12 +1574,20 @@ namespace Chupachupa_DesktopApp.PrivateService {
             return base.Channel.changePasswordAsync(password);
         }
         
-        public Chupachupa_DesktopApp.PrivateService.Category[] getCategories() {
+        public System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.Category> getCategories() {
             return base.Channel.getCategories();
         }
         
-        public System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.Category[]> getCategoriesAsync() {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.Category>> getCategoriesAsync() {
             return base.Channel.getCategoriesAsync();
+        }
+        
+        public Chupachupa_DesktopApp.PrivateService.Category getCategoryById(long idCategory) {
+            return base.Channel.getCategoryById(idCategory);
+        }
+        
+        public System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.Category> getCategoryByIdAsync(long idCategory) {
+            return base.Channel.getCategoryByIdAsync(idCategory);
         }
         
         public Chupachupa_DesktopApp.PrivateService.Category addCategory(string categoryName) {
@@ -1560,27 +1622,27 @@ namespace Chupachupa_DesktopApp.PrivateService {
             return base.Channel.renameCategoryAsync(idCategory, newName);
         }
         
-        public Chupachupa_DesktopApp.PrivateService.RssChannel[] getRssChannels() {
+        public System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel> getRssChannels() {
             return base.Channel.getRssChannels();
         }
         
-        public System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.RssChannel[]> getRssChannelsAsync() {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel>> getRssChannelsAsync() {
             return base.Channel.getRssChannelsAsync();
         }
         
-        public Chupachupa_DesktopApp.PrivateService.RssChannel[] getRssChannelsInCategoryWithIdCategory(long idCategory) {
+        public System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel> getRssChannelsInCategoryWithIdCategory(long idCategory) {
             return base.Channel.getRssChannelsInCategoryWithIdCategory(idCategory);
         }
         
-        public System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.RssChannel[]> getRssChannelsInCategoryWithIdCategoryAsync(long idCategory) {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel>> getRssChannelsInCategoryWithIdCategoryAsync(long idCategory) {
             return base.Channel.getRssChannelsInCategoryWithIdCategoryAsync(idCategory);
         }
         
-        public Chupachupa_DesktopApp.PrivateService.RssChannel[] getRssChannelsInCategoryWithCategoryName(string categoryName) {
+        public System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel> getRssChannelsInCategoryWithCategoryName(string categoryName) {
             return base.Channel.getRssChannelsInCategoryWithCategoryName(categoryName);
         }
         
-        public System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.RssChannel[]> getRssChannelsInCategoryWithCategoryNameAsync(string categoryName) {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssChannel>> getRssChannelsInCategoryWithCategoryNameAsync(string categoryName) {
             return base.Channel.getRssChannelsInCategoryWithCategoryNameAsync(categoryName);
         }
         
@@ -1592,11 +1654,11 @@ namespace Chupachupa_DesktopApp.PrivateService {
             return base.Channel.addChannelInCategoryWithIdCategoryAsync(channelUrl, idCategory);
         }
         
-        public void addChannelInCategoryWithCategoryName(string channelUrl, string categoryName) {
-            base.Channel.addChannelInCategoryWithCategoryName(channelUrl, categoryName);
+        public Chupachupa_DesktopApp.PrivateService.RssChannel addChannelInCategoryWithCategoryName(string channelUrl, string categoryName) {
+            return base.Channel.addChannelInCategoryWithCategoryName(channelUrl, categoryName);
         }
         
-        public System.Threading.Tasks.Task addChannelInCategoryWithCategoryNameAsync(string channelUrl, string categoryName) {
+        public System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.RssChannel> addChannelInCategoryWithCategoryNameAsync(string channelUrl, string categoryName) {
             return base.Channel.addChannelInCategoryWithCategoryNameAsync(channelUrl, categoryName);
         }
         
@@ -1608,11 +1670,11 @@ namespace Chupachupa_DesktopApp.PrivateService {
             return base.Channel.dropChannelAsync(idChannel);
         }
         
-        public Chupachupa_DesktopApp.PrivateService.RssItem[] getRssItems() {
+        public System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssItem> getRssItems() {
             return base.Channel.getRssItems();
         }
         
-        public System.Threading.Tasks.Task<Chupachupa_DesktopApp.PrivateService.RssItem[]> getRssItemsAsync() {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Chupachupa_DesktopApp.PrivateService.RssItem>> getRssItemsAsync() {
             return base.Channel.getRssItemsAsync();
         }
     }

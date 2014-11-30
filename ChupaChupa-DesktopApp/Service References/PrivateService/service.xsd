@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" />
   <xs:element name="authenticate">
     <xs:complexType>
       <xs:sequence>
@@ -51,7 +51,21 @@
   <xs:element name="getCategoriesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities" minOccurs="0" name="getCategoriesResult" nillable="true" type="q1:ArrayOfCategory" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="getCategoriesResult" nillable="true" type="q1:ArrayOfCategory" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getCategoryById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idCategory" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getCategoryByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="getCategoryByIdResult" nillable="true" type="q2:Category" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -65,7 +79,7 @@
   <xs:element name="addCategoryResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities" minOccurs="0" name="addCategoryResult" nillable="true" type="q2:Category" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="addCategoryResult" nillable="true" type="q3:Category" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -114,7 +128,7 @@
   <xs:element name="getRssChannelsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities" minOccurs="0" name="getRssChannelsResult" nillable="true" type="q3:ArrayOfRssChannel" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="getRssChannelsResult" nillable="true" type="q4:ArrayOfRssChannel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -128,7 +142,7 @@
   <xs:element name="getRssChannelsInCategoryWithIdCategoryResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities" minOccurs="0" name="getRssChannelsInCategoryWithIdCategoryResult" nillable="true" type="q4:ArrayOfRssChannel" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="getRssChannelsInCategoryWithIdCategoryResult" nillable="true" type="q5:ArrayOfRssChannel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -142,7 +156,7 @@
   <xs:element name="getRssChannelsInCategoryWithCategoryNameResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities" minOccurs="0" name="getRssChannelsInCategoryWithCategoryNameResult" nillable="true" type="q5:ArrayOfRssChannel" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="getRssChannelsInCategoryWithCategoryNameResult" nillable="true" type="q6:ArrayOfRssChannel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -169,7 +183,9 @@
   </xs:element>
   <xs:element name="addChannelInCategoryWithCategoryNameResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="addChannelInCategoryWithCategoryNameResult" nillable="true" type="q7:RssChannel" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="dropChannel">
@@ -192,7 +208,7 @@
   <xs:element name="getRssItemsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities" minOccurs="0" name="getRssItemsResult" nillable="true" type="q6:ArrayOfRssItem" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="getRssItemsResult" nillable="true" type="q8:ArrayOfRssItem" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

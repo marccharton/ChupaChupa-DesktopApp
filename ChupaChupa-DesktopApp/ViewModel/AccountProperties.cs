@@ -296,7 +296,16 @@ namespace Chupachupa_DesktopApp.ViewModel
                     File.Delete(this.accountSerializePath);
             }
             if (IsLoggedIn)
-                _serveur.disconnect();
+            {
+                try
+                {
+                    _serveur.disconnect();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
         }
         
 

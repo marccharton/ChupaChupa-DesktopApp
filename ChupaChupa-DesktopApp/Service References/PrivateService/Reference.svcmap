@@ -9,7 +9,9 @@
     <GenerateInternalTypes>false</GenerateInternalTypes>
     <GenerateMessageContracts>false</GenerateMessageContracts>
     <NamespaceMappings />
-    <CollectionMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
     <GenerateSerializableTypes>true</GenerateSerializableTypes>
     <Serializer>Auto</Serializer>
     <UseSerializerForFaults>true</UseSerializerForFaults>
@@ -25,7 +27,7 @@
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="5a16440b-19b9-4aee-b63f-bad94ec15db4" SourceId="1" SourceUrl="https://chupachupa47.cloudapp.net/servicecontractimpl/servicecontractimpl.svc/mex" />
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="abdceae8-0781-40ba-9183-64747c563bc5" SourceId="1" SourceUrl="https://chupachupa47.cloudapp.net/servicecontractimpl/servicecontractimpl.svc/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="0634ac5c-17d7-4a03-a2be-c733816c739e" SourceId="1" SourceUrl="https://chupachupa47.cloudapp.net/servicecontractimpl/servicecontractimpl.svc/mex" />
-    <MetadataFile FileName="ChupaChupa.Entities.xsd" MetadataType="Schema" ID="b3f793a9-a9bf-4df5-819c-2488222da07a" SourceId="1" SourceUrl="https://chupachupa47.cloudapp.net/servicecontractimpl/servicecontractimpl.svc/mex" />
+    <MetadataFile FileName="ChupaChupa.Service.Message.xsd" MetadataType="Schema" ID="61416d18-46f1-49a7-87a8-4cf2e4543e64" SourceId="1" SourceUrl="https://chupachupa47.cloudapp.net/servicecontractimpl/servicecontractimpl.svc/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

@@ -115,7 +115,10 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
             catch (Exception e)
             {
-                DebugText = e.Message;
+                if (e.InnerException != null)
+                    DebugText = e.InnerException.Message;
+                else
+                    DebugText = e.Message;
             }
         }
 
@@ -162,12 +165,14 @@ namespace Chupachupa_DesktopApp.ViewModel
                     SelectedTabIndex = 1;
                     FlyoutMessage = "";
                 }
-                catch (Exception exception)
+                catch (Exception e)
                 {
-                    FlyoutMessage = exception.Message;
+                    if (e.InnerException != null)
+                        FlyoutMessage = e.InnerException.Message;
+                    else
+                        FlyoutMessage = e.Message;
                 }
             }));
-
 
 
             // ******** edition d'une catégorie *********

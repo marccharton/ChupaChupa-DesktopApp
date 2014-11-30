@@ -84,48 +84,6 @@
     
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
-            <controls:Flyout x:Name="AddChannelFlyout" Header="Add Channel"
-                             Position="Right"
-                             Theme="Accent" 
-                             IsOpen="{Binding IsFlyoutAddChannelOpenned}" 
-                             Panel.ZIndex="47" 
-                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}"
-                             Visibility="Hidden">
-                <Grid Margin="10"
-                      Width="400">
-                    <StackPanel>
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Link"/></TextBlock>
-                        <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentChannel.Link}"/>
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" Text="Category" />
-                        <ComboBox x:Name="AddChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
-                        <TextBlock x:Name="AddChannelMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}"/>
-                    </StackPanel>
-                    <Button x:Name="AddChannelOkButton" Content="OK" Command="{Binding AddChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
-                    <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
-                </Grid>
-            </controls:Flyout>
-
-            <controls:Flyout x:Name="EditChannelFlyout" Header="Edit Channel"
-                             Position="Right" 
-                             Theme="Accent" 
-                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}"
-                             IsOpen="{Binding IsFlyoutEditChannelOpenned}" 
-                             Panel.ZIndex="47" >
-                <Grid Margin="10"
-                      Width="400">
-                    <StackPanel>
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Title"/></TextBlock>
-                        <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentChannel.Title}"/>
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" Text="Category" />
-                        <ComboBox x:Name="EditChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" SelectedItem="{Binding NewCategoryForChannel}" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
-                        <TextBlock x:Name="EditChannelMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}" />
-                    </StackPanel>
-                    <Button x:Name="EditChannelOkButton" Content="OK" Command="{Binding EditChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" />
-                    <!--<Button x:Name="EditChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
-                </Grid>
-            </controls:Flyout>
-
-
             <controls:Flyout x:Name="AddCategoryFlyout" 
                              Header="Add Category"
                              Position="Right"
@@ -144,7 +102,6 @@
                     <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
                 </Grid>
             </controls:Flyout>
-            
             <controls:Flyout x:Name="EditCategorylFlyout" 
                              Header="Edit Category" 
                              Position="Right" 
@@ -163,7 +120,42 @@
                     <!--<Button x:Name="EditChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
                 </Grid>
             </controls:Flyout>
-
+            
+            <controls:Flyout x:Name="AddChannelFlyout" Header="Add Channel"
+                             Position="Right"
+                             Theme="Accent" 
+                             IsOpen="{Binding IsFlyoutAddChannelOpenned}" 
+                             Panel.ZIndex="47" 
+                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}">
+                <Grid Margin="10"
+                      Width="400">
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Link"/></TextBlock>
+                        <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentChannel.RssLink}"/>
+                        <TextBlock x:Name="AddChannelMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}"/>
+                    </StackPanel>
+                    <Button x:Name="AddChannelOkButton" Content="OK" Command="{Binding AddChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
+                    <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
+                </Grid>
+            </controls:Flyout>
+            <controls:Flyout x:Name="EditChannelFlyout" Header="Edit Channel"
+                             Position="Right" 
+                             Theme="Accent" 
+                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth}"
+                             IsOpen="{Binding IsFlyoutEditChannelOpenned}" 
+                             Panel.ZIndex="47" >
+                <Grid Margin="10"
+                      Width="400">
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" Text="Category" />
+                        <ComboBox x:Name="EditChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" SelectedItem="{Binding NewCategoryForChannel}" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
+                        <TextBlock x:Name="EditChannelMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}" />
+                    </StackPanel>
+                    <Button x:Name="EditChannelOkButton" Content="OK" Command="{Binding EditChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" />
+                    <!--<Button x:Name="EditChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
+                </Grid>
+            </controls:Flyout>
+            
             <controls:Flyout x:Name="CreateAccountFlyout" Header="Settings"
                              Position="Right"
                              Theme="Accent"  
@@ -189,7 +181,6 @@
                     <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
                 </Grid>
             </controls:Flyout>
-
 
             <controls:Flyout x:Name="SettingsFlyout" Header="Settings"
                              Position="Right"
@@ -429,7 +420,7 @@
                                     <controls:Tile.Style>
                                         <Style TargetType="controls:Tile">
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IdEntity}" Value="1">
+                                                <DataTrigger Binding="{Binding }" Value="1">
                                                     <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}"/>
                                                 </DataTrigger>
                                             </Style.Triggers>

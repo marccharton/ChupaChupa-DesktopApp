@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:complexType name="ArrayOfCategory">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Category" nillable="true" type="tns:Category" />
@@ -30,10 +30,13 @@
       <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
       <xs:element minOccurs="0" name="Image" nillable="true" type="tns:Image" />
       <xs:element minOccurs="0" name="Language" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LastBuildDate" nillable="true" type="xs:dateTime" />
       <xs:element minOccurs="0" name="Link" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="ManagingEditor" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PubDate" nillable="true" type="xs:dateTime" />
       <xs:element minOccurs="0" name="Rating" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="RssCategory" nillable="true" type="tns:ArrayOfRssCategory" />
+      <xs:element minOccurs="0" name="RssItems" nillable="true" type="tns:ArrayOfRssItem" />
       <xs:element minOccurs="0" name="RssLink" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="SkipDays" nillable="true" type="tns:ArrayOfSkipDays" />
       <xs:element minOccurs="0" name="SkipHours" nillable="true" type="tns:ArrayOfSkipHours" />
@@ -81,42 +84,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RssCategory" nillable="true" type="tns:RssCategory" />
-  <xs:complexType name="ArrayOfSkipDays">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="SkipDays" nillable="true" type="tns:SkipDays" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfSkipDays" nillable="true" type="tns:ArrayOfSkipDays" />
-  <xs:complexType name="SkipDays">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Day" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="SkipDays" nillable="true" type="tns:SkipDays" />
-  <xs:complexType name="ArrayOfSkipHours">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="SkipHours" nillable="true" type="tns:SkipHours" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfSkipHours" nillable="true" type="tns:ArrayOfSkipHours" />
-  <xs:complexType name="SkipHours">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Hour" type="xs:short" />
-      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="SkipHours" nillable="true" type="tns:SkipHours" />
-  <xs:complexType name="TextInput">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
-      <xs:element minOccurs="0" name="Link" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="TextInput" nillable="true" type="tns:TextInput" />
   <xs:complexType name="ArrayOfRssItem">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="RssItem" nillable="true" type="tns:RssItem" />
@@ -155,4 +122,40 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Source" nillable="true" type="tns:Source" />
+  <xs:complexType name="ArrayOfSkipDays">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SkipDays" nillable="true" type="tns:SkipDays" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSkipDays" nillable="true" type="tns:ArrayOfSkipDays" />
+  <xs:complexType name="SkipDays">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Day" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SkipDays" nillable="true" type="tns:SkipDays" />
+  <xs:complexType name="ArrayOfSkipHours">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SkipHours" nillable="true" type="tns:SkipHours" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSkipHours" nillable="true" type="tns:ArrayOfSkipHours" />
+  <xs:complexType name="SkipHours">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Hour" type="xs:short" />
+      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SkipHours" nillable="true" type="tns:SkipHours" />
+  <xs:complexType name="TextInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
+      <xs:element minOccurs="0" name="Link" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TextInput" nillable="true" type="tns:TextInput" />
 </xs:schema>

@@ -163,7 +163,8 @@ namespace Chupachupa_DesktopApp.ViewModel
                 if (SelectedCategory != null)
                 {
                     CurrentCategory = SelectedCategory;
-                    ChannelsList = _serveur.getRssChannelsInCategoryWithCategoryName(CurrentCategory.Name);
+                    ChannelsList = null;
+                    ChannelsList = _serveur.getRssChannelsInCategoryWithCategoryName(CurrentCategory.Name).ToList();
 
                     // ChannelsList = CurrentCategory.RssChannels;
                     SelectedTabIndex = 2;
@@ -177,10 +178,13 @@ namespace Chupachupa_DesktopApp.ViewModel
                 {
                     CurrentChannel = SelectedChannel;
 
+                    ItemsList = CurrentChannel.RssItems;
+                    // _serveur.getRssItemsFromChannel();
                     // TODO : Récupérer la liste des artciles du channel selectionné
                     // serveur.RssChannelDAO.GetByTitle(CurrentChannel.Title).RssItems
 
-                    ItemsList = CurrentChannel.RssItems;
+                    // TODO : Décommenter après Refresh Service
+                    //ItemsList = CurrentChannel.RssItems;
 
                     SelectedTabIndex = 3;
                 }
@@ -193,6 +197,7 @@ namespace Chupachupa_DesktopApp.ViewModel
                 if (SelectedItem != null)
                 {
                     CurrentItem = SelectedItem;
+                    // CurrentItem.SetLu()
                     SelectedTabIndex = 4;
                 }
             }));
@@ -250,22 +255,25 @@ namespace Chupachupa_DesktopApp.ViewModel
             var rssItem6 = new RssItem() { Title = "ouech ma gueule t'as faim ?" , Description = "ben parceque si cest pas le cas faut le dire sinon ca le fait pas"};
             var rssItem7 = new RssItem() { Title = "ouech ma gueule t'as faim ?" , Description = "ben parceque si cest pas le cas faut le dire sinon ca le fait pas"};
 
-            var channel1 = new RssChannel() { Title = "Deezer", Link = "http://www.deezer.com/playlist/51228683", RssItems = new List<RssItem>() { rssItem2, rssItem4, rssItem6 }.ToArray() };
-            var channel2 = new RssChannel() { Title = "Intranet", Link = "http://intra.epitech.eu/", RssItems = new List<RssItem>() { rssItem1, rssItem3, rssItem5, rssItem7 }.ToArray() };
-            var channel3 = new RssChannel() { Title = "Youtube", Link = "https://www.youtube.com/", RssItems = new List<RssItem>() { rssItem1, rssItem2, rssItem3, rssItem4, rssItem5, rssItem6, rssItem7 }.ToArray() };
-            var channel4 = new RssChannel() { Title = "01.net", Link = "http://www.01net.com/", RssItems = new List<RssItem>() { rssItem1 }.ToArray() };
 
-            var category1 = new Category() { Name = "Web",  RssChannels = new List<RssChannel>() {channel1, channel2, channel3, channel4}.ToArray()};
-            var category2 = new Category() { Name = "Cuisine", RssChannels = new List<RssChannel>() { channel4, channel3, channel2, channel1 }.ToArray() };
-            var category3 = new Category() { Name = "Voitures", RssChannels = new List<RssChannel>() { channel1, channel3 }.ToArray() };
-            var category4 = new Category() { Name = "Voitures", RssChannels = new List<RssChannel>() { channel2, channel4 }.ToArray() };
-            var category5 = new Category() { Name = "Voitures", RssChannels = new List<RssChannel>() { channel4 }.ToArray() };
+            //// TODO : Décommenter après Refresh Service
+            //var channel1 = new RssChannel() { Title = "Deezer", Link = "http://www.deezer.com/playlist/51228683", RssItems = new List<RssItem>() { rssItem2, rssItem4, rssItem6 } };
+            //var channel2 = new RssChannel() { Title = "Intranet", Link = "http://intra.epitech.eu/", RssItems = new List<RssItem>() { rssItem1, rssItem3, rssItem5, rssItem7 } };
+            //var channel3 = new RssChannel() { Title = "Youtube", Link = "https://www.youtube.com/", RssItems = new List<RssItem>() { rssItem1, rssItem2, rssItem3, rssItem4, rssItem5, rssItem6, rssItem7 } };
+            //var channel4 = new RssChannel() { Title = "01.net", Link = "http://www.01net.com/", RssItems = new List<RssItem>() { rssItem1 } };
 
-            var catList = new List<Category>() {category1, category2, category3, category4, category5};
+            //var category1 = new Category() { Name = "Web",  RssChannels = new List<RssChannel>() {channel1, channel2, channel3, channel4}};
+            //var category2 = new Category() { Name = "Cuisine", RssChannels = new List<RssChannel>() { channel4, channel3, channel2, channel1 } };
+            //var category3 = new Category() { Name = "Voitures", RssChannels = new List<RssChannel>() { channel1, channel3 } };
+            //var category4 = new Category() { Name = "Voitures", RssChannels = new List<RssChannel>() { channel2, channel4 } };
+            //var category5 = new Category() { Name = "Voitures", RssChannels = new List<RssChannel>() { channel4 } };
+
+            //var catList = new List<Category>() {category1, category2, category3, category4, category5};
             //var chanList = new List<RssChannel>() { channel1, channel2, channel3, channel4 };
             //var artList = new List<RssItem>() { rssItem1, rssItem2, rssItem3, rssItem4, rssItem5, rssItem6, rssItem7 };
 
-            CategoryList = catList;
+            // TODO : Décommenter après Refresh Service
+            //CategoryList = catList;
  
 
             CurrentItem = new RssItem()
