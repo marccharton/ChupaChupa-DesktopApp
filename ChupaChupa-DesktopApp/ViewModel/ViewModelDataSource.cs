@@ -163,12 +163,9 @@ namespace Chupachupa_DesktopApp.ViewModel
                 if (SelectedCategory != null)
                 {
                     CurrentCategory = SelectedCategory;
+                    ChannelsList = _serveur.getRssChannelsInCategoryWithCategoryName(CurrentCategory.Name);
 
-                    // TODO : Récupérer la liste des channels de la catégorie selectionnée
-                    // serveur.CategoryDAO.GetCategoryByName(CurrentCategory.Name).Channels
-
-                    ChannelsList = CurrentCategory.RssChannels;
-
+                    // ChannelsList = CurrentCategory.RssChannels;
                     SelectedTabIndex = 2;
                 }
             }));
@@ -204,18 +201,7 @@ namespace Chupachupa_DesktopApp.ViewModel
             // ******** chargement de toutes les catégories *********
             LoadAllCategoriesCmd = new Command(new Action(() =>
             {
-                // TODO : Récupération de toutes les catégories de l'utilisateur
-                //IList<Category> categories = serveur.FindAllCategories();
-                //var channels = new List<RssChannel>();
-                //foreach (Category category in categories)
-                //{
-                //    foreach (RssChannel channel in category.RssChannels)
-                //    {
-                //        channels.Add(channel);
-                //    }
-                //}
-
-
+                ChannelsList = _serveur.getRssChannels();
                 SelectedTabIndex = 2;
             }));
 

@@ -145,8 +145,6 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
-        
-
         public ICommand LogUserCmd { get; set; }
         public ICommand ExitCmd { get; set; }
 
@@ -244,8 +242,6 @@ namespace Chupachupa_DesktopApp.ViewModel
                         AccountPasswordText = CreateAccountPasswordText;
                     }
                 }
-                
-                
                 IsFlyoutCreateAccountOppenned = false;
             }));
         }

@@ -98,9 +98,7 @@
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentChannel.Link}"/>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" Text="Category" />
                         <ComboBox x:Name="AddChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
-                        <StackPanel.InputBindings>
-                            <KeyBinding Command="{Binding AddChannelCmdValidate}"  Key="Enter"/>
-                        </StackPanel.InputBindings>
+                        <TextBlock x:Name="AddChannelMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}"/>
                     </StackPanel>
                     <Button x:Name="AddChannelOkButton" Content="OK" Command="{Binding AddChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
                     <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
@@ -120,9 +118,7 @@
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentChannel.Title}"/>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" Text="Category" />
                         <ComboBox x:Name="EditChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" SelectedItem="{Binding NewCategoryForChannel}" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
-                        <StackPanel.InputBindings>
-                            <KeyBinding Command="{Binding EditChannelCmdValidate}"  Key="Enter"/>
-                        </StackPanel.InputBindings>
+                        <TextBlock x:Name="EditChannelMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}" />
                     </StackPanel>
                     <Button x:Name="EditChannelOkButton" Content="OK" Command="{Binding EditChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" />
                     <!--<Button x:Name="EditChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
@@ -142,9 +138,7 @@
                     <StackPanel>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Name"/></TextBlock>
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentCategory.Name}"/>
-                        <StackPanel.InputBindings>
-                            <KeyBinding Command="{Binding AddCategoryCmdValidate}"  Key="Enter"/>
-                        </StackPanel.InputBindings>
+                        <TextBlock x:Name="AddCategoryMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}" />
                     </StackPanel>
                     <Button x:Name="AddCategoryOkButton" Content="OK" Command="{Binding AddCategoryCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
                     <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
@@ -163,9 +157,7 @@
                     <StackPanel>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5" ><Run Text="Name"/></TextBlock>
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentCategory.Name}"/>
-                        <StackPanel.InputBindings>
-                            <KeyBinding Command="{Binding EditCategoryCmdValidate}"  Key="Enter"/>
-                        </StackPanel.InputBindings>
+                        <TextBlock x:Name="EditCategoryMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}" />
                     </StackPanel>
                     <Button x:Name="EditCategoryOkButton" Content="OK" Command="{Binding EditCategoryCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" />
                     <!--<Button x:Name="EditChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->

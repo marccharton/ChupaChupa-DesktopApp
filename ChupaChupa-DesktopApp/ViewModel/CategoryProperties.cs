@@ -83,6 +83,16 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
+        private string _flyoutMessage;
+        public string FlyoutMessage
+        {
+            get { return _flyoutMessage; }
+            set
+            {
+                _flyoutMessage = value;
+                NotifyPropertyChanged("FlyoutMessage");
+            }
+        }
 
 
         public ICommand LoadCategoryCmd  { get; set; }
@@ -101,7 +111,7 @@ namespace Chupachupa_DesktopApp.ViewModel
             {
                 IList<Category> ret = _serveur.getCategories();
                 if (_serveur != null && ret != null)
-                    CategoryList = ret.ToList();
+                    CategoryList = ret.ToList(); 
             }
             catch (Exception e)
             {
@@ -111,24 +121,18 @@ namespace Chupachupa_DesktopApp.ViewModel
 
         private void ManageCategories()
         {
-            
-
             // ******** suppression d'une catégorie *********
             DeleteCategoryCmd = new Command(new Action(() =>
             {
                 if (SelectedCategory != null)
                 {
-                    // TODO : Supprimer la catégorie de la base 
-                    // serveur.CategoryDAO.DeleteCategory(SelectedCategory.IdEntity)
-
+                    _serveur.dropCategoryWithId(SelectedCategory.IdEntity);
+                    //_serveur.dropCategoryWithCategoryName(SelectedCategory.Name);
                     CategoryList.Remove(SelectedCategory);
                     IList<Category> correctList = CategoryList;
-
-                    //TODO : puis mettre à jour CategoryList
+                 
                     CategoryList = null;
-                    // CategoryList = serveur.CategoryDAO.FindAll()
                     CategoryList = correctList;
-
                     SelectedCategory = null;
                 }
             }));
@@ -144,17 +148,24 @@ namespace Chupachupa_DesktopApp.ViewModel
 
             AddCategoryCmdValidate = new Command(new Action(async () =>
             {
-                //TODO : ADD NEW CATEGORY WITH NAME
-                // serveur.AddCategory(CurrentCategory);
-                CategoryList.Add(CurrentCategory);
-                IList<Category> correctList = CategoryList;
+                try
+                {
+                    CurrentCategory = _serveur.addCategory(CurrentCategory.Name);
 
-                //TODO : puis mettre à jour CategoryList
-                // CategoryList = serveur.FindAllCategories();
-                CategoryList = null;
-                CategoryList = correctList;
-                IsFlyoutAddCategoryOpenned = false;
-                SelectedTabIndex = 1;
+                    CategoryList.Add(CurrentCategory);
+
+                    IList<Category> correctList = CategoryList;
+                    CategoryList = null;
+                    CategoryList = correctList;
+
+                    IsFlyoutAddCategoryOpenned = false;
+                    SelectedTabIndex = 1;
+                    FlyoutMessage = "";
+                }
+                catch (Exception exception)
+                {
+                    FlyoutMessage = exception.Message;
+                }
             }));
 
 
@@ -172,11 +183,18 @@ namespace Chupachupa_DesktopApp.ViewModel
 
             EditCategoryCmdValidate = new Command(new Action(async () =>
             {
-                IsFlyoutEditCategoryOpenned = false;
-                //IsTabControlEnabled = true;
-
-                // TODO : UPDATE CURRENT CATEGORY
-                // serveur.UpdateCategory(CurrentCategory)
+                try
+                {
+                    _serveur.renameCategory(CurrentCategory.IdEntity, CurrentCategory.Name);
+                    IsFlyoutEditCategoryOpenned = false;
+                }
+                catch (Exception e)
+                {
+                    if (e.InnerException != null)
+                        FlyoutMessage = e.InnerException.Message;
+                    else
+                        FlyoutMessage = e.Message;
+                }
             }));
         }
 

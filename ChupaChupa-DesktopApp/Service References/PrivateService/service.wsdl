@@ -153,17 +153,41 @@
   <wsdl:message name="IServiceContract_dropCategoryWithCategoryName_OutputMessage">
     <wsdl:part name="parameters" element="tns:dropCategoryWithCategoryNameResponse" />
   </wsdl:message>
+  <wsdl:message name="IServiceContract_renameCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:renameCategory" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_renameCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:renameCategoryResponse" />
+  </wsdl:message>
   <wsdl:message name="IServiceContract_getRssChannels_InputMessage">
     <wsdl:part name="parameters" element="tns:getRssChannels" />
   </wsdl:message>
   <wsdl:message name="IServiceContract_getRssChannels_OutputMessage">
     <wsdl:part name="parameters" element="tns:getRssChannelsResponse" />
   </wsdl:message>
-  <wsdl:message name="IServiceContract_addChannel_InputMessage">
-    <wsdl:part name="parameters" element="tns:addChannel" />
+  <wsdl:message name="IServiceContract_getRssChannelsInCategoryWithIdCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:getRssChannelsInCategoryWithIdCategory" />
   </wsdl:message>
-  <wsdl:message name="IServiceContract_addChannel_OutputMessage">
-    <wsdl:part name="parameters" element="tns:addChannelResponse" />
+  <wsdl:message name="IServiceContract_getRssChannelsInCategoryWithIdCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getRssChannelsInCategoryWithIdCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssChannelsInCategoryWithCategoryName_InputMessage">
+    <wsdl:part name="parameters" element="tns:getRssChannelsInCategoryWithCategoryName" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssChannelsInCategoryWithCategoryName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getRssChannelsInCategoryWithCategoryNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_addChannelInCategoryWithIdCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:addChannelInCategoryWithIdCategory" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_addChannelInCategoryWithIdCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:addChannelInCategoryWithIdCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_addChannelInCategoryWithCategoryName_InputMessage">
+    <wsdl:part name="parameters" element="tns:addChannelInCategoryWithCategoryName" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_addChannelInCategoryWithCategoryName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:addChannelInCategoryWithCategoryNameResponse" />
   </wsdl:message>
   <wsdl:message name="IServiceContract_dropChannel_InputMessage">
     <wsdl:part name="parameters" element="tns:dropChannel" />
@@ -209,15 +233,31 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/dropCategoryWithCategoryName" message="tns:IServiceContract_dropCategoryWithCategoryName_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/dropCategoryWithCategoryNameResponse" message="tns:IServiceContract_dropCategoryWithCategoryName_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="getRssChannels">
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="renameCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/renameCategory" message="tns:IServiceContract_renameCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/renameCategoryResponse" message="tns:IServiceContract_renameCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getRssChannels">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getRssChannels" message="tns:IServiceContract_getRssChannels_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getRssChannelsResponse" message="tns:IServiceContract_getRssChannels_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="addChannel">
-      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/addChannel" message="tns:IServiceContract_addChannel_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/addChannelResponse" message="tns:IServiceContract_addChannel_OutputMessage" />
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getRssChannelsInCategoryWithIdCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithIdCategory" message="tns:IServiceContract_getRssChannelsInCategoryWithIdCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithIdCategoryResponse" message="tns:IServiceContract_getRssChannelsInCategoryWithIdCategory_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="dropChannel">
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getRssChannelsInCategoryWithCategoryName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithCategoryName" message="tns:IServiceContract_getRssChannelsInCategoryWithCategoryName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithCategoryNameResponse" message="tns:IServiceContract_getRssChannelsInCategoryWithCategoryName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="addChannelInCategoryWithIdCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/addChannelInCategoryWithIdCategory" message="tns:IServiceContract_addChannelInCategoryWithIdCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/addChannelInCategoryWithIdCategoryResponse" message="tns:IServiceContract_addChannelInCategoryWithIdCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="addChannelInCategoryWithCategoryName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/addChannelInCategoryWithCategoryName" message="tns:IServiceContract_addChannelInCategoryWithCategoryName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/addChannelInCategoryWithCategoryNameResponse" message="tns:IServiceContract_addChannelInCategoryWithCategoryName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="dropChannel">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/dropChannel" message="tns:IServiceContract_dropChannel_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/dropChannelResponse" message="tns:IServiceContract_dropChannel_OutputMessage" />
     </wsdl:operation>
@@ -298,6 +338,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="renameCategory">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/renameCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getRssChannels">
       <soap12:operation soapAction="http://tempuri.org/IServiceContract/getRssChannels" style="document" />
       <wsdl:input>
@@ -307,8 +356,35 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="addChannel">
-      <soap12:operation soapAction="http://tempuri.org/IServiceContract/addChannel" style="document" />
+    <wsdl:operation name="getRssChannelsInCategoryWithIdCategory">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithIdCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRssChannelsInCategoryWithCategoryName">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithCategoryName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addChannelInCategoryWithIdCategory">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/addChannelInCategoryWithIdCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addChannelInCategoryWithCategoryName">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/addChannelInCategoryWithCategoryName" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
