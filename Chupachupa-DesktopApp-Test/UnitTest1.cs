@@ -7,8 +7,23 @@ namespace Chupachupa_DesktopApp_Test
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void GetCategories_Success()
         {
+
         }
+
+        [TestMethod]
+        public void GetCategories_BadId()
+        {
+
+        }
+
+        [TestMethod]
+        public void GetCategories_BadName()
+        {
+            
+        }
+
+
     }
 }

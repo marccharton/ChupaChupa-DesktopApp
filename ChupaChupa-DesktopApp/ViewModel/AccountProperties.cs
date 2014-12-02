@@ -176,8 +176,9 @@ namespace Chupachupa_DesktopApp.ViewModel
                             _serveur.ClientCredentials.UserName.Password = AccountPasswordText;
                             await _serveur.authenticateAsync(AccountLoginText, AccountPasswordText);
 
+                            CurrentUserName = AccountLoginText;
                             IsProgressRingActive = false;
-                            SelectedTabIndex = 3;
+                            SelectedTabIndex = (int)ToolsBox.TabOnApplicationInit;
                             IsLoggedIn = true;
                             LogMessage = "LOG OUT";
                             ConnectionErrorText = "";
@@ -196,10 +197,10 @@ namespace Chupachupa_DesktopApp.ViewModel
                 else
                 {
                     _serveur.disconnect();
-                    CurrentUserName = null;
                     IsLoggedIn = false;
                     LogMessage = "LOG IN";
-                    SelectedTabIndex = 0;
+                    SelectedTabIndex = (int)ToolsBox.TabIndex.TAB_ACCOUNT;
+                    ReinitiateData();
                 }
             }));
 

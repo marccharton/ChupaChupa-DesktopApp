@@ -12,10 +12,10 @@
     EnableDWMDropShadow="True" 
     WindowStartupLocation="CenterScreen" 
     WindowTransitionsEnabled="False">
+    
     <controls:MetroWindow.DataContext>
         <ns:ViewModelDataSource />
     </controls:MetroWindow.DataContext>
-
     <controls:MetroWindow.Resources>
         <ns:InvertBoolConverter x:Key="InvertBoolConverter"/>
         <DataTemplate x:Key="FlyoutCategoryListItemTemplate">
@@ -23,6 +23,12 @@
         		<TextBlock TextWrapping="Wrap" Text="{Binding Name}"/>
         	</Grid>
         </DataTemplate>
+ 
+        <ResourceDictionary x:Key="Dictionary">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Assets/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilty" />
 
@@ -76,7 +82,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>-->
-
+        
     </controls:MetroWindow.Resources>
 
     <!--********************************************************************************************************************************************
@@ -98,6 +104,7 @@
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentCategory.Name}"/>
                         <TextBlock x:Name="AddCategoryMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}" />
                     </StackPanel>
+                    <controls:ProgressRing IsActive="{Binding IsProgressRingActive}" Margin="0,10" Width="200" Height="200" Foreground="{DynamicResource WhiteColorBrush}"/>
                     <Button x:Name="AddCategoryOkButton" Content="OK" Command="{Binding AddCategoryCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
                     <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
                 </Grid>
@@ -116,6 +123,7 @@
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentCategory.Name}"/>
                         <TextBlock x:Name="EditCategoryMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}" />
                     </StackPanel>
+                    <controls:ProgressRing IsActive="{Binding IsProgressRingActive}" Margin="0,10" Width="200" Height="200" Foreground="{DynamicResource WhiteColorBrush}"/>
                     <Button x:Name="EditCategoryOkButton" Content="OK" Command="{Binding EditCategoryCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" />
                     <!--<Button x:Name="EditChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
                 </Grid>
@@ -134,6 +142,7 @@
                         <TextBox TextWrapping="Wrap" HorizontalAlignment="Left" Width="200" Margin="0,5" Text="{Binding CurrentChannel.RssLink}"/>
                         <TextBlock x:Name="AddChannelMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}"/>
                     </StackPanel>
+                    <controls:ProgressRing IsActive="{Binding IsProgressRingActive}" Margin="0,10" Width="200" Height="200" Foreground="{DynamicResource WhiteColorBrush}"/>
                     <Button x:Name="AddChannelOkButton" Content="OK" Command="{Binding AddChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
                     <!--<Button x:Name="AddChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
                 </Grid>
@@ -151,6 +160,7 @@
                         <ComboBox x:Name="EditChannelFlyoutCategoryList" HorizontalAlignment="Left" Width="200" SelectedItem="{Binding NewCategoryForChannel}" ItemsSource="{Binding CategoryList}" ItemTemplate="{DynamicResource FlyoutCategoryListItemTemplate}"/>
                         <TextBlock x:Name="EditChannelMessage" TextWrapping="Wrap" Text="{Binding FlyoutMessage}" />
                     </StackPanel>
+                    <controls:ProgressRing IsActive="{Binding IsProgressRingActive}" Margin="0,10" Width="200" Height="200" Foreground="{DynamicResource WhiteColorBrush}"/>
                     <Button x:Name="EditChannelOkButton" Content="OK" Command="{Binding EditChannelCmdValidate}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" />
                     <!--<Button x:Name="EditChannelCancelButton" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>-->
                 </Grid>
@@ -205,12 +215,13 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="488*" />
+            <RowDefinition Height="30*"/>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0"
-                  Margin="5"
+                  Margin="5,5,0,5"
                   VerticalAlignment="Stretch"
                   HorizontalAlignment="Left">
             <MenuItem Header="User">
@@ -242,6 +253,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Add Category" Command="{Binding AddCategoryCmd}" Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}"/>
+            <MenuItem Header="All Items" Command="{Binding LoadAllItemsCmd}" Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}"/>
             
         </Menu>
 
@@ -275,7 +287,7 @@
                      Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}">
                 <Grid x:Name="CategoryMainContainer">
                     <!--<Button x:Name="CategoryEditButton" Command="{Binding EditCategoryCmd}" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,10,0,0" Width="60"/>-->
-                    <Label x:Name="CategoriesTitle" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="53.46" FontFamily="Segoe UI Semibold" FontSize="29.333" Foreground="#FF999999" Content="Categories List"/>
+                    <Label x:Name="CategoriesTitle" Foreground="{DynamicResource BlackBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="53.46" FontFamily="Segoe UI Semibold" FontSize="29.333" Content="Categories List"/>
                     <Button Content="All" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="219.79,23.333,0,0" Width="47" Command="{Binding LoadAllCategoriesCmd}"/>
 
                     <!--<Button x:Name="CategoryEditButton" Command="{Binding EditCategoryCmd}" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,10,0,0" Width="60"/>-->
@@ -315,7 +327,7 @@
                         </ListView.ContextMenu>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <controls:Tile Title="{Binding Name}" Count="{Binding RssChannels.Count}" TiltFactor="1" Width="147px" Height="147px" Margin="0"/>
+                                <controls:Tile Title="{Binding Name}" Count="{Binding RssChannels}" TiltFactor="1" Width="147px" Height="147px" Margin="0"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                         <ListView.ItemsPanel>
@@ -324,6 +336,7 @@
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                     </ListView>
+                    <controls:ProgressRing IsActive="{Binding IsProgressRingActive}" Margin="0,10" Width="147" Height="147"/>
                 </Grid>
             </TabItem>
 
@@ -336,7 +349,7 @@
                      Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}">
                 <Grid>
                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Height="62" Orientation="Horizontal">
-                    	<Label x:Name="ChannelsTitle" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="29.333" Foreground="#FFA4A4A4" Content="{Binding CurrentCategory.Name}"/>
+                        <Label x:Name="ChannelsTitle" Content="{Binding ChannelTitleText}" Foreground="{DynamicResource BlackBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="29.333" />
                     	<Button x:Name="ChannelsAllButton" Content="All" Command="{Binding LoadAllChannelsCmd}"  Width="47" VerticalAlignment="Center" Margin="10,0,0,0"/>
                     </StackPanel>
                     <!--<Button x:Name="ChannelsEditButton" Command="{Binding EditChannelCmd}" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,68.46,0,0" Width="60"/>-->
@@ -362,6 +375,16 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ContextMenu>
                             <ContextMenu>
+                                <MenuItem Header="Set as Read" Command="{Binding SetReadChannelCmd}">
+                                    <MenuItem.Icon>
+                                        <Image Width="16" Height="16" Source="Assets/img/ico/check.ico" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Set as Unread" Command="{Binding SetUnreadChannelCmd}">
+                                    <MenuItem.Icon>
+                                        <Image Width="16" Height="16" Source="Assets/img/ico/exit.ico" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
                                 <MenuItem Header="EDIT" Command="{Binding EditChannelCmd}">
                                     <MenuItem.Icon>
                                         <Image Width="16" Height="16" Source="Assets/img/ico/edit.ico" />
@@ -376,7 +399,7 @@
                         </ListView.ContextMenu>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <controls:Tile Title="{Binding Title}" Count="{Binding RssItems.Count}" TiltFactor="1" Width="147px" Height="147px" Background="#CCD63B19" />
+                                <controls:Tile Title="{Binding Title}" Count="{Binding RssItems}" TiltFactor="1" Width="147px" Height="147px" Background="#CCD63B19" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                         <ListView.ItemsPanel>
@@ -385,6 +408,7 @@
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                     </ListView>
+                    <controls:ProgressRing IsActive="{Binding IsProgressRingActive}" Margin="0,10" Width="147" Height="147"/>
                 </Grid>
             </TabItem>
 
@@ -395,11 +419,14 @@
                      VerticalAlignment="Top"
                      Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}">
                 <Grid>
-                    <Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="51.46" Background="#00000000" FontSize="29.333" FontFamily="Segoe UI Semibold" Foreground="#FFA2A2A2" Content="{Binding CurrentChannel.Title}"/>
-                    <ListView x:Name="ArticlesListView" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-						ItemsSource="{Binding ItemsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,100,10,10">
+                    <Label HorizontalAlignment="Left" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Top" Margin="10,10,0,0" Height="51.46" Background="#00000000" FontSize="29.333" FontFamily="Segoe UI Semibold" Content="{Binding ItemsTitleText}" Panel.ZIndex="2"/>
+                    <ListView x:Name="ArticlesListView" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Margin="10,66.46,10,10"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                              ItemsSource="{Binding ItemsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                        <!--<i:Interaction.Behaviors>
+                            <ns:MultiSelectionBehavior x:Name="MultiSelectionBehavior" SelectedItems="{Binding SelectedItemsList}"/>
+                        </i:Interaction.Behaviors>-->
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseDoubleClick">
                                 <i:InvokeCommandAction Command="{Binding LoadItemCmd}" />
@@ -416,11 +443,11 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <controls:Tile Title="{Binding Description}" Count="{Binding Title}" TiltFactor="1" Width="350px" Height="147px" >
+                                <controls:Tile Title="{Binding Description}" Count="{Binding Title}" TiltFactor="1" Width="Auto" MinWidth="300px" Height="88px" TitleFontSize="10" CountFontSize="14">
                                     <controls:Tile.Style>
                                         <Style TargetType="controls:Tile">
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding }" Value="1">
+                                                <DataTrigger Binding="{Binding IsRead}" Value="True">
                                                     <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -434,7 +461,22 @@
                                 <WrapPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Set as Read" Command="{Binding SetReadItemCmd}">
+                                    <MenuItem.Icon>
+                                        <Image Width="16" Height="16" Source="Assets/img/ico/check.ico" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Set as Unread" Command="{Binding SetUnreadItemCmd}">
+                                    <MenuItem.Icon>
+                                        <Image Width="16" Height="16" Source="Assets/img/ico/exit.ico" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                     </ListView>
+                    <controls:ProgressRing IsActive="{Binding IsProgressRingActive}" Margin="0,10" Width="147" Height="147"/>
                 </Grid>
             </TabItem>
 
@@ -447,32 +489,41 @@
                      Width="90"
                      Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}">
                 <Grid>
-                    <Grid Width="572" Margin="10,300,204,8.454" Panel.ZIndex="2" d:IsHidden="True">
-                    	<Grid.Background>
-                    		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    			<GradientStop Offset="0"/>
-                    			<GradientStop Color="#99FFFFFF" Offset="0.996"/>
-                    		</LinearGradientBrush>
-                    	</Grid.Background>
-                    </Grid>
-                    <RichTextBox x:Name="Source" IsReadOnly="True" Foreground="{DynamicResource AccentColorBrush3}" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontWeight="Bold" Width="584" Margin="10,10,0,0" FontSize="13.333" FontStyle="Italic" BorderThickness="0">
+                	<Grid.ColumnDefinitions>
+                		<ColumnDefinition Width="532*"/>
+                		<ColumnDefinition Width="255*"/>
+                	</Grid.ColumnDefinitions>
+                	<Grid.RowDefinitions>
+                		<RowDefinition Height="45*"/>
+                		<RowDefinition Height="396*"/>
+                		<RowDefinition Height="43*"/>
+                	</Grid.RowDefinitions>
+                    <TextBlock x:Name="Title" TextWrapping="Wrap" Text="{Binding CurrentItem.Title}" FontWeight="Bold" FontFamily="Segoe UI Semibold" FontSize="21.333" Foreground="{DynamicResource AccentColorBrush2}" HorizontalAlignment="Right" Margin="0,10,10,0" Width="0" Grid.Column="1"/>
+                    <RichTextBox x:Name="Description" IsReadOnly="True" FontFamily="Segoe UI Semibold" FontSize="14.667" BorderBrush="{x:Null}" BorderThickness="0" Grid.Row="1" Margin="10" Background="#19878787" RenderTransformOrigin="0.5,0.5" Padding="10,10,1,10">
                     	<FlowDocument>
-                            <Paragraph><Run Text="{Binding CurrentItem.Source.Url}"/></Paragraph>
+                    		<Paragraph><Run Text="{Binding CurrentItem.Description}"/></Paragraph>
                     	</FlowDocument>
                     </RichTextBox>
-                    <RichTextBox x:Name="Description" Background="{x:Null}" HorizontalAlignment="Left" IsReadOnly="True" FontFamily="Segoe UI Semibold" FontSize="14.667" BorderBrush="{x:Null}" BorderThickness="0" Margin="10,47,204,20">
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="10" Background="#19878787">
+                        <TextBlock x:Name="Author" Text="{Binding CurrentItem.Author, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}" Margin="5" TextWrapping="Wrap"/>
+                        <DatePickerTextBox x:Name="PubDate" TextWrapping="Wrap" Text="{Binding CurrentItem.PubDate.Value.Date, Mode=OneWay}" HorizontalAlignment="Right" Margin="5" />
+                        <TextBlock x:Name="Link" Text="{Binding CurrentItem.Link, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}" Margin="5" TextWrapping="Wrap"/>
+                        <TextBlock HorizontalAlignment="Right" Width="Auto">
+                            <Hyperlink Command="{Binding OpenInBrowserCmd}" NavigateUri="http://www.google.fr" Foreground="{DynamicResource BlackColorBrush}">
+                                Plus d'informations
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock x:Name="Guid" Text="{Binding CurrentItem.Guid, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}" Margin="5" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="Comments" Text="{Binding CurrentItem.Comments, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}" Margin="5" TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <RichTextBox x:Name="Source" IsReadOnly="True" Foreground="{DynamicResource AccentColorBrush3}" Background="{x:Null}" BorderBrush="{x:Null}" FontWeight="Bold" Margin="10,0,10,10" FontSize="13.333" FontStyle="Italic" BorderThickness="0" Grid.Row="2" Grid.ColumnSpan="2">
                         <FlowDocument>
-                            <Paragraph><Run Text="{Binding CurrentItem.Description}"/></Paragraph>
+                            <Paragraph>
+                                <Run Text="{Binding CurrentItem.Source.Url}" TextDecorations="Underline" />
+                            </Paragraph>
                         </FlowDocument>
                     </RichTextBox>
-                    <TextBlock x:Name="Title" TextWrapping="Wrap" Text="{Binding CurrentItem.Title}" FontWeight="Bold" FontFamily="Segoe UI Semibold" FontSize="21.333" Foreground="{DynamicResource AccentColorBrush2}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0"/>
-                    <StackPanel HorizontalAlignment="Right" Margin="0,47,10,10" Width="187">
-                        <TextBlock x:Name="Author" Text="{Binding CurrentItem.Author, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}"/>
-                        <DatePickerTextBox x:Name="PubDate" TextWrapping="Wrap" Text="{Binding CurrentItem.PubDate.Value.Date, Mode=OneWay}" HorizontalAlignment="Right"/>
-                        <TextBlock x:Name="Link" Text="{Binding CurrentItem.Link, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}"/>
-                        <TextBlock x:Name="Guid" Text="{Binding CurrentItem.Guid, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}"/>
-                        <TextBlock x:Name="Comments" Text="{Binding CurrentItem.Comments, Mode=OneWay}" HorizontalAlignment="Right" Style="{DynamicResource ViewerInfosText}"/>
-                    </StackPanel>
+                   
                 </Grid>
             </TabItem>
 
@@ -480,10 +531,7 @@
         </TabControl>
 
         <StackPanel Grid.Row="1" x:Name="UserPanel" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Margin="0,10,10,0">
-        	<TextBlock x:Name="UserName" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="18.667" Text="{Binding CurrentUser.LoginMail}" Margin="0">
-                <TextBlock.Foreground>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
-                </TextBlock.Foreground>
+            <TextBlock x:Name="UserName" Foreground="{DynamicResource BlackBrush}" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="18.667" Text="{Binding CurrentUser.LoginMail}" Margin="0" >
                 <Run Language="fr-fr" Text="{Binding CurrentUserName}"/>
             </TextBlock>
         	<Image x:Name="userLogo" HorizontalAlignment="Right" Height="25" VerticalAlignment="Top" Width="25" Source="user.ico" IsManipulationEnabled="True" Margin="5,0,0,0"/>
@@ -503,25 +551,20 @@
             </StackPanel.ContextMenu>
         </StackPanel>
 
-        <TextBlock Grid.Row="1" x:Name="DEBUG" 
-                   HorizontalAlignment="Left" 
+        <TextBlock Grid.Row="2" x:Name="DEBUG" 
+                   Foreground="{DynamicResource BlackBrush}" 
                    TextWrapping="Wrap" 
-                   VerticalAlignment="Bottom" 
                    FontFamily="Segoe UI Semibold" 
                    FontSize="18.667" 
-                   Margin="10,0,0,10">
-            <TextBlock.Foreground>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
-            </TextBlock.Foreground>
+                   Margin="5">
             <Run Language="fr-fr" Text="{Binding DebugText}"/>
         </TextBlock>
-        <Button Grid.Row="1" x:Name="DebugButton" 
+        <Button Grid.Row="2" x:Name="DebugButton" 
                 Content="[Test Button]"
                 Command=""
                 MinWidth="90"
                 VerticalAlignment="Bottom" 
-                HorizontalAlignment="Left" 
-                Margin="10,0,0,39.83" d:IsHidden="True" />
+                HorizontalAlignment="Right" Visibility="Hidden"/>
 
 
     </Grid>

@@ -72,6 +72,17 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
+        private string _channelTitleText;
+        public string ChannelTitleText
+        {
+            get { return _channelTitleText; }
+            set
+            {
+                _channelTitleText = value;
+                NotifyPropertyChanged("ChannelTitleText");
+            }
+        }
+        
         
         public ICommand LoadChannelCmd { get; set; }
         public ICommand LoadAllChannelsCmd { get; set; }
@@ -82,7 +93,9 @@ namespace Chupachupa_DesktopApp.ViewModel
         public ICommand EditChannelCmd { get; set; }
         public ICommand EditChannelCmdValidate { get; set; }
 
-
+        public ICommand SetReadChannelCmd { get; set; }
+        public ICommand SetUnreadChannelCmd { get; set; }
+        
         private void ManageChannels()
         {
             // ******** suppression d'un channel *********
@@ -92,11 +105,11 @@ namespace Chupachupa_DesktopApp.ViewModel
                 {
                     DebugText = SelectedChannel.Title;
 
-                    // TODO : Supprimer la catégorie de la base 
                     ChannelsList.Remove(SelectedChannel);
+                    _serveur.dropChannel(SelectedChannel.IdEntity);
+                    
                     IList<RssChannel> correctList = ChannelsList;
 
-                    //TODO : puis mettre à jour ChannelList
                     ChannelsList = null;
                     ChannelsList = correctList;
 
@@ -109,7 +122,6 @@ namespace Chupachupa_DesktopApp.ViewModel
             AddChannelCmd = new Command(new Action(async () =>
             {
                 IsFlyoutAddChannelOpenned = true;
-                //IsTabControlEnabled = false;
                 CurrentChannel = new RssChannel();
                 NewCategoryForChannel = CurrentCategory;
                 if (ChannelsList == null)
@@ -120,7 +132,9 @@ namespace Chupachupa_DesktopApp.ViewModel
             {
                 try
                 {
-                    CurrentChannel = _serveur.addChannelInCategoryWithCategoryName(CurrentChannel.RssLink, NewCategoryForChannel.Name);
+                    FlyoutMessage = "";
+                    IsProgressRingActive = true;
+                    CurrentChannel = await _serveur.addChannelInCategoryWithCategoryNameAsync(CurrentChannel.RssLink, NewCategoryForChannel.Name);
                     
                     ChannelsList.Add(CurrentChannel);
                     IList<RssChannel> correctList = ChannelsList;
@@ -129,10 +143,11 @@ namespace Chupachupa_DesktopApp.ViewModel
                     ChannelsList = correctList;
 
                     IsFlyoutAddChannelOpenned = false;
-                    FlyoutMessage = "";
+                    IsProgressRingActive = false;
                 }
                 catch (Exception e)
                 {
+                    IsProgressRingActive = false;
                     if (e.InnerException != null)
                         FlyoutMessage = e.InnerException.Message;
                     else
@@ -150,7 +165,6 @@ namespace Chupachupa_DesktopApp.ViewModel
                 {
                     CurrentChannel = SelectedChannel;
                     IsFlyoutEditChannelOpenned = true;
-                    //IsTabControlEnabled = false;
                     NewCategoryForChannel = CurrentCategory;
                 }
             }));
@@ -159,11 +173,13 @@ namespace Chupachupa_DesktopApp.ViewModel
             {
                 IsFlyoutEditChannelOpenned = false;
                 try
-                {
-                    //_serveur.updateChannel(NewCategoryForChannel.Name);
+                {                    
                     if (NewCategoryForChannel != CurrentCategory)
                     {
-                        NewCategoryForChannel.RssChannels.Add(CurrentChannel);
+                        _serveur.moveChannelToCategory(CurrentCategory.IdEntity, NewCategoryForChannel.IdEntity, CurrentChannel.IdEntity);
+                        
+                        CategoryList = _serveur.getCategories();
+                        ChannelsList = _serveur.getRssChannelsInCategoryWithCategoryName(CurrentCategory.Name);
                     }
                     FlyoutMessage = "";
                 }
@@ -174,11 +190,56 @@ namespace Chupachupa_DesktopApp.ViewModel
                     else
                         FlyoutMessage = e.Message;
                 }
-                //IsTabControlEnabled = true;
-
-                // serveur.ChannelDao.Update(CurrentChannel, NewCategoryForChannel);
-                // TODO : UPDATE CURRENT CHANNEL
             }));
+
+
+            // ******** Set Channel lu *********
+            SetReadChannelCmd = new Command(new Action(() =>
+            {
+                if (SelectedChannel != null)
+                {
+                    try
+                    {
+                        _serveur.setChannelAsRead(SelectedChannel.IdEntity);
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.InnerException != null)
+                            DebugText = "[Exception]" + e.InnerException.Message;
+                        else
+                            DebugText = "[Exception]" + e.Message;
+                    }
+                }
+                else
+                {
+                    DebugText = "[Error] SelectedChannel == null";
+                }
+            }));
+
+            // ******** Set Channel non lu *********
+            SetUnreadChannelCmd = new Command(new Action(() =>
+            {
+                if (SelectedChannel != null)
+                {
+                    try
+                    {
+                        _serveur.setChannelAsUnread(SelectedChannel.IdEntity);
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.InnerException != null)
+                            DebugText = "[Exception]" + e.InnerException.Message;
+                        else
+                            DebugText = "[Exception]" + e.Message;
+                    }
+                }
+                else
+                {
+                    DebugText = "[Error] SelectedChannel == null";
+                }
+            }));
+
+
         }
 
     }

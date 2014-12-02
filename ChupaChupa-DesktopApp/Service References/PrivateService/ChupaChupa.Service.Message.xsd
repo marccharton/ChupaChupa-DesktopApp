@@ -10,7 +10,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="RssChannels" nillable="true" type="tns:ArrayOfRssChannel" />
+      <xs:element minOccurs="0" name="RssChannels" type="xs:long" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Category" nillable="true" type="tns:Category" />
@@ -36,7 +36,7 @@
       <xs:element minOccurs="0" name="PubDate" nillable="true" type="xs:dateTime" />
       <xs:element minOccurs="0" name="Rating" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="RssCategory" nillable="true" type="tns:ArrayOfRssCategory" />
-      <xs:element minOccurs="0" name="RssItems" nillable="true" type="tns:ArrayOfRssItem" />
+      <xs:element minOccurs="0" name="RssItems" type="xs:long" />
       <xs:element minOccurs="0" name="RssLink" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="SkipDays" nillable="true" type="tns:ArrayOfSkipDays" />
       <xs:element minOccurs="0" name="SkipHours" nillable="true" type="tns:ArrayOfSkipHours" />
@@ -84,44 +84,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RssCategory" nillable="true" type="tns:RssCategory" />
-  <xs:complexType name="ArrayOfRssItem">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="RssItem" nillable="true" type="tns:RssItem" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfRssItem" nillable="true" type="tns:ArrayOfRssItem" />
-  <xs:complexType name="RssItem">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Author" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Enclosure" nillable="true" type="tns:Enclosure" />
-      <xs:element minOccurs="0" name="Guid" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
-      <xs:element minOccurs="0" name="Link" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="PubDate" nillable="true" type="xs:dateTime" />
-      <xs:element minOccurs="0" name="RssCategory" nillable="true" type="tns:ArrayOfRssCategory" />
-      <xs:element minOccurs="0" name="Source" nillable="true" type="tns:Source" />
-      <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="RssItem" nillable="true" type="tns:RssItem" />
-  <xs:complexType name="Enclosure">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
-      <xs:element minOccurs="0" name="Length" type="xs:long" />
-      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Url" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Enclosure" nillable="true" type="tns:Enclosure" />
-  <xs:complexType name="Source">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
-      <xs:element minOccurs="0" name="Url" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Source" nillable="true" type="tns:Source" />
   <xs:complexType name="ArrayOfSkipDays">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="SkipDays" nillable="true" type="tns:SkipDays" />
@@ -158,4 +120,43 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="TextInput" nillable="true" type="tns:TextInput" />
+  <xs:complexType name="ArrayOfRssItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RssItem" nillable="true" type="tns:RssItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRssItem" nillable="true" type="tns:ArrayOfRssItem" />
+  <xs:complexType name="RssItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Author" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Enclosure" nillable="true" type="tns:Enclosure" />
+      <xs:element minOccurs="0" name="Guid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
+      <xs:element minOccurs="0" name="IsRead" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Link" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PubDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="RssCategory" nillable="true" type="tns:ArrayOfRssCategory" />
+      <xs:element minOccurs="0" name="Source" nillable="true" type="tns:Source" />
+      <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RssItem" nillable="true" type="tns:RssItem" />
+  <xs:complexType name="Enclosure">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
+      <xs:element minOccurs="0" name="Length" type="xs:long" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Url" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Enclosure" nillable="true" type="tns:Enclosure" />
+  <xs:complexType name="Source">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IdEntity" type="xs:long" />
+      <xs:element minOccurs="0" name="Url" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Source" nillable="true" type="tns:Source" />
 </xs:schema>

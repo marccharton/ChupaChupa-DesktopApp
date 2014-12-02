@@ -160,6 +160,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="getChannelById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idChannel" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getChannelByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="getChannelByIdResult" nillable="true" type="q7:RssChannel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="addChannelInCategoryWithIdCategory">
     <xs:complexType>
       <xs:sequence>
@@ -170,7 +184,9 @@
   </xs:element>
   <xs:element name="addChannelInCategoryWithIdCategoryResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="addChannelInCategoryWithIdCategoryResult" nillable="true" type="q8:RssChannel" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="addChannelInCategoryWithCategoryName">
@@ -184,14 +200,28 @@
   <xs:element name="addChannelInCategoryWithCategoryNameResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="addChannelInCategoryWithCategoryNameResult" nillable="true" type="q7:RssChannel" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="addChannelInCategoryWithCategoryNameResult" nillable="true" type="q9:RssChannel" />
       </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="moveChannelToCategory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="oldCategoryId" type="xs:long" />
+        <xs:element minOccurs="0" name="newCategoryId" type="xs:long" />
+        <xs:element minOccurs="0" name="idChannel" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="moveChannelToCategoryResponse">
+    <xs:complexType>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
   <xs:element name="dropChannel">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="idChannel" type="xs:int" />
+        <xs:element minOccurs="0" name="idChannel" type="xs:long" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -200,16 +230,107 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="getRssItems">
+  <xs:element name="dropChannelFromCategory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idCategory" type="xs:long" />
+        <xs:element minOccurs="0" name="idChannel" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dropChannelFromCategoryResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="getRssItemsResponse">
+  <xs:element name="setChannelAsRead">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="getRssItemsResult" nillable="true" type="q8:ArrayOfRssItem" />
+        <xs:element minOccurs="0" name="idChannel" type="xs:long" />
       </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="setChannelAsReadResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="setChannelAsUnread">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idChannel" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="setChannelAsUnreadResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getRssItemsWithChannelId">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idRssChannel" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getRssItemsWithChannelIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="getRssItemsWithChannelIdResult" nillable="true" type="q10:ArrayOfRssItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getRssItemsWithCategoryId">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idCategory" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getRssItemsWithCategoryIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="getRssItemsWithCategoryIdResult" nillable="true" type="q11:ArrayOfRssItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getRssItemById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idRssItem" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getRssItemByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" minOccurs="0" name="getRssItemByIdResult" nillable="true" type="q12:RssItem" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="setItemAsRead">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idRssItem" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="setItemAsReadResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="setItemAsUnread">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idRssItem" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="setItemAsUnreadResponse">
+    <xs:complexType>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
 </xs:schema>

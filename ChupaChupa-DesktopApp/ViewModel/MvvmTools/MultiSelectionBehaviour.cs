@@ -1,135 +1,135 @@
-﻿//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using System.Collections.Specialized;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Interactivity;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Interactivity;
 
-//namespace Chupachupa_DesktopApp.ViewModel
-//{
-//    public class MultiSelectionBehavior : Behavior<ListView>
-//    {
-//        public IList SelectedItems
-//        {
-//            get
-//            {
-//                return (IList)GetValue(SelectedItemsProperty);
-//            }
-//            set
-//            {
-//                SetValue(SelectedItemsProperty, value);
-//            }
-//        }
-//        public static readonly DependencyProperty SelectedItemsProperty =
-//            DependencyProperty.Register("SelectedItems", typeof(IList), typeof(MultiSelectionBehavior), new UIPropertyMetadata(null, SelectedItemsChanged));
+namespace Chupachupa_DesktopApp.ViewModel
+{
+    public class MultiSelectionBehavior : Behavior<ListView>
+    {
+        public IList SelectedItems
+        {
+            get
+            {
+                return (IList)GetValue(SelectedItemsProperty);
+            }
+            set
+            {
+                SetValue(SelectedItemsProperty, value);
+            }
+        }
+        public static readonly DependencyProperty SelectedItemsProperty =
+            DependencyProperty.Register("SelectedItems", typeof(IList), typeof(MultiSelectionBehavior), new UIPropertyMetadata(null, SelectedItemsChanged));
 
-//        private bool _isUpdatingTarget;
-//        private bool _isUpdatingSource;
+        private bool _isUpdatingTarget;
+        private bool _isUpdatingSource;
 
 
-//        protected override void OnAttached()
-//        {
-//            base.OnAttached();
-//            if (SelectedItems != null)
-//            {
-//                AssociatedObject.SelectedItems.Clear();
-//                foreach (var item in SelectedItems)
-//                {
-//                    AssociatedObject.SelectedItems.Add(item);
-//                }
-//            }
-//        }
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            if (SelectedItems != null)
+            {
+                AssociatedObject.SelectedItems.Clear();
+                foreach (var item in SelectedItems)
+                {
+                    AssociatedObject.SelectedItems.Add(item);
+                }
+            }
+        }
 
-//        private static void SelectedItemsChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-//        {
-//            var behavior = o as MultiSelectionBehavior;
-//            if (behavior == null)
-//                return;
+        private static void SelectedItemsChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            var behavior = o as MultiSelectionBehavior;
+            if (behavior == null)
+                return;
 
-//            var oldValue = e.OldValue as INotifyCollectionChanged;
-//            var newValue = e.NewValue as INotifyCollectionChanged;
+            var oldValue = e.OldValue as INotifyCollectionChanged;
+            var newValue = e.NewValue as INotifyCollectionChanged;
 
-//            if (oldValue != null)
-//            {
-//                oldValue.CollectionChanged -= behavior.SourceCollectionChanged;
-//                behavior.AssociatedObject.SelectionChanged -= behavior.ListBoxSelectionChanged;
-//            }
-//            if (newValue != null)
-//            {
-//                behavior.AssociatedObject.SelectedItems.Clear();
-//                foreach (var item in (IEnumerable)newValue)
-//                {
-//                    behavior.AssociatedObject.SelectedItems.Add(item);
-//                }
+            if (oldValue != null)
+            {
+                oldValue.CollectionChanged -= behavior.SourceCollectionChanged;
+                behavior.AssociatedObject.SelectionChanged -= behavior.ListBoxSelectionChanged;
+            }
+            if (newValue != null)
+            {
+                behavior.AssociatedObject.SelectedItems.Clear();
+                foreach (var item in (IEnumerable)newValue)
+                {
+                    behavior.AssociatedObject.SelectedItems.Add(item);
+                }
 
-//                behavior.AssociatedObject.SelectionChanged += behavior.ListBoxSelectionChanged;
-//                newValue.CollectionChanged += behavior.SourceCollectionChanged;
-//            }
-//        }
+                behavior.AssociatedObject.SelectionChanged += behavior.ListBoxSelectionChanged;
+                newValue.CollectionChanged += behavior.SourceCollectionChanged;
+            }
+        }
 
-//        void SourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-//        {
-//            if (_isUpdatingSource)
-//                return;
+        void SourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (_isUpdatingSource)
+                return;
 
-//            try
-//            {
-//                _isUpdatingTarget = true;
+            try
+            {
+                _isUpdatingTarget = true;
 
-//                if (e.OldItems != null)
-//                {
-//                    foreach (var item in e.OldItems)
-//                    {
-//                        AssociatedObject.SelectedItems.Remove(item);
-//                    }
-//                }
+                if (e.OldItems != null)
+                {
+                    foreach (var item in e.OldItems)
+                    {
+                        AssociatedObject.SelectedItems.Remove(item);
+                    }
+                }
 
-//                if (e.NewItems != null)
-//                {
-//                    foreach (var item in e.NewItems)
-//                    {
-//                        AssociatedObject.SelectedItems.Add(item);
-//                    }
-//                }
-//            }
-//            finally
-//            {
-//                _isUpdatingTarget = false;
-//            }
-//        }
+                if (e.NewItems != null)
+                {
+                    foreach (var item in e.NewItems)
+                    {
+                        AssociatedObject.SelectedItems.Add(item);
+                    }
+                }
+            }
+            finally
+            {
+                _isUpdatingTarget = false;
+            }
+        }
 
-//        private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
-//        {
-//            if (_isUpdatingTarget)
-//                return;
+        private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_isUpdatingTarget)
+                return;
 
-//            var selectedItems = this.SelectedItems;
-//            if (selectedItems == null)
-//                return;
+            var selectedItems = this.SelectedItems;
+            if (selectedItems == null)
+                return;
 
-//            try
-//            {
-//                _isUpdatingSource = true;
+            try
+            {
+                _isUpdatingSource = true;
 
-//                foreach (var item in e.RemovedItems)
-//                {
-//                    selectedItems.Remove(item);
-//                }
+                foreach (var item in e.RemovedItems)
+                {
+                    selectedItems.Remove(item);
+                }
 
-//                foreach (var item in e.AddedItems)
-//                {
-//                    selectedItems.Add(item);
-//                }
-//            }
-//            finally
-//            {
-//                _isUpdatingSource = false;
-//            }
-//        }
+                foreach (var item in e.AddedItems)
+                {
+                    selectedItems.Add(item);
+                }
+            }
+            finally
+            {
+                _isUpdatingSource = false;
+            }
+        }
 
-//    }
-//}
+    }
+}

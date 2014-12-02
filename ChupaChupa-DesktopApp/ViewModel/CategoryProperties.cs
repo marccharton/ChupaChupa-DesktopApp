@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Policy;
 using System.Windows;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Windows.Documents;
 using System.Windows.Input;
 using Chupachupa_DesktopApp.PrivateService;
+using Chupachupa_DesktopApp.Tools;
 
 
 namespace Chupachupa_DesktopApp.ViewModel
@@ -162,7 +164,7 @@ namespace Chupachupa_DesktopApp.ViewModel
                     CategoryList = correctList;
 
                     IsFlyoutAddCategoryOpenned = false;
-                    SelectedTabIndex = 1;
+                    SelectedTabIndex = (int)ToolsBox.TabIndex.TAB_CATEGORY;
                     FlyoutMessage = "";
                 }
                 catch (Exception e)

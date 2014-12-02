@@ -78,6 +78,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Tools\ServeurSingleton.cs" />
+    <Compile Include="Tools\ToolsBox.cs" />
     <Compile Include="ViewModel\AccountProperties.cs" />
     <Compile Include="ViewModel\CategoryProperties.cs" />
     <Compile Include="ViewModel\ChannelsProperties.cs" />
@@ -89,6 +90,10 @@
     <Compile Include="ViewModel\Command\SimpleCommand.cs" />
     <Compile Include="ViewModel\ViewModelDataSource.cs" />
     <Compile Include="ViewModel\MvvmTools\MvvmConfig.cs" />
+    <Page Include="Assets\Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -120,6 +125,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Assets\Resources\Entypo.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -156,7 +162,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\Resources\Entypo-license.txt" />
+    <Resource Include="Assets\Resources\WindowsIcons-license.txt" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\img\chupa_chups_chuck.jpg" />
     <Resource Include="Assets\img\ico\delete.ico" />
@@ -201,6 +210,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\img\ico\check.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
