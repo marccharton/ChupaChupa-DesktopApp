@@ -196,7 +196,12 @@ namespace Chupachupa_DesktopApp.ViewModel
                 }
                 else
                 {
-                    _serveur.disconnect();
+                    try
+                    {
+                        _serveur.disconnect();
+                    }
+                    catch (Exception ex) { 
+                    }
                     IsLoggedIn = false;
                     LogMessage = "LOG IN";
                     SelectedTabIndex = (int)ToolsBox.TabIndex.TAB_ACCOUNT;
@@ -225,6 +230,9 @@ namespace Chupachupa_DesktopApp.ViewModel
 
             CreateAccountCmdValidate = new Command(new Action(() =>
             {
+                CreateAccountMessage = "";
+                CreateAccountLoginText = "";
+                CreateAccountPasswordText = "";
                 if (CreateAccountPasswordText != CreateAccountPasswordCheckText)
                 {
                     CreateAccountMessage = "Passwords doesn't match";
@@ -236,11 +244,16 @@ namespace Chupachupa_DesktopApp.ViewModel
                     _pubServeur = new PublicServiceContractClient();
 
                     if (!string.IsNullOrEmpty(CreateAccountPasswordText) &&
-                        !string.IsNullOrEmpty(CreateAccountLoginText))
-                    {
-                        _pubServeur.createAccount(CreateAccountLoginText, CreateAccountPasswordText);
-                        AccountLoginText = CreateAccountLoginText;
-                        AccountPasswordText = CreateAccountPasswordText;
+                        !string.IsNullOrEmpty(CreateAccountLoginText)) {
+                        try
+                        {
+                            _pubServeur.createAccount(CreateAccountLoginText, CreateAccountPasswordText);
+                            AccountLoginText = CreateAccountLoginText;
+                            AccountPasswordText = CreateAccountPasswordText;
+                        } catch (Exception ex) {
+                            CreateAccountMessage = ex.Message;
+                            return;
+                        }
                     }
                 }
                 IsFlyoutCreateAccountOppenned = false;
