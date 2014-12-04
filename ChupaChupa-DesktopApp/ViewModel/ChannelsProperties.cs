@@ -103,17 +103,27 @@ namespace Chupachupa_DesktopApp.ViewModel
             {
                 if (SelectedChannel != null)
                 {
-                    DebugText = SelectedChannel.Title;
+                    try
+                    {
+                        ChannelsList.Remove(SelectedChannel);
+                        _serveur.dropChannel(SelectedChannel.IdEntity);
 
-                    ChannelsList.Remove(SelectedChannel);
-                    _serveur.dropChannel(SelectedChannel.IdEntity);
+                        IList<RssChannel> correctList = ChannelsList;
+
+                        ChannelsList = null;
+                        ChannelsList = correctList;
+
+                        SelectedChannel = null;
+                    }
+                    catch (Exception e)
+                    {
+                        IsProgressRingActive = false;
+                        if (e.InnerException != null)
+                            DebugText = e.InnerException.Message;
+                        else
+                            DebugText = e.Message;
+                    }
                     
-                    IList<RssChannel> correctList = ChannelsList;
-
-                    ChannelsList = null;
-                    ChannelsList = correctList;
-
-                    SelectedChannel = null;
                 }
             }));
 
@@ -200,7 +210,8 @@ namespace Chupachupa_DesktopApp.ViewModel
                 {
                     try
                     {
-                        _serveur.setChannelAsRead(SelectedChannel.IdEntity);
+                        if (IsOn)
+                            _serveur.setChannelAsRead(SelectedChannel.IdEntity);
                     }
                     catch (Exception e)
                     {
@@ -223,7 +234,8 @@ namespace Chupachupa_DesktopApp.ViewModel
                 {
                     try
                     {
-                        _serveur.setChannelAsUnread(SelectedChannel.IdEntity);
+                        if (IsOn)
+                            _serveur.setChannelAsUnread(SelectedChannel.IdEntity);
                     }
                     catch (Exception e)
                     {

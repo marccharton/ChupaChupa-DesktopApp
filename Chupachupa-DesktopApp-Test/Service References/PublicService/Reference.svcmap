@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="b9b1b785-a2c3-43b3-bfe1-6b2933e42daf" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://chupachupa47.cloudapp.net/servicecontractimpl/publicservicecontractimpl.svc/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="fe4f747e-1b9a-4857-b33d-a9e07ea4bc9f" SourceId="1" SourceUrl="https://chupachupa47.cloudapp.net/servicecontractimpl/publicservicecontractimpl.svc/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="4bd75d6c-ddc8-4e77-8f1b-61339ea04180" SourceId="1" SourceUrl="https://chupachupa47.cloudapp.net/servicecontractimpl/publicservicecontractimpl.svc/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c1621f0d-19cb-4a88-8632-98cdef497ffd" SourceId="1" SourceUrl="https://chupachupa47.cloudapp.net/servicecontractimpl/publicservicecontractimpl.svc/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

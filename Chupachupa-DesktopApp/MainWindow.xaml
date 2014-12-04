@@ -198,6 +198,7 @@
                 <Grid Margin="10"
                       Width="400">
                     <StackPanel>
+                        <controls:ToggleSwitch IsChecked="{Binding Path=IsOn, Mode=TwoWay}" Header="Connected Mode" IsEnabled="False" />
                         <StackPanel.InputBindings>
                             <KeyBinding Command="{Binding ViewSettingsCmdValidate}"  Key="Enter"/>
                         </StackPanel.InputBindings>
@@ -252,7 +253,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Add Category" Command="{Binding AddCategoryCmd}" Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}"/>
+            <MenuItem Header="Add Category" Command="{Binding AddCategoryCmd}" IsEnabled="{Binding IsOn}" Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}" />
             <MenuItem Header="All Items" Command="{Binding LoadAllItemsCmd}" Visibility="{Binding Path=IsLoggedIn, Converter={StaticResource BooleanToVisibilty}}"/>
             
         </Menu>
@@ -291,7 +292,7 @@
                     <Button Content="All" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="219.79,23.333,0,0" Width="47" Command="{Binding LoadAllCategoriesCmd}"/>
 
                     <!--<Button x:Name="CategoryEditButton" Command="{Binding EditCategoryCmd}" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,10,0,0" Width="60"/>-->
-                    <Button x:Name="CategoryAddButton" Command="{Binding AddCategoryCmd}" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="14,67,0,0" Height="28" Width="60"/>
+                    <Button x:Name="CategoryAddButton" Command="{Binding AddCategoryCmd}" IsEnabled="{Binding IsOn}"  Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="14,67,0,0" Height="28" Width="60"/>
                     <!--<Button x:Name="CategoryDeleteButton" Command="{Binding DeleteCategoryCmd}" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,10,0,0" Height="28" Width="60"/>-->
                     <ListView x:Name="CategoriesListView" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Margin="10,100,10,10" 
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -313,12 +314,12 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="EDIT" Command="{Binding EditCategoryCmd}">
+                                <MenuItem Header="EDIT" Command="{Binding EditCategoryCmd}" IsEnabled="{Binding IsOn}">
                                     <MenuItem.Icon>
                                         <Image Width="16" Height="16" Source="Assets/img/ico/edit.ico" />
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Header="DELETE" Command="{Binding DeleteCategoryCmd}">
+                                <MenuItem Header="DELETE" Command="{Binding DeleteCategoryCmd}" IsEnabled="{Binding IsOn}">
                                     <MenuItem.Icon>
                                         <Image Width="16" Height="16" Source="Assets/img/ico/delete.ico" />
                                     </MenuItem.Icon>
@@ -353,7 +354,7 @@
                     	<Button x:Name="ChannelsAllButton" Content="All" Command="{Binding LoadAllChannelsCmd}"  Width="47" VerticalAlignment="Center" Margin="10,0,0,0"/>
                     </StackPanel>
                     <!--<Button x:Name="ChannelsEditButton" Command="{Binding EditChannelCmd}" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource SquareButtonStyle}" Height="28" Margin="10,68.46,0,0" Width="60"/>-->
-                    <Button x:Name="ChannelsAddButton" Command="{Binding AddChannelCmd}" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="9,67,0,0" Height="28" Width="60"/>
+                    <Button x:Name="ChannelsAddButton" Command="{Binding AddChannelCmd}" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="9,67,0,0" Height="28" Width="60" IsEnabled="{Binding IsOn}"/>
                     <!--<Button x:Name="ChannelsDeleteButton" Command="{Binding DeleteChannelCmd}" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Margin="140,68.46,0,0" Height="28" Width="60"/>-->
                     <ListView x:Name="ChannelsListView" Background="Transparent" BorderBrush="Transparent" BorderThickness="0"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
@@ -385,12 +386,12 @@
                                         <Image Width="16" Height="16" Source="Assets/img/ico/exit.ico" />
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Header="EDIT" Command="{Binding EditChannelCmd}">
+                                <MenuItem Header="EDIT" Command="{Binding EditChannelCmd}" IsEnabled="{Binding IsOn}">
                                     <MenuItem.Icon>
                                         <Image Width="16" Height="16" Source="Assets/img/ico/edit.ico" />
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Header="DELETE" Command="{Binding DeleteChannelCmd}">
+                                <MenuItem Header="DELETE" Command="{Binding DeleteChannelCmd}" IsEnabled="{Binding IsOn}">
                                     <MenuItem.Icon>
                                         <Image Width="16" Height="16" Source="Assets/img/ico/delete.ico" />
                                     </MenuItem.Icon>

@@ -90,7 +90,8 @@ namespace Chupachupa_DesktopApp.ViewModel
                     {
                         SelectedItem.IsRead = true;
                         IsProgressRingActive = true;
-                        _serveur.setItemAsRead(SelectedItem.IdEntity);
+                        if (IsOn)
+                            _serveur.setItemAsRead(SelectedItem.IdEntity);
                     }
                     catch (Exception e)
                     {
@@ -118,7 +119,8 @@ namespace Chupachupa_DesktopApp.ViewModel
                     {
                         SelectedItem.IsRead = false;
                         IsProgressRingActive = true;
-                        _serveur.setItemAsUnread(SelectedItem.IdEntity);
+                        if (IsOn)
+                            _serveur.setItemAsUnread(SelectedItem.IdEntity);
                     }
                     catch (Exception e)
                     {

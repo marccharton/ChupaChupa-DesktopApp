@@ -22,7 +22,6 @@ namespace Chupachupa_DesktopApp.ViewModel
     /// </summary>
     public partial class ViewModelDataSource : INotifyPropertyChanged
     {
-        private string accountSerializePath = @"account.xml";
 
         private string _currentUserName;
         public string CurrentUserName
@@ -43,6 +42,17 @@ namespace Chupachupa_DesktopApp.ViewModel
             {
                 _isLoggedIn = value;
                 NotifyPropertyChanged("IsLoggedIn");
+            }
+        }
+
+        private bool _isOn;
+        public bool IsOn
+        {
+            get { return _isOn; }
+            set
+            {
+                _isOn = value;
+                NotifyPropertyChanged("IsOn");
             }
         }
 
@@ -172,18 +182,26 @@ namespace Chupachupa_DesktopApp.ViewModel
                         try
                         {
                             _serveur = new ServiceContractClient();
-                            _serveur.ClientCredentials.UserName.UserName = AccountLoginText;
-                            _serveur.ClientCredentials.UserName.Password = AccountPasswordText;
-                            await _serveur.authenticateAsync(AccountLoginText, AccountPasswordText);
 
+                            //_serveur.ClientCredentials.UserName.UserName = AccountLoginText;
+                            //_serveur.ClientCredentials.UserName.Password = AccountPasswordText;
+                            //await _serveur.authenticateAsync(AccountLoginText, AccountPasswordText);
+
+                            await LocalData.LogUser(_serveur, AccountLoginText, AccountPasswordText);
+                            IsOn = LocalData.isOn;
+                                
                             CurrentUserName = AccountLoginText;
                             IsProgressRingActive = false;
-                            SelectedTabIndex = (int)ToolsBox.TabOnApplicationInit;
+                            SelectedTabIndex = (int) ToolsBox.TabOnApplicationInit;
                             IsLoggedIn = true;
                             LogMessage = "LOG OUT";
                             ConnectionErrorText = "";
-                            LoadCategories();
+                            //LoadCategories();
+                            CategoryList = LocalData.CategoriesList;
+                            ChannelsList = LocalData.ChannelsList;
+                            ItemsList = LocalData.ItemsList;
                         }
+
                         catch(Exception e)
                         {
                             if (e.InnerException == null)
@@ -196,7 +214,18 @@ namespace Chupachupa_DesktopApp.ViewModel
                 }
                 else
                 {
-                    _serveur.disconnect();
+                    try
+                    {
+                        if (IsOn)
+                            _serveur.disconnect();
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.InnerException == null)
+                            DebugText = e.Message;
+                        else
+                            DebugText = e.InnerException.Message;
+                    }
                     IsLoggedIn = false;
                     LogMessage = "LOG IN";
                     SelectedTabIndex = (int)ToolsBox.TabIndex.TAB_ACCOUNT;
@@ -204,7 +233,7 @@ namespace Chupachupa_DesktopApp.ViewModel
                 }
             }));
 
-            if (File.Exists(this.accountSerializePath))
+            if (File.Exists(ToolsBox.AccountSerializePath))
             {
                 if (Unserialize() == true)
                     LogUserCmd.Execute(null);
@@ -252,9 +281,9 @@ namespace Chupachupa_DesktopApp.ViewModel
         {
             List<String> usernameCredantials = new List<string>(){AccountLoginText, AccountPasswordText};
 
-            if (File.Exists(this.accountSerializePath))
-                File.Delete(this.accountSerializePath);
-            Serializer.Serialize(usernameCredantials, this.accountSerializePath, FileMode.OpenOrCreate, typeof(List<string>));
+            if (File.Exists(ToolsBox.AccountSerializePath))
+                File.Delete(ToolsBox.AccountSerializePath);
+            Serializer.Serialize(usernameCredantials, ToolsBox.AccountSerializePath, FileMode.OpenOrCreate, typeof(List<string>));
             return true;
         }
 
@@ -262,8 +291,8 @@ namespace Chupachupa_DesktopApp.ViewModel
         private bool Unserialize()
         {
             List<String> userCredantials = null;
-            if (File.Exists(this.accountSerializePath))
-                using (var fs = new FileStream(this.accountSerializePath, FileMode.Open))
+            if (File.Exists(ToolsBox.AccountSerializePath))
+                using (var fs = new FileStream(ToolsBox.AccountSerializePath, FileMode.Open))
                 {
                     try
                     {
@@ -293,8 +322,8 @@ namespace Chupachupa_DesktopApp.ViewModel
                 Serialize();
             else
             {
-                if (File.Exists(this.accountSerializePath))
-                    File.Delete(this.accountSerializePath);
+                if (File.Exists(ToolsBox.AccountSerializePath))
+                    File.Delete(ToolsBox.AccountSerializePath);
             }
             if (IsLoggedIn)
             {

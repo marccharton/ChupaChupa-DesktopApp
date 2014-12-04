@@ -1,0 +1,612 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ServiceContractImpl" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="WSHttpBinding_IServiceContract_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+            <sp:IncludeTimestamp />
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <sp:EndorsingSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:SecureConversationToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+              <wsp:Policy>
+                <sp:BootstrapPolicy>
+                  <wsp:Policy>
+                    <sp:SignedParts>
+                      <sp:Body />
+                      <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+                      <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+                      <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+                      <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+                      <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+                      <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+                      <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+                    </sp:SignedParts>
+                    <sp:EncryptedParts>
+                      <sp:Body />
+                    </sp:EncryptedParts>
+                    <sp:TransportBinding>
+                      <wsp:Policy>
+                        <sp:TransportToken>
+                          <wsp:Policy>
+                            <sp:HttpsToken RequireClientCertificate="false" />
+                          </wsp:Policy>
+                        </sp:TransportToken>
+                        <sp:AlgorithmSuite>
+                          <wsp:Policy>
+                            <sp:Basic256 />
+                          </wsp:Policy>
+                        </sp:AlgorithmSuite>
+                        <sp:Layout>
+                          <wsp:Policy>
+                            <sp:Strict />
+                          </wsp:Policy>
+                        </sp:Layout>
+                        <sp:IncludeTimestamp />
+                      </wsp:Policy>
+                    </sp:TransportBinding>
+                    <sp:SignedSupportingTokens>
+                      <wsp:Policy>
+                        <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                          <wsp:Policy>
+                            <sp:WssUsernameToken10 />
+                          </wsp:Policy>
+                        </sp:UsernameToken>
+                      </wsp:Policy>
+                    </sp:SignedSupportingTokens>
+                    <sp:Wss11>
+                      <wsp:Policy />
+                    </sp:Wss11>
+                    <sp:Trust10>
+                      <wsp:Policy>
+                        <sp:MustSupportIssuedTokens />
+                        <sp:RequireClientEntropy />
+                        <sp:RequireServerEntropy />
+                      </wsp:Policy>
+                    </sp:Trust10>
+                  </wsp:Policy>
+                </sp:BootstrapPolicy>
+              </wsp:Policy>
+            </sp:SecureConversationToken>
+          </wsp:Policy>
+        </sp:EndorsingSupportingTokens>
+        <sp:Wss11 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy />
+        </sp:Wss11>
+        <sp:Trust10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:MustSupportIssuedTokens />
+            <sp:RequireClientEntropy />
+            <sp:RequireServerEntropy />
+          </wsp:Policy>
+        </sp:Trust10>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/ChupaChupa.Service.Message" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IServiceContract_authenticate_InputMessage">
+    <wsdl:part name="parameters" element="tns:authenticate" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_authenticate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:authenticateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_disconnect_InputMessage">
+    <wsdl:part name="parameters" element="tns:disconnect" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getUserId_InputMessage">
+    <wsdl:part name="parameters" element="tns:getUserId" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getUserId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getUserIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_changePassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:changePassword" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_changePassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:changePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getCategories_InputMessage">
+    <wsdl:part name="parameters" element="tns:getCategories" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getCategories_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getCategoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getCategoryById_InputMessage">
+    <wsdl:part name="parameters" element="tns:getCategoryById" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getCategoryById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getCategoryByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_addCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:addCategory" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_addCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:addCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_dropCategoryWithId_InputMessage">
+    <wsdl:part name="parameters" element="tns:dropCategoryWithId" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_dropCategoryWithId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:dropCategoryWithIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_dropCategoryWithCategoryName_InputMessage">
+    <wsdl:part name="parameters" element="tns:dropCategoryWithCategoryName" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_dropCategoryWithCategoryName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:dropCategoryWithCategoryNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_renameCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:renameCategory" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_renameCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:renameCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssChannels_InputMessage">
+    <wsdl:part name="parameters" element="tns:getRssChannels" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssChannels_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getRssChannelsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssChannelsInCategoryWithIdCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:getRssChannelsInCategoryWithIdCategory" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssChannelsInCategoryWithIdCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getRssChannelsInCategoryWithIdCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssChannelsInCategoryWithCategoryName_InputMessage">
+    <wsdl:part name="parameters" element="tns:getRssChannelsInCategoryWithCategoryName" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssChannelsInCategoryWithCategoryName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getRssChannelsInCategoryWithCategoryNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getChannelById_InputMessage">
+    <wsdl:part name="parameters" element="tns:getChannelById" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getChannelById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getChannelByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_addChannelInCategoryWithIdCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:addChannelInCategoryWithIdCategory" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_addChannelInCategoryWithIdCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:addChannelInCategoryWithIdCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_addChannelInCategoryWithCategoryName_InputMessage">
+    <wsdl:part name="parameters" element="tns:addChannelInCategoryWithCategoryName" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_addChannelInCategoryWithCategoryName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:addChannelInCategoryWithCategoryNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_moveChannelToCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:moveChannelToCategory" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_moveChannelToCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:moveChannelToCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_dropChannel_InputMessage">
+    <wsdl:part name="parameters" element="tns:dropChannel" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_dropChannel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:dropChannelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_dropChannelFromCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:dropChannelFromCategory" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_dropChannelFromCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:dropChannelFromCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_setChannelAsRead_InputMessage">
+    <wsdl:part name="parameters" element="tns:setChannelAsRead" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_setChannelAsRead_OutputMessage">
+    <wsdl:part name="parameters" element="tns:setChannelAsReadResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_setChannelAsUnread_InputMessage">
+    <wsdl:part name="parameters" element="tns:setChannelAsUnread" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_setChannelAsUnread_OutputMessage">
+    <wsdl:part name="parameters" element="tns:setChannelAsUnreadResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssItemsWithChannelId_InputMessage">
+    <wsdl:part name="parameters" element="tns:getRssItemsWithChannelId" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssItemsWithChannelId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getRssItemsWithChannelIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssItemsWithCategoryId_InputMessage">
+    <wsdl:part name="parameters" element="tns:getRssItemsWithCategoryId" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssItemsWithCategoryId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getRssItemsWithCategoryIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssItemById_InputMessage">
+    <wsdl:part name="parameters" element="tns:getRssItemById" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_getRssItemById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getRssItemByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_setItemAsRead_InputMessage">
+    <wsdl:part name="parameters" element="tns:setItemAsRead" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_setItemAsRead_OutputMessage">
+    <wsdl:part name="parameters" element="tns:setItemAsReadResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_setItemAsUnread_InputMessage">
+    <wsdl:part name="parameters" element="tns:setItemAsUnread" />
+  </wsdl:message>
+  <wsdl:message name="IServiceContract_setItemAsUnread_OutputMessage">
+    <wsdl:part name="parameters" element="tns:setItemAsUnreadResponse" />
+  </wsdl:message>
+  <wsdl:portType msc:usingSession="true" name="IServiceContract">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="authenticate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/authenticate" message="tns:IServiceContract_authenticate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/authenticateResponse" message="tns:IServiceContract_authenticate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="true" name="disconnect">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/disconnect" message="tns:IServiceContract_disconnect_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getUserId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getUserId" message="tns:IServiceContract_getUserId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getUserIdResponse" message="tns:IServiceContract_getUserId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="true" name="changePassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/changePassword" message="tns:IServiceContract_changePassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/changePasswordResponse" message="tns:IServiceContract_changePassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getCategories">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getCategories" message="tns:IServiceContract_getCategories_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getCategoriesResponse" message="tns:IServiceContract_getCategories_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getCategoryById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getCategoryById" message="tns:IServiceContract_getCategoryById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getCategoryByIdResponse" message="tns:IServiceContract_getCategoryById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="addCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/addCategory" message="tns:IServiceContract_addCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/addCategoryResponse" message="tns:IServiceContract_addCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="dropCategoryWithId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/dropCategoryWithId" message="tns:IServiceContract_dropCategoryWithId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/dropCategoryWithIdResponse" message="tns:IServiceContract_dropCategoryWithId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="dropCategoryWithCategoryName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/dropCategoryWithCategoryName" message="tns:IServiceContract_dropCategoryWithCategoryName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/dropCategoryWithCategoryNameResponse" message="tns:IServiceContract_dropCategoryWithCategoryName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="renameCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/renameCategory" message="tns:IServiceContract_renameCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/renameCategoryResponse" message="tns:IServiceContract_renameCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getRssChannels">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getRssChannels" message="tns:IServiceContract_getRssChannels_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getRssChannelsResponse" message="tns:IServiceContract_getRssChannels_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getRssChannelsInCategoryWithIdCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithIdCategory" message="tns:IServiceContract_getRssChannelsInCategoryWithIdCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithIdCategoryResponse" message="tns:IServiceContract_getRssChannelsInCategoryWithIdCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getRssChannelsInCategoryWithCategoryName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithCategoryName" message="tns:IServiceContract_getRssChannelsInCategoryWithCategoryName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithCategoryNameResponse" message="tns:IServiceContract_getRssChannelsInCategoryWithCategoryName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getChannelById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getChannelById" message="tns:IServiceContract_getChannelById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getChannelByIdResponse" message="tns:IServiceContract_getChannelById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="addChannelInCategoryWithIdCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/addChannelInCategoryWithIdCategory" message="tns:IServiceContract_addChannelInCategoryWithIdCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/addChannelInCategoryWithIdCategoryResponse" message="tns:IServiceContract_addChannelInCategoryWithIdCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="addChannelInCategoryWithCategoryName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/addChannelInCategoryWithCategoryName" message="tns:IServiceContract_addChannelInCategoryWithCategoryName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/addChannelInCategoryWithCategoryNameResponse" message="tns:IServiceContract_addChannelInCategoryWithCategoryName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="moveChannelToCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/moveChannelToCategory" message="tns:IServiceContract_moveChannelToCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/moveChannelToCategoryResponse" message="tns:IServiceContract_moveChannelToCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="dropChannel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/dropChannel" message="tns:IServiceContract_dropChannel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/dropChannelResponse" message="tns:IServiceContract_dropChannel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="dropChannelFromCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/dropChannelFromCategory" message="tns:IServiceContract_dropChannelFromCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/dropChannelFromCategoryResponse" message="tns:IServiceContract_dropChannelFromCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="setChannelAsRead">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/setChannelAsRead" message="tns:IServiceContract_setChannelAsRead_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/setChannelAsReadResponse" message="tns:IServiceContract_setChannelAsRead_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="setChannelAsUnread">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/setChannelAsUnread" message="tns:IServiceContract_setChannelAsUnread_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/setChannelAsUnreadResponse" message="tns:IServiceContract_setChannelAsUnread_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getRssItemsWithChannelId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getRssItemsWithChannelId" message="tns:IServiceContract_getRssItemsWithChannelId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getRssItemsWithChannelIdResponse" message="tns:IServiceContract_getRssItemsWithChannelId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getRssItemsWithCategoryId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getRssItemsWithCategoryId" message="tns:IServiceContract_getRssItemsWithCategoryId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getRssItemsWithCategoryIdResponse" message="tns:IServiceContract_getRssItemsWithCategoryId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getRssItemById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/getRssItemById" message="tns:IServiceContract_getRssItemById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/getRssItemByIdResponse" message="tns:IServiceContract_getRssItemById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="setItemAsRead">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/setItemAsRead" message="tns:IServiceContract_setItemAsRead_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/setItemAsReadResponse" message="tns:IServiceContract_setItemAsRead_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="setItemAsUnread">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceContract/setItemAsUnread" message="tns:IServiceContract_setItemAsUnread_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceContract/setItemAsUnreadResponse" message="tns:IServiceContract_setItemAsUnread_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSHttpBinding_IServiceContract" type="tns:IServiceContract">
+    <wsp:PolicyReference URI="#WSHttpBinding_IServiceContract_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="authenticate">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/authenticate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disconnect">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/disconnect" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="getUserId">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getUserId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="changePassword">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/changePassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCategories">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getCategories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCategoryById">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getCategoryById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addCategory">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/addCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="dropCategoryWithId">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/dropCategoryWithId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="dropCategoryWithCategoryName">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/dropCategoryWithCategoryName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="renameCategory">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/renameCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRssChannels">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getRssChannels" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRssChannelsInCategoryWithIdCategory">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithIdCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRssChannelsInCategoryWithCategoryName">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getRssChannelsInCategoryWithCategoryName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getChannelById">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getChannelById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addChannelInCategoryWithIdCategory">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/addChannelInCategoryWithIdCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addChannelInCategoryWithCategoryName">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/addChannelInCategoryWithCategoryName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="moveChannelToCategory">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/moveChannelToCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="dropChannel">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/dropChannel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="dropChannelFromCategory">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/dropChannelFromCategory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setChannelAsRead">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/setChannelAsRead" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setChannelAsUnread">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/setChannelAsUnread" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRssItemsWithChannelId">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getRssItemsWithChannelId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRssItemsWithCategoryId">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getRssItemsWithCategoryId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRssItemById">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/getRssItemById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setItemAsRead">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/setItemAsRead" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setItemAsUnread">
+      <soap12:operation soapAction="http://tempuri.org/IServiceContract/setItemAsUnread" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServiceContractImpl">
+    <wsdl:port name="WSHttpBinding_IServiceContract" binding="tns:WSHttpBinding_IServiceContract">
+      <soap12:address location="https://rd00155d522fc9/servicecontractimpl/ServiceContractImpl.svc" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>https://rd00155d522fc9/servicecontractimpl/ServiceContractImpl.svc</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

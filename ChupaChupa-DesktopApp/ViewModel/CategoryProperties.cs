@@ -129,17 +129,31 @@ namespace Chupachupa_DesktopApp.ViewModel
             // ******** suppression d'une catégorie *********
             DeleteCategoryCmd = new Command(new Action(() =>
             {
-                if (SelectedCategory != null)
+                try
                 {
-                    _serveur.dropCategoryWithId(SelectedCategory.IdEntity);
-                    //_serveur.dropCategoryWithCategoryName(SelectedCategory.Name);
-                    CategoryList.Remove(SelectedCategory);
-                    IList<Category> correctList = CategoryList;
-                 
-                    CategoryList = null;
-                    CategoryList = correctList;
-                    SelectedCategory = null;
+                    if (SelectedCategory != null)
+                    {
+                        CategoryList.Remove(SelectedCategory);
+                        IList<Category> correctList = CategoryList;
+
+                        _serveur.dropCategoryWithId(SelectedCategory.IdEntity);
+                        //_serveur.dropCategoryWithCategoryName(SelectedCategory.Name);
+                        
+                        CategoryList = null;
+                        CategoryList = correctList;
+                        SelectedCategory = null;
+                    }
                 }
+                catch (Exception e)
+                {
+                    if (e.InnerException != null)
+                        DebugText = e.InnerException.Message;
+                    else
+                        DebugText = e.Message;
+                }
+
+
+                
             }));
 
 
@@ -157,11 +171,13 @@ namespace Chupachupa_DesktopApp.ViewModel
                 {
                     CurrentCategory = _serveur.addCategory(CurrentCategory.Name);
 
-                    CategoryList.Add(CurrentCategory);
+                    //CategoryList.Add(CurrentCategory);
 
-                    IList<Category> correctList = CategoryList;
-                    CategoryList = null;
-                    CategoryList = correctList;
+                    //IList<Category> correctList = CategoryList;
+                    //CategoryList = null;
+                    //CategoryList = correctList;
+
+                    CategoryList = LocalData.RefreshCategories(_serveur);
 
                     IsFlyoutAddCategoryOpenned = false;
                     SelectedTabIndex = (int)ToolsBox.TabIndex.TAB_CATEGORY;
@@ -194,6 +210,7 @@ namespace Chupachupa_DesktopApp.ViewModel
                 {
                     _serveur.renameCategory(CurrentCategory.IdEntity, CurrentCategory.Name);
                     IsFlyoutEditCategoryOpenned = false;
+                    CategoryList = LocalData.RefreshCategories(_serveur);
                 }
                 catch (Exception e)
                 {

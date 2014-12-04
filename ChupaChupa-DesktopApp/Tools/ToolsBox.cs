@@ -17,7 +17,12 @@ namespace Chupachupa_DesktopApp.Tools
             TAB_VIEWER
         };
 
-        public static TabIndex TabOnApplicationInit = TabIndex.TAB_CATEGORY;
+        public static string AccountSerializePath = @"account.data";
+        public static string CategoriesSerializePath = @"categories.data";
+        public static string ChannelsSerializePath = @"channels.data";
+        public static string ItemsSerializePath = @"items.data";
 
+        public static TabIndex TabOnApplicationInit = TabIndex.TAB_ITEMS;
+        public static int TimeToRefreshDatas = 5; // In Minutes
     }
 }

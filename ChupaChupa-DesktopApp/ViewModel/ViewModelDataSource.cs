@@ -170,14 +170,29 @@ namespace Chupachupa_DesktopApp.ViewModel
             // ******** chargement d'une catégorie *********
             LoadCategoryCmd = new Command(new Action(() =>
             {
-                if (SelectedCategory != null)
+                try
                 {
-                    CurrentCategory = SelectedCategory;
-                    SelectedTabIndex = (int)ToolsBox.TabIndex.TAB_CHANNEL;
+                    if (SelectedCategory != null)
+                    {
+                        if (IsOn)
+                        {
+                            CurrentCategory = SelectedCategory;
+                            SelectedTabIndex = (int)ToolsBox.TabIndex.TAB_CHANNEL;
 
-                    ChannelTitleText = CurrentCategory.Name;
-                    ChannelsList = null;
-                    ChannelsList = _serveur.getRssChannelsInCategoryWithCategoryName(CurrentCategory.Name);
+                            ChannelTitleText = CurrentCategory.Name;
+                            ChannelsList = null;
+                            ChannelsList = _serveur.getRssChannelsInCategoryWithCategoryName(CurrentCategory.Name);
+                        }
+                        SelectedTabIndex = (int)ToolsBox.TabIndex.TAB_CHANNEL;
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (e.InnerException != null)
+                        DebugText = e.InnerException.Message;
+                    else
+                        DebugText = e.Message;
+                    DebugText += "Maybe, the category doesn't exist anymore...";
                 }
             }));
 
@@ -190,10 +205,14 @@ namespace Chupachupa_DesktopApp.ViewModel
                     SelectedTabIndex = (int)ToolsBox.TabIndex.TAB_ITEMS;
                     try
                     {
-                        ItemsTitleText = CurrentChannel.Title;
-                        ItemsList = null;
-                        IsProgressRingActive = true;
-                        ItemsList = await _serveur.getRssItemsWithChannelIdAsync(CurrentChannel.IdEntity);
+                        if (IsOn)
+                        {
+                            ItemsTitleText = CurrentChannel.Title;
+                            ItemsList = null;
+                            IsProgressRingActive = true;
+                            ItemsList = await _serveur.getRssItemsWithChannelIdAsync(CurrentChannel.IdEntity);
+                        }
+
                     }
                     catch (Exception e)
                     {
@@ -217,9 +236,12 @@ namespace Chupachupa_DesktopApp.ViewModel
                     // CurrentItem.SetLu()
                     try
                     {
-                        CurrentItem.IsRead = true;
-                        IsProgressRingActive = true;
-                        _serveur.setItemAsRead(CurrentItem.IdEntity);
+                        if (IsOn)
+                        {
+                            CurrentItem.IsRead = true;
+                            IsProgressRingActive = true;
+                            _serveur.setItemAsRead(CurrentItem.IdEntity);
+                        }
                     }
                     catch (Exception e)
                     {
@@ -241,9 +263,12 @@ namespace Chupachupa_DesktopApp.ViewModel
                     SelectedTabIndex = (int)ToolsBox.TabIndex.TAB_CHANNEL;
                     IsProgressRingActive = true;
 
-                    CurrentCategory = null;
-                    ChannelsList = null;
-                    ChannelsList = await _serveur.getRssChannelsAsync();
+                    if (IsOn)
+                    {
+                        CurrentCategory = null;
+                        ChannelsList = null;
+                        ChannelsList = await _serveur.getRssChannelsAsync();
+                    }
 
                     ChannelTitleText = "All Channels";
                 }
@@ -263,14 +288,20 @@ namespace Chupachupa_DesktopApp.ViewModel
             LoadAllChannelsCmd = new Command(new Action(async () =>
             {
                 if (CurrentCategory == null)
+                {
                     LoadAllItemsCmd.Execute(null);
+                    return ;
+                }
                 try
                 {
                     SelectedTabIndex = (int)ToolsBox.TabIndex.TAB_ITEMS;
-                    ItemsTitleText = "All items In " + CurrentCategory.Name;
-                    IsProgressRingActive = true;
-                    ItemsList = null;
-                    await LoadAllItemsOfChannels();
+                    if (IsOn)
+                    {
+                        ItemsTitleText = "All items In " + CurrentCategory.Name;
+                        IsProgressRingActive = true;
+                        ItemsList = null;
+                        await LoadAllItemsOfChannels();
+                    }
                 }
                 catch (Exception e)
                 {
@@ -291,9 +322,12 @@ namespace Chupachupa_DesktopApp.ViewModel
                 try
                 {
                     ItemsTitleText = "All items";
-                    IsProgressRingActive = true;
-                    ItemsList = null;
-                    await LoadAllItemsOfCategories();
+                    if (IsOn)
+                    {
+                        IsProgressRingActive = true;
+                        ItemsList = null;
+                        await LoadAllItemsOfCategories();
+                    }
                 }
                 catch (Exception e)
                 {
