@@ -353,7 +353,6 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
             ItemsList = null;
             ItemsList = list;
-            //ItemsList = _serveur.GetRssItemsWithCategoryId(CurrentCategory.IdEntity);
         }
 
         async public Task LoadAllItemsOfCategories()
