@@ -219,12 +219,7 @@ namespace Chupachupa_DesktopApp.ViewModel
                         if (IsOn)
                             _serveur.disconnect();
                     }
-                    catch (Exception e)
-                    {
-                        if (e.InnerException == null)
-                            DebugText = e.Message;
-                        else
-                            DebugText = e.InnerException.Message;
+                    catch (Exception ex) { 
                     }
                     IsLoggedIn = false;
                     LogMessage = "LOG IN";
@@ -254,6 +249,15 @@ namespace Chupachupa_DesktopApp.ViewModel
 
             CreateAccountCmdValidate = new Command(new Action(() =>
             {
+                CreateAccountMessage = "";
+                CreateAccountLoginText = "";
+                CreateAccountPasswordText = "";
+                if (!IsOn)
+                {
+                    CreateAccountMessage = "You have to be connected to create an account";
+                    return;
+                }
+
                 if (CreateAccountPasswordText != CreateAccountPasswordCheckText)
                 {
                     CreateAccountMessage = "Passwords doesn't match";
@@ -265,11 +269,16 @@ namespace Chupachupa_DesktopApp.ViewModel
                     _pubServeur = new PublicServiceContractClient();
 
                     if (!string.IsNullOrEmpty(CreateAccountPasswordText) &&
-                        !string.IsNullOrEmpty(CreateAccountLoginText))
-                    {
-                        _pubServeur.createAccount(CreateAccountLoginText, CreateAccountPasswordText);
-                        AccountLoginText = CreateAccountLoginText;
-                        AccountPasswordText = CreateAccountPasswordText;
+                        !string.IsNullOrEmpty(CreateAccountLoginText)) {
+                        try
+                        {
+                            _pubServeur.createAccount(CreateAccountLoginText, CreateAccountPasswordText);
+                            AccountLoginText = CreateAccountLoginText;
+                            AccountPasswordText = CreateAccountPasswordText;
+                        } catch (Exception ex) {
+                            CreateAccountMessage = ex.Message;
+                            return;
+                        }
                     }
                 }
                 IsFlyoutCreateAccountOppenned = false;

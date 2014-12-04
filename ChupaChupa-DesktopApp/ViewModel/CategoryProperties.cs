@@ -96,6 +96,7 @@ namespace Chupachupa_DesktopApp.ViewModel
             }
         }
 
+        private string _oldNameCategory;
 
         public ICommand LoadCategoryCmd  { get; set; }
         public ICommand LoadAllCategoriesCmd { get; set; }
@@ -138,7 +139,6 @@ namespace Chupachupa_DesktopApp.ViewModel
 
                         _serveur.dropCategoryWithId(SelectedCategory.IdEntity);
                         //_serveur.dropCategoryWithCategoryName(SelectedCategory.Name);
-                        
                         CategoryList = null;
                         CategoryList = correctList;
                         SelectedCategory = null;
@@ -161,6 +161,7 @@ namespace Chupachupa_DesktopApp.ViewModel
             AddCategoryCmd = new Command(new Action(async () =>
             {
                 IsFlyoutAddCategoryOpenned = true;
+                FlyoutMessage = "";
                 //IsTabControlEnabled = false;
                 CurrentCategory = new Category();
             }));
@@ -200,6 +201,8 @@ namespace Chupachupa_DesktopApp.ViewModel
                 {
                     CurrentCategory = SelectedCategory;
                     IsFlyoutEditCategoryOpenned = true;
+                    FlyoutMessage = "";
+                    _oldNameCategory = CurrentCategory.Name;
                     //IsTabControlEnabled = false;
                 }
             }));
@@ -218,10 +221,12 @@ namespace Chupachupa_DesktopApp.ViewModel
                         FlyoutMessage = e.InnerException.Message;
                     else
                         FlyoutMessage = e.Message;
+
+                    if (CurrentCategory != null) {
+                        CurrentCategory.Name = _oldNameCategory;
+                    }
                 }
             }));
         }
-
-
     }
 }
